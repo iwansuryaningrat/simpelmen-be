@@ -14,7 +14,7 @@ exports.signup = (req, res) => {
   var role_input = req.body.role;
   var active_input = 0
   const token = jwt.sign({ email: email_input, active: active_input , username : username_input , password : password_input , role: role_input }, config.secret, {
-    expiresIn: 86400 // 24 hours
+    expiresIn: 1800
   });
   const transporter = nodeMailer.createTransport({
     host: process.env.SMTP_HOST,
