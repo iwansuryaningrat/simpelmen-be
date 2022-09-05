@@ -2,7 +2,7 @@
   "name": "simpelmen-be",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,7 +10,17 @@
     "type": "git",
     "url": "git+https://github.com/iwansuryaningrat/simpelmen-be.git"
   },
-  "keywords": [],
+  "keywords": [
+    "node.js",
+    "express",
+    "jwt",
+    "login",
+    "registration",
+    "rest api",
+    "authentication",
+    "authorization",
+    "mysql"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {
@@ -18,8 +28,16 @@
   },
   "homepage": "https://github.com/iwansuryaningrat/simpelmen-be#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-session": "^2.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.2",
     "express": "^4.18.1",
-    "knex": "^2.2.0",
-    "nodemon": "^2.0.19"
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^2.3.0",
+    "mysql2": "^2.3.3",
+    "nodemailer": "^6.7.8",
+    "nodemon": "^2.0.19",
+    "sequelize": "^6.21.4"
   }
 }
