@@ -16,21 +16,23 @@ exports.signup = (req, res) => {
   const token = jwt.sign({ email: email_input, active: active_input , username : username_input , password : password_input , role: role_input }, config.secret, {
     expiresIn: 86400 // 24 hours
   });
-  var transporter = nodeMailer.createTransport({
+  const transporter = nodeMailer.createTransport({
     host: process.env.SMTP_HOST,
-        port: process.env.SMTP_PORT,
-        secure: false,
-        auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASSWORD
-        }
+    port: process.env.SMTP_PORT,
+    secure: false,
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASSWORD
+    }
   });
-  var mailOptions = {
-    from: process.env.EMAIL,
-    to: email_input,
-    subject: 'Email Verification',
-    text: 'Please click the link below to verify your email address',
-    html: '<p>Please click the link below to verify your email address</p><br><a href="http://localhost:8080/api/auth/activate/' + token + '">Click here</a>'
+  const mailOptions = {
+    from: 'admin@gmail.com',
+    to: user.email,
+    subject: 'Account Activation Link',
+    html: `
+        <h2>Please click on given link to activate your account</h2>
+        <button><a href="http://localhost:8080/api/auth/activate/${token}">Activate</a></button>
+    `
   };
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
