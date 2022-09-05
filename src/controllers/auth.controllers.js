@@ -1,12 +1,12 @@
-require("dotenv").config();
-const db = require("../models");
+import "dotenv/config";
+import db from "../models/index.js";
 const User = db.user;
-const nodeMailer = require("nodemailer");
+import nodemailer from "nodemailer";
 const Op = db.Sequelize.Op;
-var jwt = require("jsonwebtoken");
-var bcrypt = require("bcryptjs");
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 
-exports.signup = (req, res) => {
+const signup = (req, res) => {
   var username_input = req.body.username;
   var password_input = req.body.password;
   var email_input = req.body.email;
@@ -53,7 +53,7 @@ exports.signup = (req, res) => {
   });
   res.status(200).send({ message: "Email has been sent" });
 };
-exports.signin = (req, res) => {
+const signin = (req, res) => {
   User.findOne({
     where: {
       username: req.body.username,
@@ -101,7 +101,7 @@ exports.signin = (req, res) => {
     });
 };
 
-exports.activate = (req, res) => {
+const activate = (req, res) => {
   const { token } = req.params;
   jwt.verify(token, config.secret, (err, decodedToken) => {
     if (err) {
@@ -126,3 +126,5 @@ exports.activate = (req, res) => {
       });
   });
 };
+
+export { signup, signin, activate };

@@ -1,4 +1,3 @@
-exports.adminKasirBoard = (req, res) => {
-    res.status(200).send("Admin Kasir");
-  }
-  
+const adminKasirBoard = (req, res) => {
+  res.status(200).send("Admin Kasir");
+};

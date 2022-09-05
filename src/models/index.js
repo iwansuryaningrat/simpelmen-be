@@ -1,23 +1,22 @@
-const config = require("../config/db.config.js");
-const Sequelize = require("sequelize");
-const sequelize = new Sequelize(
-  config.DB,
-  config.USER,
-  config.PASSWORD,
-  {
-    host: config.HOST,
-    dialect: config.dialect,
-    operatorsAliases: false,
-    pool: {
-      max: config.pool.max,
-      min: config.pool.min,
-      acquire: config.pool.acquire,
-      idle: config.pool.idle
-    }
-  }
-);
+import configs from "../configs/db.configs.js";
+import Sequelize from "sequelize";
+
+const sequelize = new Sequelize(configs.DB, configs.USER, configs.PASSWORD, {
+  host: configs.HOST,
+  dialect: configs.dialect,
+  operatorsAliases: false,
+  pool: {
+    max: configs.pool.max,
+    min: configs.pool.min,
+    acquire: configs.pool.acquire,
+    idle: configs.pool.idle,
+  },
+});
+
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
-db.user = require("../models/user.model.js")(sequelize, Sequelize);
-module.exports = db;
+import userModel from "./user.model.js";
+db.user = userModel(sequelize, Sequelize);
+
+export default db;

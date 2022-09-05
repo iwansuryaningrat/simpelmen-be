@@ -1,7 +1,7 @@
-//require dotenv
-require('dotenv').config();
+// Load .env file
+import "dotenv/config";
 
-module.exports = {
+const configs = {
   HOST: process.env.DB_HOST,
   USER: process.env.DB_USER,
   PASSWORD: process.env.DB_PASSWORD,
@@ -11,6 +11,8 @@ module.exports = {
     max: 5,
     min: 0,
     acquire: 30000,
-    idle: 10000
-  }
+    idle: 10000,
+  },
 };
+
+export default configs;

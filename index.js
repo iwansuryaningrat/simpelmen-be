@@ -1,6 +1,6 @@
-const express = require("express");
-const cors = require("cors");
-const cookieSession = require("cookie-session");
+import express from "express";
+import cors from "cors";
+import cookieSession from "cookie-session";
 
 const app = express();
 
@@ -17,15 +17,15 @@ app.use(
     name: "Simpelmen",
     secret: "COOKIE_SECRET", // should use as secret environment variable
     httpOnly: true,
-    sameSite: 'strict'
+    sameSite: "strict",
   })
 );
 
 // database
-const db = require("./app/models");
+import db from "./src/models/index.js";
 
-db.sequelize.sync({force: true}).then(() => {
-  console.log('Drop and Resync Database with { force: true }');
+db.sequelize.sync({ force: true }).then(() => {
+  console.log("Drop and Resync Database with { force: true }");
 });
 
 // simple route
@@ -44,4 +44,3 @@ const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
-
