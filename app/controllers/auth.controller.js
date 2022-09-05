@@ -27,7 +27,7 @@ exports.signup = (req, res) => {
   });
   const mailOptions = {
     from: 'admin@gmail.com',
-    to: user.email,
+    to: email_input,
     subject: 'Account Activation Link',
     html: `
         <h2>Please click on given link to activate your account</h2>
