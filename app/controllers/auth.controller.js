@@ -12,52 +12,34 @@ exports.signup = (req, res) => {
   var password_input = req.body.password;
   var email_input = req.body.email;
   var role_input = req.body.role;
-  User.create({
-    username: username_input,
-    email: email_input,
-    password: bcrypt.hashSync(password_input, 8),
-    role: role_input
-  })
-    .then(user => {
-      res.status(201).send({
-        message: "User created successfully!",
-        user: user
-      });
-      const token = jwt.sign({ id: user.id, username: user.username, email: user.email, role: user.role }, config.secret, {
-        expiresIn: 300 // 5 minutes
-      });
-      const transporter = nodeMailer.createTransport({
-        host: process.env.SMTP_HOST,
+  var active_input = 0
+  const token = jwt.sign({ email: email_input, active: active_input , username : username_input , password : password_input , role: role_input }, config.secret, {
+    expiresIn: 86400 // 24 hours
+  });
+  var transporter = nodeMailer.createTransport({
+    host: process.env.SMTP_HOST,
         port: process.env.SMTP_PORT,
         secure: false,
         auth: {
           user: process.env.SMTP_USER,
           pass: process.env.SMTP_PASSWORD
         }
-      });
-      const mailOptions = {
-        from: 'admin@gmail.com',
-        to: user.email,
-        subject: 'Account Activation Link',
-        html: `
-            <h2>Please click on given link to activate your account</h2>
-            <button><a href="http://localhost:8080/api/auth/activate/${token}">Activate</a></button>
-        `
-      };
-      transporter.sendMail(mailOptions, function (err, info) {
-        if (err)
-          console.log(err)
-        else
-          console.log(info);
-      }
-      );
+  });
+  var mailOptions = {
+    from: process.env.EMAIL,
+    to: email_input,
+    subject: 'Email Verification',
+    text: 'Please click the link below to verify your email address',
+    html: '<p>Please click the link below to verify your email address</p><br><a href="http://localhost:8080/api/auth/activate/' + token + '">Click here</a>'
+  };
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
     }
-    ).catch(err => {
-      res.status(500).send({
-        message: err.message
-      });
-    }
-    );
+  });
+  res.status(200).send({ message: "Email has been sent" });
 };
 exports.signin = (req, res) => {
   User.findOne({
@@ -102,14 +84,24 @@ exports.activate = (req, res) => {
     if (err) {
       return res.status(400).json({ error: "Incorrect or Expired link" });
     }
-    const { id } = decodedToken;
-    User.update({ active: true }, { where: { id } })
-      .then(() => {
-        res.status(200).json({ message: "Account activated successfully" });
-      })
-      .catch(err => {
-        res.status(500).send({ message: err.message });
-      });
-  }
+    const { email, active, username, password, role } = decodedToken;
+    //create account
+    User.create({
+      username: username,
+      email: email,
+      password: bcrypt.hashSync(password, 8),
+      role: role,
+      active: 1
+    })
+      .then(user => {
+        res.status(200).send({ message: "Account has been activated" });
+      }
+      ).catch(err => {
+        res.status(500).send({
+          message: err.message
+        });
+      }
+
   );
+  });
 };
