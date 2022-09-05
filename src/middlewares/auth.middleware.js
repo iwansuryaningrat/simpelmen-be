@@ -1,8 +1,8 @@
-const jwt = require("jsonwebtoken");
-const config = require("../config/auth.config.js");
-const db = require("../models");
+import jwt from "jsonwebtoken";
+import db from "../models/index.js";
 const User = db.user;
-verifyToken = (req, res, next) => {
+
+const verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
   if (!token) {
     return res.status(403).send({
@@ -19,7 +19,7 @@ verifyToken = (req, res, next) => {
     next();
   });
 };
-isActivated = (req, res, next) => {
+const isActivated = (req, res, next) => {
   let token = req.headers["x-access-token"];
   jwt.verify(token, config.secret, (err, decoded) => {
     if (decoded.active == 0) {
@@ -30,7 +30,7 @@ isActivated = (req, res, next) => {
     next();
   });
 };
-isAdmin = (req, res, next) => {
+const isAdmin = (req, res, next) => {
   jwt.verify(req.headers["x-access-token"], config.secret, (err, decoded) => {
     User.findOne({
       where: {
@@ -48,7 +48,7 @@ isAdmin = (req, res, next) => {
     });
   });
 };
-isAdminKasir = (req, res, next) => {
+const isAdminKasir = (req, res, next) => {
   jwt.verify(req.headers["x-access-token"], config.secret, (err, decoded) => {
     User.findOne({
       where: {
@@ -66,7 +66,7 @@ isAdminKasir = (req, res, next) => {
     });
   });
 };
-isAdminCS = (req, res, next) => {
+const isAdminCS = (req, res, next) => {
   jwt.verify(req.headers["x-access-token"], config.secret, (err, decoded) => {
     User.findOne({
       where: {
@@ -84,11 +84,5 @@ isAdminCS = (req, res, next) => {
     });
   });
 };
-const authJwt = {
-  verifyToken: verifyToken,
-  isAdmin: isAdmin,
-  isAdminKasir: isAdminKasir,
-  isAdminCS: isAdminCS,
-  isActivated: isActivated,
-};
-module.exports = authJwt;
+
+export { verifyToken, isAdmin, isAdminKasir, isAdminCS, isActivated };

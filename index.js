@@ -34,10 +34,18 @@ app.get("/", (req, res) => {
 });
 
 // routes
-require("./app/routes/auth.routes")(app);
-require("./app/routes/user.routes")(app);
-require("./app/routes/cashier.routes")(app);
-require("./app/routes/customerservice.routes")(app);
+// require("./app/routes/auth.routes")(app);
+// require("./app/routes/user.routes")(app);
+// require("./app/routes/cashier.routes")(app);
+// require("./app/routes/customerservice.routes")(app);
+import authRoutes from "./src/routes/auth.routes.js";
+import userRoutes from "./src/routes/user.routes.js";
+import cashierRoutes from "./src/routes/cashier.routes.js";
+import customerserviceRoutes from "./src/routes/customerservice.routes.js";
+authRoutes(app);
+userRoutes(app);
+cashierRoutes(app);
+customerserviceRoutes(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

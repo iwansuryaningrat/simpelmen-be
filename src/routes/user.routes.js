@@ -1,6 +1,13 @@
 const controller = require("../controllers/user.controller");
 import headers from "../services/headers.services.js";
-import authJwt from "../middlewares/auth.middleware.js";
+import {
+  verifyToken,
+  isAdmin,
+  isAdminCS,
+  isAdminKasir,
+  isActivated,
+} from "../middlewares/auth.middleware.js";
+import checkEmail from "../middlewares/verify.middleware.js";
 
 import express from "express";
 const router = express.Router();
