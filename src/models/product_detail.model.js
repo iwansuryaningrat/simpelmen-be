@@ -35,8 +35,8 @@ const Product_Detail = (sequelize, Sequelize) => {
     },
     {
       timestamps: true, // Enable timestamps
-      createdAt: true, // Don't create createdAt
-      updatedAt: true, // Don't create updatedAt
+      createdAt: true, // Create createdAt
+      updatedAt: true, // Create updatedAt
     }
   );
 
