@@ -1,4 +1,8 @@
-const controller = require("../controllers/user.controller");
+import {
+  allAccess,
+  userBoard,
+  adminBoard,
+} from "../controllers/user.controllers.js";
 import headers from "../services/headers.services.js";
 import {
   verifyToken,

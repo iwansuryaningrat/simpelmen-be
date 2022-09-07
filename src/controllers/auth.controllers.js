@@ -4,7 +4,7 @@ const User = db.user;
 import nodemailer from "nodemailer";
 const Op = db.Sequelize.Op;
 import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 
 const signup = (req, res) => {
   var username_input = req.body.username;

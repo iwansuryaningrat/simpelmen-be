@@ -4,16 +4,18 @@ import {
   isAdminKasir,
   isAdminCS,
   isActivated,
-} from "../controllers/auth.controllers.js";
+} from "../middlewares/auth.middleware.js";
 import adminKasirBoard from "../controllers/cashier.controllers.js";
-import { Express } from "express";
-const router = Express.Router();
-import headers from "../services/headers.js";
+import express from "express";
+const router = express.Router();
+import headers from "../services/headers.services.js";
 
-const cashierRouter = (app) => {
+const cashierRoutes = (app) => {
   app.use(headers);
 
   router.get("/kasir", verifyToken, isActivated, isAdminKasir, adminKasirBoard);
 
   app.use("/api/test", router);
 };
+
+export default cashierRoutes;

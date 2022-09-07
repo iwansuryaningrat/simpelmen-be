@@ -1,12 +1,12 @@
 import checkEmail from "../middlewares/verify.middleware.js";
 import { signup, signin, activate } from "../controllers/auth.controllers.js";
 
-import { Express } from "express";
-const router = Express.Router();
+import express from "express";
+const router = express.Router();
 
-import headers from "../services/headers.js";
+import headers from "../services/headers.services.js";
 
-const authRouter = (app) => {
+const authRoutes = (app) => {
   app.use(headers);
 
   router.post("/signup", checkEmail, signup);
@@ -15,3 +15,5 @@ const authRouter = (app) => {
 
   app.use("/api/auth", router);
 };
+
+export default authRoutes;

@@ -1,16 +1,21 @@
-const { authJwt } = require("../middleware");
-const customerservice = require("../controllers/customerService.controllers.js");
-module.exports = function (app) {
-  app.use(function (req, res, next) {
-    res.header(
-      "Access-Control-Allow-Headers",
-      "x-access-token, Origin, Content-Type, Accept"
-    );
-    next();
-  });
-  app.get(
-    "/api/test/cs",
-    [authJwt.verifyToken, authJwt.isAdminCS, authJwt.isActivated],
-    customerservice.adminCSBoard
-  );
+import {
+  verifyToken,
+  isAdmin,
+  isAdminKasir,
+  isAdminCS,
+  isActivated,
+} from "../middlewares/auth.middleware.js";
+import adminCSBoard from "../controllers/customerService.controllers.js";
+import express from "express";
+const router = express.Router();
+import headers from "../services/headers.services.js";
+
+const customerServiceRoutes = (app) => {
+  app.use(headers);
+
+  router.get("/cs", verifyToken, isActivated, isAdminCS, adminCSBoard);
+
+  app.use("/api/test", router);
 };
+
+export default customerServiceRoutes;
