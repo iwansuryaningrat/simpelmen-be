@@ -1,7 +1,7 @@
 import "dotenv/config";
 import db from "../models/index.js";
 const User = db.user;
-import nodemailer from "nodemailer";
+import nodeMailer from "nodemailer";
 const Op = db.Sequelize.Op;
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
