@@ -105,7 +105,10 @@ const activate = (req, res) => {
   const { token } = req.params;
   jwt.verify(token, config.secret, (err, decodedToken) => {
     if (err) {
-      return res.status(400).json({ error: "Incorrect or Expired link" });
+      return res.status(400).json({
+        message: "Incorrect or Expired link",
+        timestamp: new Date().toString(),
+      });
     }
     const { email, active, username, password, role } = decodedToken;
     //create account
@@ -117,7 +120,10 @@ const activate = (req, res) => {
       active: 1,
     })
       .then((user) => {
-        res.status(200).send({ message: "Account has been activated" });
+        res.status(200).send({
+          message: "Account has been activated",
+          timestamp: Date.now().toString(),
+        });
       })
       .catch((err) => {
         res.status(500).send({
