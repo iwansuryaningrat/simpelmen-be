@@ -17,6 +17,9 @@ const Size = (sequelize, Sequelize) => {
         size_description: {
             type: Sequelize.STRING,
         },
+        size_shape: {
+            type: Sequelize.STRING,
+        },
         size_created_at: {
             type: Sequelize.DATE,
             defaultValue: Sequelize.NOW,
