@@ -95,7 +95,7 @@ const signin = (req, res) => {
 };
 
 const activate = (req, res) => {
- const token = req.params.token;
+ const { token } = req.params;
   if (token) {
     jwt.verify(token, process.env.SECRET_KEY, (err, decodedToken) => {
       if (err) {
