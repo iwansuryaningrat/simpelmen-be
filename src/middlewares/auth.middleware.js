@@ -9,7 +9,7 @@ const verifyToken = (req, res, next) => {
       message: "No token provided!",
     });
   }
-  jwt.verify(token, config.secret, (err, decoded) => {
+  jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
     if (err) {
       return res.status(401).send({
         message: "Unauthorized!",
@@ -21,7 +21,7 @@ const verifyToken = (req, res, next) => {
 };
 const isActivated = (req, res, next) => {
   let token = req.headers["x-access-token"];
-  jwt.verify(token, config.secret, (err, decoded) => {
+  jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
     if (decoded.active == 0) {
       return res.status(401).send({
         message: "Email not activated or Token expired!",
@@ -31,7 +31,7 @@ const isActivated = (req, res, next) => {
   });
 };
 const isAdmin = (req, res, next) => {
-  jwt.verify(req.headers["x-access-token"], config.secret, (err, decoded) => {
+  jwt.verify(req.headers["x-access-token"], process.env.SECRET_KEY, (err, decoded) => {
     User.findOne({
       where: {
         id: decoded.id,
@@ -49,7 +49,7 @@ const isAdmin = (req, res, next) => {
   });
 };
 const isAdminKasir = (req, res, next) => {
-  jwt.verify(req.headers["x-access-token"], config.secret, (err, decoded) => {
+  jwt.verify(req.headers["x-access-token"], process.env.SECRET_KEY, (err, decoded) => {
     User.findOne({
       where: {
         id: decoded.id,
@@ -67,7 +67,7 @@ const isAdminKasir = (req, res, next) => {
   });
 };
 const isAdminCS = (req, res, next) => {
-  jwt.verify(req.headers["x-access-token"], config.secret, (err, decoded) => {
+  jwt.verify(req.headers["x-access-token"], process.env.SECRET_KEY, (err, decoded) => {
     User.findOne({
       where: {
         id: decoded.id,

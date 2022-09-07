@@ -1,4 +1,3 @@
-import "dotenv/config";
 import db from "../models/index.js";
 const User = db.user;
 import nodeMailer from "nodemailer";
@@ -73,19 +72,13 @@ const signin = (req, res) => {
           message: "Invalid Password!",
         });
       }
-      var token = jwt.sign(
-        {
-          id: user.id,
-          username: user.username,
-          email: user.email,
-          active: user.active,
-          role: user.role,
-        },
-        config.secret,
-        {
-          expiresIn: 86400,
-        }
-      );
+      var token = jwt.sign({ id: user.id, 
+        username : user.username, 
+        email : user.email, 
+        role: user.role 
+      }, process.env.SECRET_KEY, {
+        expiresIn: 86400, 
+      });
       res.status(200).send({
         id: user.id,
         username: user.username,
@@ -102,35 +95,32 @@ const signin = (req, res) => {
 };
 
 const activate = (req, res) => {
-  const { token } = req.params;
-  jwt.verify(token, config.secret, (err, decodedToken) => {
-    if (err) {
-      return res.status(400).json({
-        message: "Incorrect or Expired link",
-        timestamp: new Date().toString(),
-      });
-    }
-    const { email, active, username, password, role } = decodedToken;
-    //create account
-    User.create({
-      username: username,
-      email: email,
-      password: bcrypt.hashSync(password, 8),
-      role: role,
-      active: 1,
-    })
-      .then((user) => {
-        res.status(200).send({
-          message: "Account has been activated",
-          timestamp: Date.now().toString(),
-        });
-      })
-      .catch((err) => {
-        res.status(500).send({
-          message: err.message,
-        });
-      });
-  });
+ const { token } = req.params;
+  if (token) {
+    jwt.verify(token, process.env.SECRET_KEY, (err, decodedToken) => {
+      if (err) {
+        res.status(400).send({ message: "Incorrect or Expired link" });
+      } else {
+        const { username, password, email, role, active } = decodedToken;
+        User.create({
+          username: username,
+          password: bcrypt.hashSync(password, 8),
+          email: email,
+          role: role,
+          active: 1,
+        })
+          .then((user) => {
+            res.status(200).send({ message: "Account activated" });
+          })
+          .catch((err) => {
+            res.status(500).send({ message: err.message });
+          });
+      }
+    });
+  } else {
+    res.status(400).send({ message: "Something went wrong" });
+  }
+
 };
 
 export { signup, signin, activate };
