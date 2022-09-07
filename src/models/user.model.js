@@ -22,6 +22,7 @@ const userModel = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       defaultValue: "user",
     },
+    
   });
 
   return User;
