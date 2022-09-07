@@ -46,14 +46,14 @@ db.Product.belongsTo(db.Product_Category, {
   foreignKey: "product_category_id",
   as: "product_category",
 });
-//relational between tabel user and chat 
+//relational between tabel user column user_id and chat user_sender_id
 db.user.hasMany(db.chat, {
-  foreignKey: "user_id",
+  foreignKey: "user_sender_id",
   as: "chats",
 });
 db.chat.belongsTo(db.user, {
-  foreignKey: "user_id",
-  as: "user",
+  foreignKey: "user_sender_id",
+  as: "user_sender",
 });
 //relational between tabel user and transaction
 db.user.hasMany(db.transaction, {
