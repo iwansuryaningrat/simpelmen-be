@@ -46,15 +46,6 @@ db.Product.belongsTo(db.Product_Category, {
   foreignKey: "product_category_id",
   as: "product_category",
 });
-//relational between tabel user column user_id and chat user_sender_id
-db.user.hasMany(db.chat, {
-  foreignKey: "user_sender_id",
-  as: "chats",
-});
-db.chat.belongsTo(db.user, {
-  foreignKey: "user_sender_id",
-  as: "user_sender",
-});
 //relational between tabel user and transaction
 db.user.hasMany(db.transaction, {
   foreignKey: "user_id",
@@ -64,22 +55,13 @@ db.transaction.belongsTo(db.user, {
   foreignKey: "user_id",
   as: "user",
 });
-//relational between tabel product and product_detail
-db.Product.hasMany(db.product_detail, {
-  foreignKey: "product_id",
-  as: "product_details",
-});
-db.product_detail.belongsTo(db.Product, {
-  foreignKey: "product_id",
-  as: "product",
-});
 //relational between tabel product and finishing
 db.Product.hasMany(db.finishing, {
-  foreignKey: "product_id",
+  foreignKey: "finishing_id",
   as: "finishings",
 });
 db.finishing.belongsTo(db.Product, {
-  foreignKey: "product_id",
+  foreignKey: "finishing_id",
   as: "product",
 });
 //relational between tabel product_detail and size

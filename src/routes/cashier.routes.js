@@ -1,8 +1,6 @@
 import {
   verifyToken,
-  isAdmin,
   isAdminKasir,
-  isAdminCS,
   isActivated,
 } from "../middlewares/auth.middleware.js";
 import adminKasirBoard from "../controllers/cashier.controllers.js";

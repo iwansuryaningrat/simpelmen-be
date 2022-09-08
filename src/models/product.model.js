@@ -26,12 +26,7 @@ const Product = (sequelize, Sequelize) => {
       },
       finishing_id: {
         type: Sequelize.INTEGER,
-        references: {
-          model: "finishings",
-          key: "finishing_id",
-        },
       },
-
       product_description: {
         type: Sequelize.STRING,
       },
