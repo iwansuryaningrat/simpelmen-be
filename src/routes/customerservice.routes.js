@@ -1,7 +1,5 @@
 import {
   verifyToken,
-  isAdmin,
-  isAdminKasir,
   isAdminCS,
   isActivated,
 } from "../middlewares/auth.middleware.js";
@@ -15,7 +13,7 @@ const customerServiceRoutes = (app) => {
 
   router.get("/cs", verifyToken, isActivated, isAdminCS, adminCSBoard);
 
-  app.use("/api/test", router);
+  app.use("/api/admin", router);
 };
 
 export default customerServiceRoutes;

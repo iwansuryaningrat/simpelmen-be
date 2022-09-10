@@ -118,7 +118,7 @@ const signin = (req, res) => {
           message: "Invalid Password!",
         });
       }
-      var token = jwt.sign({ id: user.id, 
+      var token = jwt.sign({ id: user.user_id, 
         username : user.username, 
         email : user.email, 
         role: user.role 
@@ -126,7 +126,7 @@ const signin = (req, res) => {
         expiresIn: 86400, 
       });
       res.status(200).send({
-        id: user.id,
+        id: user.user_id,
         username: user.username,
         email: user.email,
         role: user.role,

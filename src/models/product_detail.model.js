@@ -24,6 +24,13 @@ const Product_Detail = (sequelize, Sequelize) => {
           key: "material_id",
         },
       },
+      product_category_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "product_categories",
+          key: "product_category_id",
+        },
+      },
       product_detail_created_at: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,

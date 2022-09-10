@@ -7,13 +7,6 @@ const Product = (sequelize, Sequelize) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      product_category_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: "product_categories",
-          key: "product_category_id",
-        },
-      },
       product_detail_id: {
         type: Sequelize.INTEGER,
         references: {
