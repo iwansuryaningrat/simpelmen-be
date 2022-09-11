@@ -37,13 +37,6 @@ db.delivery_detail = delivery_detail(sequelize, Sequelize);
 db.transaction = transaction(sequelize, Sequelize);
 db.material = material(sequelize, Sequelize);
 
-//relational between table product_category and product detail
-db.Product_Category.hasMany(db.product_detail, {
-  foreignKey: "product_category_id",
-});
-db.product_detail.belongsTo(db.Product_Category, {
-  foreignKey: "product_category_id",
-});
 //relational between tabel user and transaction
 db.user.hasMany(db.transaction, {
   foreignKey: "user_id",
@@ -67,6 +60,7 @@ db.product_detail.belongsTo(db.size, {
   foreignKey: "size_id",
   as: "size",
 });
+
 db.size.hasMany(db.product_detail, {
   foreignKey: "size_id",
   as: "product_details",
@@ -78,6 +72,15 @@ db.product_detail.belongsTo(db.material, {
 });
 db.material.hasMany(db.product_detail, {
   foreignKey: "material_id",
+  as: "product_details",
+});
+//relational between tabel product_detail and product_category
+db.product_detail.belongsTo(db.Product_Category, {
+  foreignKey: "product_category_id",
+  as: "product_category",
+});
+db.Product_Category.hasMany(db.product_detail, {
+  foreignKey: "product_category_id",
   as: "product_details",
 });
 //relational between tabel transaction and delivery_detail

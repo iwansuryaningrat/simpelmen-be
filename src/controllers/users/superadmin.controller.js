@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import db from "../models/index.js";
+import db from "../../models/index.js";
 const User = db.user;
 const Op = db.Sequelize.Op;
 const adminBoard = (req, res) => {
@@ -50,4 +50,31 @@ const updateAdmin = (req, res) => {
     );
 
 };
-export { adminBoard, showAllAdmin, DeleteAdmin, updateAdmin };
+const showProfile = (req, res) => {
+    User.findOne({
+        where: {
+            user_id: req.userId
+        }
+    }).then((users) => {
+        res.status(200).send(users);
+    });
+};
+const updateProfile = (req, res) => {
+    User.update({
+        username: req.body.username,
+        email: req.body.email,
+        role: req.body.role,
+        active: req.body.active
+    }, {
+        where: {
+            user_id: req.userId
+        }
+    }).then((users) => {
+        res.status(200).send({
+            message: "Update Success",
+            data: users
+        });
+    }
+    );
+};
+export { adminBoard, showAllAdmin, DeleteAdmin, updateAdmin ,showProfile,updateProfile};

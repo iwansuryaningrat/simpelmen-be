@@ -3,7 +3,9 @@ import {
     isAdminProduction,
     isActivated,
   } from "../middlewares/auth.middleware.js";
-  import productionBoard from "../controllers/production.controller.js";
+  import {
+    showProfile,updateProfile,
+  } from "../controllers/users/production.controller.js";
   import express from "express";
   const router = express.Router();
   import headers from "../services/headers.services.js";
@@ -11,7 +13,8 @@ import {
   const productionRoutes = (app) => {
     app.use(headers);
   
-    router.get("/production", verifyToken, isActivated, isAdminProduction, productionBoard);
+    router.get("/production/profile", verifyToken, isActivated, isAdminProduction, showProfile);
+    router.put("/production/profile", verifyToken, isActivated, isAdminProduction, updateProfile);
   
     app.use("/api/admin", router);
   };

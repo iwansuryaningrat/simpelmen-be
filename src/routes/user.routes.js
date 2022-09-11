@@ -6,7 +6,7 @@ import {
 import {
   userBoard,
   userProfile,
-} from "../controllers/user.controllers.js";
+} from "../controllers/users/user.controllers.js";
 import express from "express";
 const router = express.Router();
 import headers from "../services/headers.services.js";

@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import db from "../models/index.js";
+import db from "../../models/index.js";
 const User = db.user;
 const userBoard = (req, res) => {
   res.status(200).send("User Content.");

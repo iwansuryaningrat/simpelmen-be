@@ -3,7 +3,7 @@ import {
     isAdminWarehouse,
     isActivated,
   } from "../middlewares/auth.middleware.js";
-  import warehouseBoard from "../controllers/warehouse.controller.js";
+  import warehouseBoard from "../controllers/users/warehouse.controller.js";
   import express from "express";
   const router = express.Router();
   import headers from "../services/headers.services.js";

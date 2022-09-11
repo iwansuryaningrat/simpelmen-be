@@ -26,10 +26,6 @@ const Product_Detail = (sequelize, Sequelize) => {
       },
       product_category_id: {
         type: Sequelize.INTEGER,
-        references: {
-          model: "product_categories",
-          key: "product_category_id",
-        },
       },
       product_detail_created_at: {
         type: Sequelize.DATE,
