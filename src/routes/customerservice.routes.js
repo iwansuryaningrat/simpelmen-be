@@ -5,7 +5,7 @@ import {
 } from "../middlewares/auth.middleware.js";
 import {
   showProfile,updateProfile,
-} from "../controllers/users/customerService.controllers.js";
+} from "../controllers/users/customerservice.controllers.js";
 import express from "express";
 const router = express.Router();
 import headers from "../services/headers.services.js";
