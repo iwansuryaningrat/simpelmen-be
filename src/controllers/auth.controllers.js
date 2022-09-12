@@ -118,13 +118,18 @@ const signin = (req, res) => {
           message: "Invalid Password!",
         });
       }
-      var token = jwt.sign({ id: user.user_id, 
-        username : user.username, 
-        email : user.email, 
-        role: user.role 
-      }, process.env.SECRET_KEY, {
-        expiresIn: 86400, 
-      });
+      var token = jwt.sign(
+        {
+          id: user.user_id,
+          username: user.username,
+          email: user.email,
+          role: user.role,
+        },
+        process.env.SECRET_KEY,
+        {
+          expiresIn: 86400,
+        }
+      );
       res.status(200).send({
         id: user.user_id,
         username: user.username,
@@ -141,7 +146,7 @@ const signin = (req, res) => {
 };
 
 const activate = (req, res) => {
- const { token } = req.params;
+  const { token } = req.params;
   if (token) {
     jwt.verify(token, process.env.SECRET_KEY, (err, decodedToken) => {
       if (err) {
@@ -166,7 +171,6 @@ const activate = (req, res) => {
   } else {
     res.status(400).send({ message: "Something went wrong" });
   }
-
 };
 
 const SendResetPassword = (req, res) => {
@@ -190,7 +194,10 @@ const SendResetPassword = (req, res) => {
         }
       );
       const DOMAIN = "sandbox4fd9a87129e842889530d3afda60d74c.mailgun.org";
-      const mg = mailgun({ apiKey: process.env.MAILGUN_API_KEY, domain: DOMAIN });
+      const mg = mailgun({
+        apiKey: process.env.MAILGUN_API_KEY,
+        domain: DOMAIN,
+      });
       const data = {
         from: "Admin <widiw598@gmail.com>",
         to: email,
@@ -249,7 +256,6 @@ const SendResetPassword = (req, res) => {
         </body>
         </html>
         `,
-        
       };
       mg.messages().send(data, function (error, body) {
         if (error) {
@@ -260,15 +266,13 @@ const SendResetPassword = (req, res) => {
         return res.json({
           message: "Email has been sent",
         });
-      }
-      );
+      });
     })
     .catch((err) => {
       res.status(500).send({
         message: err.message,
       });
-    }
-    );
+    });
 };
 const ResetPassword = (req, res) => {
   const { token } = req.params;
@@ -308,4 +312,4 @@ const ResetPassword = (req, res) => {
     res.status(400).send({ message: "Something went wrong" });
   }
 };
-export { signup, signin, activate , SendResetPassword, ResetPassword};
+export { signup, signin, activate, SendResetPassword, ResetPassword };

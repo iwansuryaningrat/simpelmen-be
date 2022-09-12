@@ -15,7 +15,7 @@ const userRoutes = (app) => {
   app.use(headers);
 
   router.get("/", verifyToken, isActivated, isUser, userBoard);
-  router.get("/profile" ,userProfile);
+  router.get("/profile", userProfile);
   app.use("/api/users", router);
 };
 

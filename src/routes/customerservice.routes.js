@@ -4,7 +4,8 @@ import {
   isActivated,
 } from "../middlewares/auth.middleware.js";
 import {
-  showProfile,updateProfile,
+  showProfile,
+  updateProfile,
 } from "../controllers/users/customerservice.controllers.js";
 import express from "express";
 const router = express.Router();

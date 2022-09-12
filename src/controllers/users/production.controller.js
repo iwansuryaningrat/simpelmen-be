@@ -30,4 +30,4 @@ const updateProfile = (req, res) => {
     });
   });
 };
-export {showProfile, updateProfile };
+export { showProfile, updateProfile };

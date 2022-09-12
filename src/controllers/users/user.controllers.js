@@ -28,4 +28,4 @@ const userProfile = (req, res) => {
   });
 };
 
-export { userBoard, userProfile,};
+export { userBoard, userProfile };

@@ -3,30 +3,32 @@ const User = db.user;
 const Op = db.Sequelize.Op;
 
 const showProfile = (req, res) => {
-    User.findOne({
-        where: {
-            user_id: req.userId
-        }
-    }).then((users) => {
-        res.status(200).send(users);
-    });
+  User.findOne({
+    where: {
+      user_id: req.userId,
+    },
+  }).then((users) => {
+    res.status(200).send(users);
+  });
 };
 
 const updateProfile = (req, res) => {
-    User.update({
-        username: req.body.username,
-        email: req.body.email,
-    }, {
-        where: {
-            user_id: req.userId
-        }
-    }).then((users) => {
-        res.status(200).send({
-            message: "Update Success",
-            data: users
-        });
+  User.update(
+    {
+      username: req.body.username,
+      email: req.body.email,
+    },
+    {
+      where: {
+        user_id: req.userId,
+      },
     }
-    );
+  ).then((users) => {
+    res.status(200).send({
+      message: "Update Success",
+      data: users,
+    });
+  });
 };
 
-export {showProfile,updateProfile,};
+export { showProfile, updateProfile };

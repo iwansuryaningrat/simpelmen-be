@@ -1,5 +1,11 @@
 import checkEmail from "../middlewares/verify.middleware.js";
-import { signup, signin, activate, SendResetPassword , ResetPassword} from "../controllers/auth.controllers.js";
+import {
+  signup,
+  signin,
+  activate,
+  SendResetPassword,
+  ResetPassword,
+} from "../controllers/auth.controllers.js";
 
 import express from "express";
 const router = express.Router();
