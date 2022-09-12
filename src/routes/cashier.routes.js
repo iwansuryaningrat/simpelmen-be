@@ -1,11 +1,11 @@
 import {
   verifyToken,
-  isAdmin,
-  isAdminKasir,
-  isAdminCS,
+  isAdminCashier,
   isActivated,
 } from "../middlewares/auth.middleware.js";
-import adminKasirBoard from "../controllers/cashier.controllers.js";
+import {
+  showProfile,updateProfile,
+} from "../controllers/users/cashier.controllers.js";
 import express from "express";
 const router = express.Router();
 import headers from "../services/headers.services.js";
@@ -13,9 +13,10 @@ import headers from "../services/headers.services.js";
 const cashierRoutes = (app) => {
   app.use(headers);
 
-  router.get("/kasir", verifyToken, isActivated, isAdminKasir, adminKasirBoard);
+  router.get("/cashier/profile", verifyToken, isActivated, isAdminCashier, showProfile);
+  router.put("/cashier/profile", verifyToken, isActivated, isAdminCashier, updateProfile);
 
-  app.use("/api/test", router);
+  app.use("/api/admin", router);
 };
 
 export default cashierRoutes;

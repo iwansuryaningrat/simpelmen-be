@@ -37,24 +37,6 @@ db.delivery_detail = delivery_detail(sequelize, Sequelize);
 db.transaction = transaction(sequelize, Sequelize);
 db.material = material(sequelize, Sequelize);
 
-//relational between table product_category and product
-db.Product_Category.hasMany(db.Product, {
-  foreignKey: "product_category_id",
-  as: "products",
-});
-db.Product.belongsTo(db.Product_Category, {
-  foreignKey: "product_category_id",
-  as: "product_category",
-});
-//relational between tabel user column user_id and chat user_sender_id
-db.user.hasMany(db.chat, {
-  foreignKey: "user_sender_id",
-  as: "chats",
-});
-db.chat.belongsTo(db.user, {
-  foreignKey: "user_sender_id",
-  as: "user_sender",
-});
 //relational between tabel user and transaction
 db.user.hasMany(db.transaction, {
   foreignKey: "user_id",
@@ -64,22 +46,13 @@ db.transaction.belongsTo(db.user, {
   foreignKey: "user_id",
   as: "user",
 });
-//relational between tabel product and product_detail
-db.Product.hasMany(db.product_detail, {
-  foreignKey: "product_id",
-  as: "product_details",
-});
-db.product_detail.belongsTo(db.Product, {
-  foreignKey: "product_id",
-  as: "product",
-});
 //relational between tabel product and finishing
 db.Product.hasMany(db.finishing, {
-  foreignKey: "product_id",
+  foreignKey: "finishing_id",
   as: "finishings",
 });
 db.finishing.belongsTo(db.Product, {
-  foreignKey: "product_id",
+  foreignKey: "finishing_id",
   as: "product",
 });
 //relational between tabel product_detail and size
@@ -87,6 +60,7 @@ db.product_detail.belongsTo(db.size, {
   foreignKey: "size_id",
   as: "size",
 });
+
 db.size.hasMany(db.product_detail, {
   foreignKey: "size_id",
   as: "product_details",
@@ -100,6 +74,15 @@ db.material.hasMany(db.product_detail, {
   foreignKey: "material_id",
   as: "product_details",
 });
+//relational between tabel product_detail and product_category
+db.product_detail.belongsTo(db.Product_Category, {
+  foreignKey: "product_category_id",
+  as: "product_category",
+});
+db.Product_Category.hasMany(db.product_detail, {
+  foreignKey: "product_category_id",
+  as: "product_details",
+});
 //relational between tabel transaction and delivery_detail
 db.transaction.hasMany(db.delivery_detail, {
   foreignKey: "transaction_id",
@@ -109,5 +92,13 @@ db.delivery_detail.belongsTo(db.transaction, {
   foreignKey: "transaction_id",
   as: "transaction",
 });
-
+//relational between tabel product and transaction
+db.Product.hasMany(db.transaction, {
+  foreignKey: "product_id",
+  as: "transactions",
+});
+db.transaction.belongsTo(db.Product, {
+  foreignKey: "product_id",
+  as: "product",
+});
 export default db;
