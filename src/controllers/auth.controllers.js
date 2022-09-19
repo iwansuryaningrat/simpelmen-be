@@ -25,7 +25,7 @@ const signup = (req, res) => {
       expiresIn: 1800,
     }
   );
-  const DOMAIN = "sandbox4fd9a87129e842889530d3afda60d74c.mailgun.org";
+  const DOMAIN = process.env.MAILGUN_DOMAIN;
   const mg = mailgun({ apiKey: process.env.MAILGUN_API_KEY, domain: DOMAIN });
   const data = {
     from: "Admin <widiw598@gmail.com>",
@@ -193,7 +193,7 @@ const SendResetPassword = (req, res) => {
           expiresIn: 1800,
         }
       );
-      const DOMAIN = "sandbox4fd9a87129e842889530d3afda60d74c.mailgun.org";
+      const DOMAIN = process.env.MAILGUN_DOMAIN;
       const mg = mailgun({
         apiKey: process.env.MAILGUN_API_KEY,
         domain: DOMAIN,

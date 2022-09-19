@@ -13,14 +13,6 @@ const Product_Category = (sequelize, Sequelize) => {
       product_category_name: {
         type: Sequelize.STRING,
       },
-      product_category_created_at: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
-      },
-      product_category_updated_at: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
-      },
     },
     {
       timestamps: true, // Enable timestamps

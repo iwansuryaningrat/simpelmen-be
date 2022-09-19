@@ -22,14 +22,6 @@ const Size = (sequelize, Sequelize) => {
       size_shape: {
         type: Sequelize.STRING,
       },
-      size_created_at: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
-      },
-      size_updated_at: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
-      },
     },
     {
       timestamps: true, // Enable timestamps

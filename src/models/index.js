@@ -3,6 +3,7 @@ import Sequelize from "sequelize";
 
 const sequelize = new Sequelize(configs.DB, configs.USER, configs.PASSWORD, {
   host: configs.HOST,
+  // port : configs.PORT,
   dialect: configs.dialect,
   operatorsAliases: false,
   pool: {
@@ -26,6 +27,8 @@ import size from "./size.model.js";
 import delivery_detail from "./delivery_detail.model.js";
 import transaction from "./transaction.model.js";
 import material from "./material.model.js";
+import Status_Histories from "./status_histories.model.js";
+import { config } from "dotenv";
 db.Product_Category = Product_Category(sequelize, Sequelize);
 db.user = userModel(sequelize, Sequelize);
 db.Product = Product(sequelize, Sequelize);
@@ -36,7 +39,7 @@ db.size = size(sequelize, Sequelize);
 db.delivery_detail = delivery_detail(sequelize, Sequelize);
 db.transaction = transaction(sequelize, Sequelize);
 db.material = material(sequelize, Sequelize);
-
+db.Status_Histories = Status_Histories(sequelize, Sequelize);
 //relational between tabel user and transaction
 db.user.hasMany(db.transaction, {
   foreignKey: "user_id",
@@ -46,14 +49,14 @@ db.transaction.belongsTo(db.user, {
   foreignKey: "user_id",
   as: "user",
 });
-//relational between tabel product and finishing
-db.Product.hasMany(db.finishing, {
+//relational between tabel finishing and product
+db.finishing.hasMany(db.Product, {
   foreignKey: "finishing_id",
-  as: "finishings",
+  as: "products",
 });
-db.finishing.belongsTo(db.Product, {
+db.Product.belongsTo(db.finishing, {
   foreignKey: "finishing_id",
-  as: "product",
+  as: "finishing",
 });
 //relational between tabel product_detail and size
 db.product_detail.belongsTo(db.size, {
@@ -101,4 +104,14 @@ db.transaction.belongsTo(db.Product, {
   foreignKey: "product_id",
   as: "product",
 });
+//relational between tabel product_detail and product
+db.product_detail.hasMany(db.Product, {
+  foreignKey: "product_detail_id",
+  as: "products",
+});
+db.Product.belongsTo(db.product_detail, {
+  foreignKey: "product_detail_id",
+  as: "product_detail",
+});
+
 export default db;

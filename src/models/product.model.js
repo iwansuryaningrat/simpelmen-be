@@ -9,11 +9,11 @@ const Product = (sequelize, Sequelize) => {
       },
       product_detail_id: {
         type: Sequelize.INTEGER,
-        references: {
-          model: "product_details",
-          key: "product_detail_id",
-        },
       },
+      product_name: {
+        type: Sequelize.STRING,
+      },
+
       product_picture: {
         type: Sequelize.STRING,
       },
@@ -23,13 +23,8 @@ const Product = (sequelize, Sequelize) => {
       product_description: {
         type: Sequelize.STRING,
       },
-      product_created_at: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
-      },
-      product_updated_at: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
+      product_weight: {
+        type: Sequelize.STRING,
       },
     },
     {

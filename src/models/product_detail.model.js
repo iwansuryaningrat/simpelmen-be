@@ -27,14 +27,6 @@ const Product_Detail = (sequelize, Sequelize) => {
       product_category_id: {
         type: Sequelize.INTEGER,
       },
-      product_detail_created_at: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
-      },
-      product_detail_updated_at: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
-      },
     },
     {
       timestamps: true, // Enable timestamps

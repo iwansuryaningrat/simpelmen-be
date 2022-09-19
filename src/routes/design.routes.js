@@ -6,6 +6,8 @@ import {
 import {
   showProfile,
   updateProfile,
+  DesignTransaction,
+  DesignTransactionUpdateId,
 } from "../controllers/users/design.controller.js";
 import express from "express";
 const router = express.Router();
@@ -27,6 +29,20 @@ const designRoutes = (app) => {
     isActivated,
     isAdminDesign,
     updateProfile
+  );
+  router.get(
+    "/design/transaction",
+    verifyToken,
+    isActivated,
+    isAdminDesign,
+    DesignTransaction
+  );
+  router.put(
+    "/design/transaction/:id",
+    verifyToken,
+    isActivated,
+    isAdminDesign,
+    DesignTransactionUpdateId
   );
 
   app.use("/api/admin", router);
