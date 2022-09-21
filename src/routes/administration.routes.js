@@ -6,6 +6,7 @@ import {
 import {
   showProfile,
   updateProfile,
+  AdministratorTransaction,
 } from "../controllers/users/administration.controller.js";
 import express from "express";
 const router = express.Router();
@@ -16,6 +17,7 @@ const AdministrationRoutes = (app) => {
 
   router.get("/tu/profile", verifyToken, isActivated, isAdminTu, showProfile);
   router.put("/tu/profile", verifyToken, isActivated, isAdminTu, updateProfile);
+  router.get("/tu/transaction", verifyToken, isActivated, isAdminTu, AdministratorTransaction);
 
   app.use("/api/admin", router);
 };

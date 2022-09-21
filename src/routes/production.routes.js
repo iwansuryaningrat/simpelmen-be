@@ -6,6 +6,7 @@ import {
 import {
   showProfile,
   updateProfile,
+  ProductionTransaction
 } from "../controllers/users/production.controller.js";
 import express from "express";
 const router = express.Router();
@@ -28,7 +29,13 @@ const productionRoutes = (app) => {
     isAdminProduction,
     updateProfile
   );
-
+  router.get(
+    "/production/transaction",
+    verifyToken,
+    isActivated,
+    isAdminProduction,
+    ProductionTransaction
+  )
   app.use("/api/admin", router);
 };
 

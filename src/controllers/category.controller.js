@@ -4,7 +4,6 @@ const Category = db.Product_Category;
 const createCategory = (req, res) => {
   Category.create({
     product_category_name: req.body.product_category_name,
-    //code
     product_category_code: req.body.product_category_code,
   }).then((category) => {
     res.status(200).send({
