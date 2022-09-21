@@ -26,8 +26,8 @@ const Transaction = (sequelize, Sequelize) => {
       transaction_order_number : {
         type: Sequelize.STRING,
       },
-      transaction_status: {
-        type: Sequelize.STRING,
+      status_history_id: {
+        type: Sequelize.INTEGER,
       },
       transaction_price: {
         type: Sequelize.INTEGER,

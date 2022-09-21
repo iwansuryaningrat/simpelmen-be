@@ -8,6 +8,7 @@ const Material = db.material;
 const finishing = db.finishing;
 const Size = db.size;
 const Product_Category = db.Product_Category;
+const Status_Histories = db.Status_Histories;
 
 const showProfile = (req, res) => {
   User.findOne({
@@ -38,12 +39,11 @@ const updateProfile = (req, res) => {
   });
   
 };
-
 const CustomerServiceTransaction = (req, res) => {
   Transaction.findAll({
       where: {
-          transaction_status: {
-              [Op.like]: "Menunggu Persetujuan CS",
+        status_history_id: {
+          [Op.or]: [1,2,3,4],
           },
       },
       include: [
@@ -79,16 +79,40 @@ const CustomerServiceTransaction = (req, res) => {
                   },
               ]
           },
+          {
+              model:Status_Histories,
+              as:"status_histories"
+
+          }
       ],
   }).then((transaction) => {
       res.status(200).send(transaction);
   });
 };
-
+// const TrackingOrder = (req, res) => {
+//   Transaction.findAll({
+//       where: {
+//         transaction_id : req.params.id,
+//       }
+//   }).then((transaction) => {
+//       Status_Histories.findAll({
+//         where: {
+//           status_history_id: {
+//             [Op.lte]: transaction[0].status_history_id,
+//           },
+//         },
+//       }).then((status) => {
+//         res.status(200).send({
+//           transaction: transaction,
+//           status: status,
+//         });
+//       });
+//   });
+// };
 const CustomerServiceTransactionUpdateId = (req, res) => {
   Transaction.update(
     {
-      transaction_status: "Menunggu Persetujuan Design",
+      transaction_status: 2,
     },
     {
       where: {

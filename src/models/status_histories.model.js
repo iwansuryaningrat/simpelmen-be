@@ -10,11 +10,13 @@ const Status_Histories = (sequelize, Sequelize) => {
         status_description: {
             type: Sequelize.STRING,
         },
-        timestamps: true, 
-        createdAt: true,
-        updatedAt: true, 
-        }
-    );
+        },
+        {
+      timestamps: true, // Enable timestamps
+      createdAt: true, // Create createdAt
+      updatedAt: true, // Create updatedAt
+    }
+  );
     
     return status_histories;
     };

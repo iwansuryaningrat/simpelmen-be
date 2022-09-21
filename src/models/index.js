@@ -113,5 +113,13 @@ db.Product.belongsTo(db.product_detail, {
   foreignKey: "product_detail_id",
   as: "product_detail",
 });
-
+//relational between tabel status_histories and transaction
+db.Status_Histories.hasMany(db.transaction, {
+  foreignKey: "status_history_id",
+  as: "transactions",
+});
+db.transaction.belongsTo(db.Status_Histories, {
+  foreignKey: "status_history_id",
+  as: "status_histories",
+});
 export default db;
