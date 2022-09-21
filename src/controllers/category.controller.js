@@ -1,10 +1,11 @@
 import db from "../models/index.js";
-const Category = db.category;
+const Category = db.Product_Category;
 
 const createCategory = (req, res) => {
   Category.create({
-    category_name: req.body.category_name,
-    category_description: req.body.category_description,
+    product_category_name: req.body.product_category_name,
+    //code
+    product_category_code: req.body.product_category_code,
   }).then((category) => {
     res.status(200).send({
       message: "Create Success",
@@ -20,12 +21,12 @@ const showCategory = (req, res) => {
 const updateCategory = (req, res) => {
   Category.update(
     {
-      category_name: req.body.category_name,
-      category_description: req.body.category_description,
+      product_category_name: req.body.product_category_name,
+      product_category_code: req.body.product_category_code,
     },
     {
       where: {
-        category_id: req.params.category_id,
+        product_category_id: req.params.product_category_id,
       },
     }
   ).then((category) => {
@@ -38,7 +39,7 @@ const updateCategory = (req, res) => {
 const deleteCategory = (req, res) => {
   Category.destroy({
     where: {
-      category_id: req.params.category_id,
+      product_category_id: req.params.product_category_id,
     },
   }).then((category) => {
     res.status(200).send({
@@ -50,7 +51,7 @@ const deleteCategory = (req, res) => {
 const showCategoryById = (req, res) => {
   Category.findOne({
     where: {
-      category_id: req.params.category_id,
+      product_category_id: req.params.product_category_id,
     },
   }).then((category) => {
     res.status(200).send(category);

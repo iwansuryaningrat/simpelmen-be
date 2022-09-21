@@ -44,15 +44,6 @@ const DeveliveryDetail = (sequelize, Sequelize) => {
       delivery_detail_postal_code: {
         type: Sequelize.STRING,
       },
-
-      delivery_detail_created_at: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
-      },
-      delivery_detail_updated_at: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
-      },
     },
     {
       timestamps: true, // Enable timestamps

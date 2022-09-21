@@ -24,14 +24,6 @@ const Chat = (sequelize, Sequelize) => {
       chat_message: {
         type: Sequelize.STRING,
       },
-      chat_created_at: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
-      },
-      chat_updated_at: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
-      },
     },
     {
       timestamps: true, // Enable timestamps
