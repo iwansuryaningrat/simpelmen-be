@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 app.use(
   cookieSession({
     name: "Simpelmen",
@@ -48,8 +48,7 @@ adminRoutes(app);
 productRoutes(app);
 designRoutes(app);
 administrationRoutes(app);
-app.use(express.json());
-app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
