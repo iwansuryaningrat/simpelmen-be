@@ -1,15 +1,13 @@
 import express from "express";
 import cors from "cors";
 import cookieSession from "cookie-session";
+import swaggerUi from "swagger-ui-express";
+import swaggerFile from "./swagger_output.json" assert { type: "json" };
 
 const app = express();
 
 app.use(cors());
-
-// parse requests of content-type - application/json
 app.use(express.json());
-
-// parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
 app.use(
@@ -50,6 +48,8 @@ adminRoutes(app);
 productRoutes(app);
 designRoutes(app);
 administrationRoutes(app);
+app.use(express.json());
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
