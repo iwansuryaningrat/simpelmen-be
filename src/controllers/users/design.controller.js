@@ -8,6 +8,7 @@ const Material = db.material;
 const finishing = db.finishing;
 const Size = db.size;
 const Product_Category = db.Product_Category;
+const Status_Histories = db.Status_Histories;
 
 const showProfile = (req, res) => {
   User.findOne({
@@ -41,8 +42,8 @@ const updateProfile = (req, res) => {
 const DesignTransaction = (req, res) => {
   Transaction.findAll({
       where: {
-          transaction_status: {
-              [Op.or]: [{[Op.like]: "Menunggu Persetujuan Design"}, {[Op.like]: "Design Ditolak"}],
+        status_history_id: {
+          [Op.or]: [6,7],
           },
       },
       include: [
@@ -71,13 +72,18 @@ const DesignTransaction = (req, res) => {
                               as:"product_category"
                           },
                           {
-                              model:Size,
+                              model:Size, 
                               as:"size"
                           }
                       ]
                   },
               ]
           },
+          {
+              model:Status_Histories,
+              as:"status_histories"
+
+          }
       ],
   }).then((transaction) => {
       res.status(200).send(transaction);
@@ -86,7 +92,7 @@ const DesignTransaction = (req, res) => {
 const DesignTransactionUpdateId = (req, res) => {
   Transaction.update(
     {
-      transaction_status: "Design Diterima dan Dalam Proses",
+      status_history_id: 3,
     },
     {
       where: {
@@ -100,4 +106,5 @@ const DesignTransactionUpdateId = (req, res) => {
     });
   });
 };
-export { showProfile, updateProfile, DesignTransaction ,DesignTransactionUpdateId};
+
+export { showProfile, updateProfile,DesignTransactionUpdateId , DesignTransaction};

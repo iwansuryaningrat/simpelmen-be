@@ -1,17 +1,15 @@
 import express from "express";
 import cors from "cors";
 import cookieSession from "cookie-session";
+import swaggerUi from "swagger-ui-express";
+import swaggerFile from "./swagger_output.json" assert { type: "json" };
 
 const app = express();
 
 app.use(cors());
-
-// parse requests of content-type - application/json
 app.use(express.json());
-
-// parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
-
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 app.use(
   cookieSession({
     name: "Simpelmen",
@@ -22,11 +20,11 @@ app.use(
 );
 
 // database
-import db from "./src/models/index.js";
+// import db from "./src/models/index.js";
 
-db.sequelize.sync({ force: true }).then(() => {
-  console.log("Drop and Resync Database with { force: true }");
-});
+// db.sequelize.sync({ force: true }).then(() => {
+//   console.log("Drop and Resync Database with { force: true }");
+// });
 
 // simple route
 app.get("/", (req, res) => {
@@ -50,6 +48,7 @@ adminRoutes(app);
 productRoutes(app);
 designRoutes(app);
 administrationRoutes(app);
+
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

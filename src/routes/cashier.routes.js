@@ -6,6 +6,7 @@ import {
 import {
   showProfile,
   updateProfile,
+  CashierTransaction
 } from "../controllers/users/cashier.controllers.js";
 import express from "express";
 const router = express.Router();
@@ -28,6 +29,13 @@ const cashierRoutes = (app) => {
     isAdminCashier,
     updateProfile
   );
+  router.get(
+    "/cashier/transaction",
+    verifyToken,
+    isActivated,
+    isAdminCashier,
+    CashierTransaction
+  )
 
   app.use("/api/admin", router);
 };

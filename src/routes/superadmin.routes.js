@@ -35,7 +35,6 @@ import {
   showCategoryById,
   updateCategory,
   deleteCategory,
-
 } from "../controllers/category.controller.js";	
 import {
   createMaterial,showAllMaterials,showMaterial,updateMaterial,deleteMaterial

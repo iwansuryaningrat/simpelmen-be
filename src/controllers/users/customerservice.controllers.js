@@ -1,7 +1,7 @@
 import db from "../../models/index.js";
 const User = db.user;
-const Op = db.Sequelize.Op;
 const Transaction = db.transaction;
+const Op = db.Sequelize.Op;
 const Product_detail = db.product_detail;
 const Product = db.Product;
 const Material = db.material;
@@ -43,7 +43,7 @@ const CustomerServiceTransaction = (req, res) => {
   Transaction.findAll({
       where: {
         status_history_id: {
-          [Op.or]: [1,2,3,4],
+          [Op.or]: [1,2],
           },
       },
       include: [

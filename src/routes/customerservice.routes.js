@@ -3,6 +3,7 @@ import {
   isAdminCS,
   isActivated,
 } from "../middlewares/auth.middleware.js";
+import cors from "cors";
 import {
   showProfile,
   updateProfile,
@@ -16,7 +17,7 @@ import headers from "../services/headers.services.js";
 
 const customerServiceRoutes = (app) => {
   app.use(headers);
-
+  router.use(cors());
   router.get("/cs/profile", verifyToken, isActivated, isAdminCS, showProfile);
   router.put("/cs/profile", verifyToken, isActivated, isAdminCS, updateProfile);
   router.get(
