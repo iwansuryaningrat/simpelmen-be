@@ -7,7 +7,6 @@ import swaggerFile from "./swagger_output.json" assert { type: "json" };
 const app = express();
 
 app.use(cors());
-//URL scheme must be "http" or "https" for CORS request.
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
