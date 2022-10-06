@@ -1,5 +1,5 @@
 const Product = (sequelize, Sequelize) => {
-  const product = sequelize.define(
+  const Product = sequelize.define(
     "products",
     {
       product_id: {
@@ -7,23 +7,28 @@ const Product = (sequelize, Sequelize) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      product_detail_id: {
-        type: Sequelize.INTEGER,
-      },
       product_name: {
         type: Sequelize.STRING,
       },
-
-      product_picture: {
-        type: Sequelize.STRING,
-      },
-      finishing_id: {
+      product_category: {
         type: Sequelize.INTEGER,
       },
-      product_description: {
-        type: Sequelize.STRING,
+      product_image: {
+        type: Sequelize.BLOB,
+      },
+      product_material: {
+        type: Sequelize.INTEGER,
+      },
+      product_size: {
+        type: Sequelize.INTEGER,
+      },
+      product_finishing: {
+        type: Sequelize.INTEGER,
       },
       product_weight: {
+        type: Sequelize.DOUBLE,
+      },
+      product_description: {
         type: Sequelize.STRING,
       },
     },
@@ -34,7 +39,7 @@ const Product = (sequelize, Sequelize) => {
     }
   );
 
-  return product;
+  return Product;
 };
 
 export default Product;

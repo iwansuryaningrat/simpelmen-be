@@ -11,221 +11,103 @@ import {
   showProfile,
   updateProfile,
 } from "../controllers/users/superadmin.controller.js";
-//product detail
+
 import {
-  showProduct_detail,
-  showProduct_detailById,
-  updateProduct_detail,
-  deleteProduct_detail,
-  createProduct_detail,
-} from "../controllers/product_detail.controller.js";
-import {
-  showAllProduct,showProduct,
+  ShowAllProduct,
+  ShowProduct,
+  CreateProduct,
+  UpdateProduct,
+  DeleteProduct,
 } from "../controllers/product.controller.js";
+
 import {
-  createSize,
-  showAllSize,
-  showSize,
-  updateSize,
-  deleteSize,
-} from "../controllers/size.controller.js";
+  CreateProductFinishing,
+  DeleteProductFinishing,
+  ShowAllProductFinishing,
+  ShowProductFinishing,
+  UpdateProductFinishing,
+} from "../controllers/product_finishing.controller.js";
+
 import {
-  createCategory,
-  showCategory,
-  showCategoryById,
-  updateCategory,
-  deleteCategory,
-} from "../controllers/category.controller.js";	
+  CreateProductCategory,
+  DeleteProductCategory,
+  ShowAllProductCategory,
+  ShowProductCategory,
+  UpdateProductCategory,
+} from "../controllers/product_category.controller.js";
+
 import {
-  createMaterial,showAllMaterials,showMaterial,updateMaterial,deleteMaterial
-} from "../controllers/materials.controller.js"
+  CreateProductMaterial,
+  DeleteProductMaterial,
+  ShowAllProductMaterial,
+  ShowProductMaterial,
+  UpdateProductMaterial,
+} from "../controllers/product_material.controller.js";
+
 import {
-  showTransaction,
-} from "../controllers/transaction.controller.js"
+  CreateProductSize,
+  DeleteProductSize,
+  ShowAllProductSize,
+  ShowProductSize,
+  UpdateProductSize,
+} from "../controllers/product_size.controller.js";
+
 import express from "express";
 const router = express.Router();
 import headers from "../services/headers.services.js";
 
 const adminRoutes = (app) => {
-  app.use(headers);
+    app.use(headers);
 
-  router.get("/", verifyToken, isActivated, isSuperAdmin, adminBoard);
-  router.get("/users", verifyToken, isActivated, isSuperAdmin, showAllAdmin);
-  router.put("/users/:id", verifyToken, isActivated, isSuperAdmin, updateAdmin);
-  router.delete(
-    "/users/:id",
-    verifyToken,
-    isActivated,
-    isSuperAdmin,
-    DeleteAdmin
-  );
-  router.get(
-    "/transaction",
-    verifyToken,
-    isActivated,
-    isSuperAdmin,
-    showTransaction
-  );
-  router.get("/profile", verifyToken, isActivated, isSuperAdmin, showProfile);
-  router.put("/profile", verifyToken, isActivated, isSuperAdmin, updateProfile);
-  router.get(
-    "/product_detail",
-    verifyToken,
-    isActivated,
-    isSuperAdmin,
-    showProduct_detail
-  );
-  router.get(
-    "/product_detail/:id",
-    verifyToken,
-    isActivated,
-    isSuperAdmin,
-    showProduct_detailById
-  );
-  router.put(
-    "/product_detail/:id",
-    verifyToken,
-    isActivated,
-    isSuperAdmin,
-    updateProduct_detail
-  );
-  router.delete(
-    "/product_detail/:id",
-    verifyToken,
-    isActivated,
-    isSuperAdmin,
-    deleteProduct_detail
-  );
-  router.post(
-    "/product_detail",
-    verifyToken,
-    isActivated,
-    isSuperAdmin,
-    createProduct_detail
-  );
-  
-  router.post(
-    "/size",
-    verifyToken,
-    isActivated,
-    isSuperAdmin,
-    createSize
-  );
-  router.get(
-    "/size",
-    verifyToken,
-    isActivated,
-    isSuperAdmin,
-    showAllSize
-  );
-  router.get(
-    "/size/:size_id",
-    verifyToken,
-    isActivated,
-    isSuperAdmin,
-    showSize
-  );
-  router.put(
-    "/size/:size_id",
-    verifyToken,
-    isActivated,
-    isSuperAdmin,
-    updateSize
-  );
-  router.delete(
-    "/size/:size_id",
-    verifyToken,
-    isActivated,
-    isSuperAdmin,
-    deleteSize
-  );
+    router.get("/", verifyToken, isActivated, isSuperAdmin, adminBoard);
+    router.get("/users", verifyToken, isActivated, isSuperAdmin, showAllAdmin);
+    router.put("/users/:id", verifyToken, isActivated, isSuperAdmin, updateAdmin);
+    router.delete(
+      "/users/:id",
+      verifyToken,
+      isActivated,
+      isSuperAdmin,
+      DeleteAdmin
+    );
+    router.get("/profile", verifyToken, isActivated, isSuperAdmin, showProfile);
+    router.put("/profile", verifyToken, isActivated, isSuperAdmin, updateProfile);
+    
+    //product routes
+    router.get("/products", verifyToken, isActivated, isSuperAdmin, ShowAllProduct);
+    router.get("/products/:product_id", verifyToken, isActivated, isSuperAdmin, ShowProduct);
+    router.post("/products", verifyToken, isActivated, isSuperAdmin, CreateProduct);
+    router.put("/products/:product_id", verifyToken, isActivated, isSuperAdmin, UpdateProduct);
+    router.delete("/products/:product_id", verifyToken, isActivated, isSuperAdmin, DeleteProduct);
 
-  router.post(
-    "/material",
-    verifyToken,
-    isActivated,
-    isSuperAdmin,
-    createMaterial
-  );
-  router.get(
-    "/material",
-    verifyToken,
-    isActivated,
-    isSuperAdmin,
-    showAllMaterials
-  );
-  router.get(
-    "/material/:material_id",
-    verifyToken,
-    isActivated,
-    isSuperAdmin,
-    showMaterial
-  );
-  router.put(
-    "/material/:material_id",
-    verifyToken,
-    isActivated,
-    isSuperAdmin,
-    updateMaterial
-  );
-  router.delete(
-    "/material/:material_id",
-    verifyToken,
-    isActivated,
-    isSuperAdmin,
-    deleteMaterial
-  );
-  
-  router.post(
-    "/category",
-    verifyToken,
-    isActivated,
-    isSuperAdmin,
-    createCategory
-  );
-  router.get(
-    "/category",
-    verifyToken,
-    isActivated,
-    isSuperAdmin,
-    showCategory
-  );
-  router.get(
-    "/category/:product_category_id",
-    verifyToken,
-    isActivated,
-    isSuperAdmin,
-    showCategoryById
-  );
-  router.put(
-    "/category/:product_category_id",
-    verifyToken,
-    isActivated,
-    isSuperAdmin,
-    updateCategory
-  );
-  router.delete(
-    "/category/:product_category_id",
-    verifyToken,
-    isActivated,
-    isSuperAdmin,
-    deleteCategory
-  );
-  router.get(
-    "/product",
-    verifyToken,
-    isActivated,
-    isSuperAdmin,
-    showAllProduct
-  );
-  router.get(
-    "/product/:product_id",
-    verifyToken,
-    isActivated,
-    isSuperAdmin,
-    showProduct
-  );
-  app.use("/api/super/admin", router);
+    //product finishing routes
+    router.get("/product_finishing", verifyToken, isActivated, isSuperAdmin, ShowAllProductFinishing);
+    router.get("/product_finishing/:product_finishing_id", verifyToken, isActivated, isSuperAdmin, ShowProductFinishing);
+    router.post("/product_finishing", verifyToken, isActivated, isSuperAdmin, CreateProductFinishing);
+    router.put("/product_finishing/:product_finishing_id", verifyToken, isActivated, isSuperAdmin, UpdateProductFinishing);
+    router.delete("/product_finishing/:product_finishing_id", verifyToken, isActivated, isSuperAdmin, DeleteProductFinishing);
+
+    //product category routes
+    router.get("/product_category", verifyToken, isActivated, isSuperAdmin, ShowAllProductCategory);
+    router.get("/product_category/:product_category_id", verifyToken, isActivated, isSuperAdmin, ShowProductCategory);
+    router.post("/product_category", verifyToken, isActivated, isSuperAdmin, CreateProductCategory);
+    router.put("/product_category/:product_category_id", verifyToken, isActivated, isSuperAdmin, UpdateProductCategory);
+    router.delete("/product_category/:product_category_id", verifyToken, isActivated, isSuperAdmin, DeleteProductCategory);
+
+    //product material routes
+    router.get("/product_material", verifyToken, isActivated, isSuperAdmin, ShowAllProductMaterial);
+    router.get("/product_material/:product_material_id", verifyToken, isActivated, isSuperAdmin, ShowProductMaterial);
+    router.post("/product_material", verifyToken, isActivated, isSuperAdmin, CreateProductMaterial);
+    router.put("/product_material/:product_material_id", verifyToken, isActivated, isSuperAdmin, UpdateProductMaterial);
+    router.delete("/product_material/:product_material_id", verifyToken, isActivated, isSuperAdmin, DeleteProductMaterial);
+
+    //product size routes
+    router.get("/product_size", verifyToken, isActivated, isSuperAdmin, ShowAllProductSize);
+    router.get("/product_size/:product_size_id", verifyToken, isActivated, isSuperAdmin, ShowProductSize);
+    router.post("/product_size", verifyToken, isActivated, isSuperAdmin, CreateProductSize);
+    router.put("/product_size/:product_size_id", verifyToken, isActivated, isSuperAdmin, UpdateProductSize);
+    router.delete("/product_size/:product_size_id", verifyToken, isActivated, isSuperAdmin, DeleteProductSize);
+
+    app.use("/api/super/admin", router);
 };
 
 export default adminRoutes;

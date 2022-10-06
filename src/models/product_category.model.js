@@ -1,5 +1,5 @@
 const Product_Category = (sequelize, Sequelize) => {
-  const product_category = sequelize.define(
+  const Product_Category = sequelize.define(
     "product_categories",
     {
       product_category_id: {
@@ -7,21 +7,19 @@ const Product_Category = (sequelize, Sequelize) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      product_category_code: {
-        type: Sequelize.INTEGER,
-      },
       product_category_name: {
+        type: Sequelize.STRING,
+      },
+      product_category_description: {
         type: Sequelize.STRING,
       },
     },
     {
-      timestamps: true, // Enable timestamps
-      createdAt: true, // Create createdAt
-      updatedAt: true, // Create updatedAt
+      timestamps: true,
+      createdAt: "created_at",
+      updatedAt: "updated_at",
     }
   );
-
-  return product_category;
+  return Product_Category;
 };
-
 export default Product_Category;

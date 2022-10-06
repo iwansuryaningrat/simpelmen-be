@@ -24,8 +24,7 @@ const userModel = (sequelize, Sequelize) => {
         defaultValue: false,
       },
       role: {
-        type: Sequelize.INTEGER,
-        defaultValue: "1",
+        type: Sequelize.STRING,
       },
     },
     {

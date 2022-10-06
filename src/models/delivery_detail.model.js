@@ -1,58 +1,61 @@
-const DeveliveryDetail = (sequelize, Sequelize) => {
-  const delivery_detail = sequelize.define(
-    "delivery_details",
-    {
+const Delivery_Detail = (sequelize, Sequelize) => {
+  const Delivery_Detail = sequelize.define(
+      "delivery_details",
+      {
       delivery_detail_id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
+          type: Sequelize.INTEGER,
+          primaryKey: true,
+          autoIncrement: true,
       },
-      transaction_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: "transactions",
-          key: "transaction_id",
-        },
+      delivery_detail_order_id: {
+          type: Sequelize.INTEGER,
       },
       delivery_detail_name: {
-        type: Sequelize.STRING,
+          type: Sequelize.STRING,
       },
       delivery_detail_ikm: {
-        type: Sequelize.STRING,
+          type: Sequelize.STRING,
       },
       delivery_detail_email: {
-        type: Sequelize.STRING,
+          type: Sequelize.STRING,
       },
       delivery_detail_contact: {
-        type: Sequelize.STRING,
-      },
-      delivery_detail_method: {
-        type: Sequelize.STRING,
+          type: Sequelize.STRING,
       },
       delivery_detail_address: {
-        type: Sequelize.STRING,
+          type: Sequelize.STRING,
       },
       delivery_detail_district: {
-        type: Sequelize.STRING,
+          type: Sequelize.STRING,
       },
       delivery_detail_city: {
-        type: Sequelize.STRING,
+          type: Sequelize.STRING,
       },
       delivery_detail_province: {
-        type: Sequelize.STRING,
+          type: Sequelize.STRING,
       },
       delivery_detail_postal_code: {
-        type: Sequelize.STRING,
+          type: Sequelize.INTEGER,
       },
-    },
-    {
-      timestamps: true, // Enable timestamps
-      createdAt: true, // Create createdAt
-      updatedAt: true, // Create updatedAt
-    }
+      delivery_detail_shipping_cost: {
+          type: Sequelize.INTEGER,
+      },
+      delivery_detail_courier: {
+          type: Sequelize.STRING,
+      },
+      delivery_detail_receipt: {
+          type: Sequelize.STRING,
+      },
+      delivery_detail_estimate: {
+          type: Sequelize.STRING,
+      },
+      },
+      {
+      timestamps: true,
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      }
   );
-
-  return delivery_detail;
-};
-
-export default DeveliveryDetail;
+  return Delivery_Detail;
+  };
+  export default Delivery_Detail;
