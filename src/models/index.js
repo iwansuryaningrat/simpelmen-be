@@ -1,6 +1,8 @@
 import configs from "../configs/db.configs.js";
 import Sequelize from "sequelize";
+import { config } from "dotenv";
 
+// DB connection Config
 const sequelize = new Sequelize(configs.DB, configs.USER, configs.PASSWORD, {
   host: configs.HOST,
   // port : configs.PORT,
@@ -17,6 +19,8 @@ const sequelize = new Sequelize(configs.DB, configs.USER, configs.PASSWORD, {
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
+
+// Import models
 import userModel from "./user.model.js";
 import conversationModel from "./conversation.model.js";
 import delivery_detailModel from "./delivery_detail.model.js";
@@ -30,8 +34,7 @@ import product_finishingModel from "./product_finishing.model.js";
 import product_materialModel from "./product_material.model.js";
 import product_sizeModel from "./product_size.model.js";
 
-import { config } from "dotenv";
-
+// Insert Models to db
 db.user = userModel(sequelize, Sequelize);
 db.conversation = conversationModel(sequelize, Sequelize);
 db.delivery_detail = delivery_detailModel(sequelize, Sequelize);
@@ -45,14 +48,17 @@ db.product_finishing = product_finishingModel(sequelize, Sequelize);
 db.product_material = product_materialModel(sequelize, Sequelize);
 db.product_size = product_sizeModel(sequelize, Sequelize);
 
+// Insert Associations
 db.conversation.belongsTo(db.user, {
   foreignKey: "conversation_user_id",
   as: "user",
 });
+
 db.user.hasMany(db.conversation, {
   foreignKey: "conversation_user_id",
   as: "conversations",
 });
+
 // ALTER TABLE `delivery_details`
 //   ADD PRIMARY KEY (`delivery_detail_id`,`delivery_detail_order_id`),
 //   ADD KEY `delivery_detail_order_fk` (`delivery_detail_order_id`);
@@ -60,6 +66,7 @@ db.delivery_detail.belongsTo(db.order, {
   foreignKey: "delivery_detail_order_id",
   as: "order",
 });
+
 db.order.hasMany(db.delivery_detail, {
   foreignKey: "delivery_detail_order_id",
   as: "delivery_details",
@@ -73,14 +80,17 @@ db.message.belongsTo(db.conversation, {
   foreignKey: "message_conversation_id",
   as: "conversation",
 });
+
 db.conversation.hasMany(db.message, {
   foreignKey: "message_conversation_id",
   as: "messages",
 });
+
 db.message.belongsTo(db.user, {
   foreignKey: "message_sender",
   as: "sender",
 });
+
 db.user.hasMany(db.message, {
   foreignKey: "message_sender",
   as: "messages",
@@ -94,14 +104,17 @@ db.order.belongsTo(db.user, {
   foreignKey: "order_user_id",
   as: "user",
 });
+
 db.user.hasMany(db.order, {
   foreignKey: "order_user_id",
   as: "orders",
 });
+
 db.order.belongsTo(db.product, {
   foreignKey: "order_product_id",
   as: "product",
 });
+
 db.product.hasMany(db.order, {
   foreignKey: "order_product_id",
   as: "orders",
@@ -114,6 +127,7 @@ db.order_detail.belongsTo(db.order, {
   foreignKey: "order_detail_order_id",
   as: "order",
 });
+
 db.order.hasMany(db.order_detail, {
   foreignKey: "order_detail_order_id",
   as: "order_details",
@@ -128,14 +142,17 @@ db.order_status.belongsTo(db.order, {
   foreignKey: "order_status_order_id",
   as: "order",
 });
+
 db.order.hasMany(db.order_status, {
   foreignKey: "order_status_order_id",
   as: "order_statuses",
 });
+
 db.order_status.belongsTo(db.user, {
   foreignKey: "order_status_user_id",
   as: "user",
 });
+
 db.user.hasMany(db.order_status, {
   foreignKey: "order_status_user_id",
   as: "order_statuses",
@@ -151,30 +168,37 @@ db.product.belongsTo(db.product_category, {
   foreignKey: "product_category",
   as: "product_categories",
 });
+
 db.product_category.hasMany(db.product, {
   foreignKey: "product_category",
   as: "products",
 });
+
 db.product.belongsTo(db.product_finishing, {
   foreignKey: "product_finishing",
   as: "product_finishings",
 });
+
 db.product_finishing.hasMany(db.product, {
   foreignKey: "product_finishing",
   as: "products",
 });
+
 db.product.belongsTo(db.product_material, {
   foreignKey: "product_material",
   as: "product_materials",
 });
+
 db.product_material.hasMany(db.product, {
   foreignKey: "product_material",
   as: "products",
 });
+
 db.product.belongsTo(db.product_size, {
   foreignKey: "product_size",
   as: "product_sizes",
 });
+
 db.product_size.hasMany(db.product, {
   foreignKey: "product_size",
   as: "products",

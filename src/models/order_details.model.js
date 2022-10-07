@@ -8,7 +8,8 @@ const Order_Details = (sequelize, Sequelize) => {
         autoIncrement: true,
       },
       order_detail_order_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
+        primaryKey: true,
       },
       order_detail_product_id: {
         type: Sequelize.INTEGER,
