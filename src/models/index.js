@@ -147,9 +147,17 @@ db.user.hasMany(db.order_status, {
 //   ADD KEY `product_material_fk` (`product_material`),
 //   ADD KEY `product_size_fk` (`product_size`),
 //   ADD KEY `product_categori_fk` (`product_category`);
+db.product.belongsTo(db.product_category, {
+  foreignKey: "product_category",
+  as: "product_categories",
+});
+db.product_category.hasMany(db.product, {
+  foreignKey: "product_category",
+  as: "products",
+});
 db.product.belongsTo(db.product_finishing, {
   foreignKey: "product_finishing",
-  as: "finishing",
+  as: "product_finishings",
 });
 db.product_finishing.hasMany(db.product, {
   foreignKey: "product_finishing",
@@ -157,7 +165,7 @@ db.product_finishing.hasMany(db.product, {
 });
 db.product.belongsTo(db.product_material, {
   foreignKey: "product_material",
-  as: "material",
+  as: "product_materials",
 });
 db.product_material.hasMany(db.product, {
   foreignKey: "product_material",
@@ -165,18 +173,10 @@ db.product_material.hasMany(db.product, {
 });
 db.product.belongsTo(db.product_size, {
   foreignKey: "product_size",
-  as: "size",
+  as: "product_sizes",
 });
 db.product_size.hasMany(db.product, {
   foreignKey: "product_size",
-  as: "products",
-});
-db.product.belongsTo(db.product_category, {
-  foreignKey: "product_category",
-  as: "category",
-});
-db.product_category.hasMany(db.product, {
-  foreignKey: "product_category",
   as: "products",
 });
 
