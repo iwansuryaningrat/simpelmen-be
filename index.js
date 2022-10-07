@@ -29,11 +29,11 @@ app.use(
 );
 
 // database
-// import db from "./src/models/index.js";
+import db from "./src/models/index.js";
 
-// db.sequelize.sync({ force: true }).then(() => {
-//   console.log("Drop and Resync Database with { force: true }");
-// });
+db.sequelize.sync({ force: true }).then(() => {
+  console.log("Drop and Resync Database with { force: true }");
+});
 
 // simple route
 app.get("/", (req, res) => {
@@ -42,21 +42,21 @@ app.get("/", (req, res) => {
 
 // routes
 import authRoutes from "./src/routes/auth.routes.js";
-import userRoutes from "./src/routes/user.routes.js";
-import cashierRoutes from "./src/routes/cashier.routes.js";
-import customerserviceRoutes from "./src/routes/customerservice.routes.js";
+// import userRoutes from "./src/routes/user.routes.js";
+// import cashierRoutes from "./src/routes/cashier.routes.js";
+// import customerserviceRoutes from "./src/routes/customerservice.routes.js";
 import adminRoutes from "./src/routes/superadmin.routes.js";
-import productRoutes from "./src/routes/production.routes.js";
-import designRoutes from "./src/routes/design.routes.js";
-import administrationRoutes from "./src/routes/administration.routes.js";
+// import productRoutes from "./src/routes/production.routes.js";
+// import designRoutes from "./src/routes/design.routes.js";
+// import administrationRoutes from "./src/routes/administration.routes.js";
 authRoutes(app);
-userRoutes(app);
-cashierRoutes(app);
-customerserviceRoutes(app);
+// userRoutes(app);
+// cashierRoutes(app);
+// customerserviceRoutes(app);
 adminRoutes(app);
-productRoutes(app);
-designRoutes(app);
-administrationRoutes(app);
+// productRoutes(app);
+// designRoutes(app);
+// administrationRoutes(app);
 
 
 // set port, listen for requests
