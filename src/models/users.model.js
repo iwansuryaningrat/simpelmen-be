@@ -1,5 +1,5 @@
-const userModel = (sequelize, Sequelize) => {
-  const User = sequelize.define(
+const usersModel = (sequelize, Sequelize) => {
+  const Users = sequelize.define(
     "users",
     {
       user_id: {
@@ -34,7 +34,7 @@ const userModel = (sequelize, Sequelize) => {
     }
   );
 
-  return User;
+  return Users;
 };
 
-export default userModel;
+export default userModels;

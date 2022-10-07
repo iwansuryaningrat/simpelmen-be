@@ -1,34 +1,31 @@
-const Product = (sequelize, Sequelize) => {
-  const Product = sequelize.define(
-    "products",
+const Orders = (sequelize, Sequelize) => {
+  const Orders = sequelize.define(
+    "orders",
     {
-      product_id: {
+      order_id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
-      product_name: {
+      order_code: {
         type: Sequelize.STRING,
       },
-      product_category: {
+      order_product_id: {
         type: Sequelize.INTEGER,
       },
-      product_image: {
-        type: Sequelize.BLOB,
-      },
-      product_material: {
+      order_user_id: {
         type: Sequelize.INTEGER,
       },
-      product_size: {
+      order_quantity: {
         type: Sequelize.INTEGER,
       },
-      product_finishing: {
+      order_note: {
+        type: Sequelize.STRING,
+      },
+      order_price: {
         type: Sequelize.INTEGER,
       },
-      product_weight: {
-        type: Sequelize.DOUBLE,
-      },
-      product_description: {
+      order_design: {
         type: Sequelize.STRING,
       },
     },
@@ -39,7 +36,7 @@ const Product = (sequelize, Sequelize) => {
     }
   );
 
-  return Product;
+  return Orders;
 };
 
-export default Product;
+export default Orders;

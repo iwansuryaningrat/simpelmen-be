@@ -1,16 +1,16 @@
-const Product_Category = (sequelize, Sequelize) => {
-  const Product_Category = sequelize.define(
-    "product_categories",
+const Product_Materials = (sequelize, Sequelize) => {
+  const Product_Materials = sequelize.define(
+    "product_materials",
     {
-      product_category_id: {
+      product_material_id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
-      product_category_name: {
+      product_material_name: {
         type: Sequelize.STRING,
       },
-      product_category_description: {
+      product_material_description: {
         type: Sequelize.STRING,
       },
     },
@@ -20,6 +20,8 @@ const Product_Category = (sequelize, Sequelize) => {
       updatedAt: "updated_at",
     }
   );
-  return Product_Category;
+
+  return Product_Materials;
 };
-export default Product_Category;
+
+export default Product_Materials;

@@ -1,22 +1,19 @@
-const Oder_Status = (sequelize, Sequelize) => {
-  const Order_Status = sequelize.define(
-    "order_status",
+const Messages = (sequelize, Sequelize) => {
+  const Messages = sequelize.define(
+    "messages",
     {
-      order_status_id: {
+      message_id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
-      order_status_order_id: {
+      message_conversation_id: {
         type: Sequelize.INTEGER,
       },
-      order_status_user_id: {
+      message_sender: {
         type: Sequelize.INTEGER,
       },
-      order_status_description: {
-        type: Sequelize.STRING,
-      },
-      order_status_admin_code: {
+      message: {
         type: Sequelize.STRING,
       },
     },
@@ -27,7 +24,7 @@ const Oder_Status = (sequelize, Sequelize) => {
     }
   );
 
-  return Order_Status;
+  return Messages;
 };
 
-export default Oder_Status;
+export default Messages;
