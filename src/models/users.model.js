@@ -37,4 +37,4 @@ const usersModel = (sequelize, Sequelize) => {
   return Users;
 };
 
-export default userModels;
+export default usersModel;
