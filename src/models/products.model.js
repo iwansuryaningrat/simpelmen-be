@@ -31,6 +31,9 @@ const Products = (sequelize, Sequelize) => {
       product_image: {
         type: Sequelize.BLOB,
       },
+      product_price: {
+        type: Sequelize.DOUBLE,
+      },
     },
     {
       timestamps: true, // Enable timestamps
