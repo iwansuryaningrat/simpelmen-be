@@ -129,52 +129,57 @@ const activate = (req, res) => {
   }
 };
 
-// const signin = (req, res) => {
-//   Users.findOne({
-//     where: {
-//       username: req.body.username,
-//     },
-//   })
-//     .then((user) => {
-//       if (!user) {
-//         return res.status(404).send({ message: "User Not found." });
-//       }
-//       var passwordIsValid = bcrypt.compareSync(
-//         req.body.password,
-//         user.password
-//       );
-//       if (!passwordIsValid) {
-//         return res.status(401).send({
-//           accessToken: null,
-//           message: "Invalid Password!",
-//         });
-//       }
-//       var token = jwt.sign(
-//         {
-//           id: user.user_id,
-//           username: user.username,
-//           email: user.email,
-//           role: user.role,
-//         },
-//         process.env.SECRET_KEY,
-//         {
-//           expiresIn: 86400,
-//         }
-//       );
-//       res.status(200).send({
-//         id: user.user_id,
-//         username: user.username,
-//         email: user.email,
-//         role: user.role,
-//         accessToken: token,
-//       });
-//     })
-//     .catch((err) => {
-//       res.status(500).send({
-//         message: err.message,
-//       });
-//     });
-// };
+const login = (req, res) => {
+  const { email, password } = req.body;
+
+  Users.findOne({
+    where: {
+      user_email: email,
+    },
+  })
+    .then((user) => {
+      if (!user) {
+        return res.status(404).send({ message: "User Not found." });
+      }
+
+      const passwordIsValid = bcrypt.compareSync(password, user.user_password);
+
+      if (!passwordIsValid) {
+        return res.status(401).send({
+          accessToken: null,
+          message: "Invalid Password!",
+        });
+      }
+
+      const token = jwt.sign(
+        {
+          user_id: user.user_id,
+          user_name: user.user_name,
+          user_email: user.user_email,
+          user_role: user.user_role,
+          user_status: user.user_status,
+          user_verify: user.user_verify,
+        },
+        process.env.SECRET_KEY,
+        {
+          expiresIn: 86400,
+        }
+      );
+
+      res.status(200).send({
+        message: "Login Success",
+        data: {
+          user_email: user.user_email,
+          token: token,
+        },
+      });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message,
+      });
+    });
+};
 
 // const SendResetPassword = (req, res) => {
 //   const { email } = req.body;
@@ -317,4 +322,4 @@ const activate = (req, res) => {
 //   }
 // };
 
-export { signup, activate };
+export { signup, activate, login };
