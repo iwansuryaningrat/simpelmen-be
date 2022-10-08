@@ -50,6 +50,9 @@ const Users = (sequelize, Sequelize) => {
       user_verify: {
         type: Sequelize.BOOLEAN,
       },
+      user_role_id: {
+        type: Sequelize.INTEGER,
+      },
     },
     {
       timestamps: true, // Enable timestamps
