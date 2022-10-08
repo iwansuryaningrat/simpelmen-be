@@ -47,9 +47,12 @@ const Users = (sequelize, Sequelize) => {
       user_status: {
         type: Sequelize.BOOLEAN,
       },
-      user_verfy: {
+      user_verify: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
+      },
+      user_role_id: {
+        type: Sequelize.INTEGER,
       },
     },
     {

@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import db from "../models/index.js";
-const User = db.user;
+const Users = db.users;
 
 const isSuperAdmin = (req, res, next) => {
   jwt.verify(

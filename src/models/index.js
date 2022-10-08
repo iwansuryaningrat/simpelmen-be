@@ -33,7 +33,6 @@ import Product_Materials from "./product_materials.model.js";
 import Product_Sizes from "./product_sizes.model.js";
 import Products from "./products.model.js";
 import Roles from "./roles.model.js";
-import User_Roles from "./user_roles.model.js";
 import Users from "./users.model.js";
 
 // Insert Models to db
@@ -49,7 +48,6 @@ db.product_materials = Product_Materials(sequelize, Sequelize);
 db.product_sizes = Product_Sizes(sequelize, Sequelize);
 db.products = Products(sequelize, Sequelize);
 db.roles = Roles(sequelize, Sequelize);
-db.user_roles = User_Roles(sequelize, Sequelize);
 db.users = Users(sequelize, Sequelize);
 
 // Insert Associations
@@ -208,24 +206,9 @@ db.product_sizes.hasMany(db.products, {
   as: "products",
 });
 
-db.user_roles.hasMany(db.users, {
-  foreignKey: "users",
-  as: "users",
-});
-
-db.user_roles.hasMany(db.roles, {
-  foreignKey: "roles",
+db.users.belongsTo(db.roles, {
+  foreignKey: "role_id",
   as: "roles",
-});
-
-db.users.belongsTo(db.user_roles, {
-  foreignKey: "users",
-  as: "user_roles",
-});
-
-db.roles.belongsTo(db.user_roles, {
-  foreignKey: "roles",
-  as: "user_roles",
 });
 
 export default db;

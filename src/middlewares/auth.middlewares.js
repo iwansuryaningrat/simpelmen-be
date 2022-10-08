@@ -1,29 +1,32 @@
 import jwt from "jsonwebtoken";
 import db from "../models/index.js";
-const User = db.user;
+const Users = db.users;
 
-const verifyToken = (req, res, next) => {
-  let token = req.headers["x-access-token"];
+const isLogin = (req, res, next) => {
+  const token = req.header("x-access-token");
+
   if (!token) {
-    return res.status(403).send({
-      message: "No token provided!",
+    return res.status(401).send({
+      message: "No token, authorization denied",
     });
   }
-  jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
-    if (err) {
-      return res.status(401).send({
-        message: "Unauthorized!",
-      });
-    }
-    req.userId = decoded.id;
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.email = decoded.email;
+    req.role = decoded.role;
     next();
-  });
+  } catch (err) {
+    return res.status(401).send({
+      message: "Token is not valid",
+    });
+  }
 };
 
 const isActivated = (req, res, next) => {
-  let token = req.headers["x-access-token"];
+  const token = req.headers["x-access-token"];
   jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
-    if (decoded.active == 0) {
+    if (!decoded.active) {
       return res.status(401).send({
         message: "Email not activated or Token expired!",
       });
@@ -32,4 +35,4 @@ const isActivated = (req, res, next) => {
   });
 };
 
-export { verifyToken, isActivated };
+export { isLogin, isActivated };
