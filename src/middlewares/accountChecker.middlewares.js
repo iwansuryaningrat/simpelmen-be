@@ -25,3 +25,5 @@ const checkEmail = (req, res, next) => {
       });
     });
 };
+
+export default checkEmail;
