@@ -13,9 +13,6 @@ const Products = (sequelize, Sequelize) => {
       product_category: {
         type: Sequelize.INTEGER,
       },
-      product_image: {
-        type: Sequelize.BLOB,
-      },
       product_material: {
         type: Sequelize.INTEGER,
       },
@@ -30,6 +27,9 @@ const Products = (sequelize, Sequelize) => {
       },
       product_description: {
         type: Sequelize.STRING,
+      },
+      product_image: {
+        type: Sequelize.BLOB,
       },
     },
     {
