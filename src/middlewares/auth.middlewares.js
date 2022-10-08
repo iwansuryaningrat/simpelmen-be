@@ -2,8 +2,12 @@ import jwt from "jsonwebtoken";
 import db from "../models/index.js";
 const Users = db.users;
 
+// Load .env file
+import * as dotenv from "dotenv";
+dotenv.config();
+
 const isLogin = (req, res, next) => {
-  const token = req.header("x-access-token");
+  const token = req.headers["x-access-token"];
 
   if (!token) {
     return res.status(401).send({
@@ -13,12 +17,13 @@ const isLogin = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.email = decoded.email;
-    req.role = decoded.role;
+    req.email = decoded.user_email;
+    req.role = decoded.user_role_id;
     next();
   } catch (err) {
     return res.status(401).send({
       message: "Token is not valid",
+      errorMessages: err.message,
     });
   }
 };
