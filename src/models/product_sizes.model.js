@@ -10,10 +10,19 @@ const Product_Sizes = (sequelize, Sequelize) => {
       product_size_length: {
         type: Sequelize.DOUBLE,
       },
+      product_size_length2: {
+        type: Sequelize.DOUBLE,
+      },
       product_size_width: {
         type: Sequelize.DOUBLE,
       },
+      product_size_width2: {
+        type: Sequelize.DOUBLE,
+      },
       product_size_height: {
+        type: Sequelize.DOUBLE,
+      },
+      product_size_height2: {
         type: Sequelize.DOUBLE,
       },
       product_size_shape: {
