@@ -15,6 +15,7 @@ const Users = (sequelize, Sequelize) => {
         validate: {
           isEmail: true,
         },
+        unique: true,
       },
       user_ikm: {
         type: Sequelize.STRING,
