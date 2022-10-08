@@ -5,6 +5,10 @@ const Op = db.Sequelize.Op;
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
+// Load .env file
+import * as dotenv from "dotenv";
+dotenv.config();
+
 const signup = (req, res) => {
   const name_input = req.body.name;
   const email_input = req.body.email;
@@ -112,7 +116,7 @@ const activate = (req, res) => {
           user_email: email,
           user_status: true,
           user_verify: true,
-          user_role: 1,
+          user_role_id: 1,
         })
           .then((user) => {
             res.status(200).send({
@@ -156,13 +160,13 @@ const login = (req, res) => {
           user_id: user.user_id,
           user_name: user.user_name,
           user_email: user.user_email,
-          user_role: user.user_role,
+          user_role_id: user.user_role_id,
           user_status: user.user_status,
           user_verify: user.user_verify,
         },
-        process.env.SECRET_KEY,
+        process.env.JWT_SECRET,
         {
-          expiresIn: 86400,
+          expiresIn: 86400, // 24 hours
         }
       );
 
