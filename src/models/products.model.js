@@ -1,5 +1,5 @@
-const Product = (sequelize, Sequelize) => {
-  const Product = sequelize.define(
+const Products = (sequelize, Sequelize) => {
+  const Products = sequelize.define(
     "products",
     {
       product_id: {
@@ -39,7 +39,7 @@ const Product = (sequelize, Sequelize) => {
     }
   );
 
-  return Product;
+  return Products;
 };
 
-export default Product;
+export default Products;

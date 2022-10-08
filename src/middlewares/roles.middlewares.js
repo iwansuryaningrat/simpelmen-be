@@ -2,34 +2,6 @@ import jwt from "jsonwebtoken";
 import db from "../models/index.js";
 const User = db.user;
 
-const verifyToken = (req, res, next) => {
-  let token = req.headers["x-access-token"];
-  if (!token) {
-    return res.status(403).send({
-      message: "No token provided!",
-    });
-  }
-  jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
-    if (err) {
-      return res.status(401).send({
-        message: "Unauthorized!",
-      });
-    }
-    req.userId = decoded.id;
-    next();
-  });
-};
-const isActivated = (req, res, next) => {
-  let token = req.headers["x-access-token"];
-  jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
-    if (decoded.active == 0) {
-      return res.status(401).send({
-        message: "Email not activated or Token expired!",
-      });
-    }
-    next();
-  });
-};
 const isSuperAdmin = (req, res, next) => {
   jwt.verify(
     req.headers["x-access-token"],
@@ -52,6 +24,7 @@ const isSuperAdmin = (req, res, next) => {
     }
   );
 };
+
 const isAdminCashier = (req, res, next) => {
   jwt.verify(
     req.headers["x-access-token"],
@@ -74,6 +47,7 @@ const isAdminCashier = (req, res, next) => {
     }
   );
 };
+
 const isAdminCS = (req, res, next) => {
   jwt.verify(
     req.headers["x-access-token"],
@@ -96,6 +70,7 @@ const isAdminCS = (req, res, next) => {
     }
   );
 };
+
 const isAdminWarehouse = (req, res, next) => {
   jwt.verify(
     req.headers["x-access-token"],
@@ -118,6 +93,7 @@ const isAdminWarehouse = (req, res, next) => {
     }
   );
 };
+
 const isAdminDesign = (req, res, next) => {
   jwt.verify(
     req.headers["x-access-token"],
@@ -140,6 +116,7 @@ const isAdminDesign = (req, res, next) => {
     }
   );
 };
+
 const isUser = (req, res, next) => {
   jwt.verify(
     req.headers["x-access-token"],
@@ -162,6 +139,7 @@ const isUser = (req, res, next) => {
     }
   );
 };
+
 const isAdminProduction = (req, res, next) => {
   jwt.verify(
     req.headers["x-access-token"],
@@ -184,6 +162,7 @@ const isAdminProduction = (req, res, next) => {
     }
   );
 };
+
 const isAdminTu = (req, res, next) => {
   jwt.verify(
     req.headers["x-access-token"],
@@ -206,12 +185,11 @@ const isAdminTu = (req, res, next) => {
     }
   );
 };
+
 export {
-  verifyToken,
   isSuperAdmin,
   isAdminCashier,
   isAdminCS,
-  isActivated,
   isAdminWarehouse,
   isAdminDesign,
   isUser,

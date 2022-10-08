@@ -1,4 +1,4 @@
-import checkEmail from "../middlewares/verify.middleware.js";
+import checkEmail from "../middlewares/verify.middlewares.js";
 import {
   signup,
   signin,
