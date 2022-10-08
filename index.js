@@ -45,8 +45,8 @@ app.use(
 // database
 import db from "./src/models/index.js";
 
-db.sequelize.sync({ force: true }).then(() => {
-  console.log("Drop and Resync Database with { force: true }");
+db.sequelize.sync({ force: false }).then(() => {
+  console.log("Sync database");
 });
 
 // simple route
