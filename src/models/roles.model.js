@@ -1,5 +1,5 @@
-const roles = (sequelize, Sequelize) => {
-  const Roles = sequelize.define(
+const Roles = (sequelize, Sequelize) => {
+  const roles = sequelize.define(
     "roles",
     {
       role_id: {
@@ -18,7 +18,7 @@ const roles = (sequelize, Sequelize) => {
     }
   );
 
-  return Roles;
+  return roles;
 };
 
-export default roles;
+export default Roles;
