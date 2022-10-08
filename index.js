@@ -2,19 +2,23 @@ import express from "express";
 import cors from "cors";
 import cookieSession from "cookie-session";
 import swaggerUi from "swagger-ui-express";
-import swaggerFile from "./swagger_output.json" assert { type: "json" };
+import swaggerFile from "./docs/swagger_output.json" assert { type: "json" };
 const app = express();
 import bodyParser from "body-parser";
 
-app.use(bodyParser.json({
-    limit: '50mb'
-  }));
-  
-  app.use(bodyParser.urlencoded({
-    limit: '50mb',
+app.use(
+  bodyParser.json({
+    limit: "50mb",
+  })
+);
+
+app.use(
+  bodyParser.urlencoded({
+    limit: "50mb",
     parameterLimit: 100000,
-    extended: true 
-  }));
+    extended: true,
+  })
+);
 
 app.use(cors());
 app.use((req, res, next) => {
@@ -28,7 +32,7 @@ app.use((req, res, next) => {
 });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+app.use("/doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use(
   cookieSession({
     name: "Simpelmen",
@@ -67,7 +71,6 @@ adminRoutes(app);
 // productRoutes(app);
 // designRoutes(app);
 // administrationRoutes(app);
-
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
