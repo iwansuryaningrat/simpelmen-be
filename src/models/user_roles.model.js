@@ -1,4 +1,4 @@
-const user_roles = (sequelize, Sequelize) => {
+const User_Roles = (sequelize, Sequelize) => {
   const userRoles = sequelize.define(
     "user_roles",
     {
@@ -21,4 +21,4 @@ const user_roles = (sequelize, Sequelize) => {
   return userRoles;
 };
 
-export default user_roles;
+export default User_Roles;
