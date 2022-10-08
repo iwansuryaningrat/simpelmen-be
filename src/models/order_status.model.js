@@ -1,4 +1,4 @@
-const Oder_Status = (sequelize, Sequelize) => {
+const Order_Status = (sequelize, Sequelize) => {
   const Order_Status = sequelize.define(
     "order_status",
     {
@@ -32,4 +32,4 @@ const Oder_Status = (sequelize, Sequelize) => {
   return Order_Status;
 };
 
-export default Oder_Status;
+export default Order_Status;
