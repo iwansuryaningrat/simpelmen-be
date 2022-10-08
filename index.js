@@ -3,8 +3,18 @@ import cors from "cors";
 import cookieSession from "cookie-session";
 import swaggerUi from "swagger-ui-express";
 import swaggerFile from "./swagger_output.json" assert { type: "json" };
-
 const app = express();
+import bodyParser from "body-parser";
+
+app.use(bodyParser.json({
+    limit: '50mb'
+  }));
+  
+  app.use(bodyParser.urlencoded({
+    limit: '50mb',
+    parameterLimit: 100000,
+    extended: true 
+  }));
 
 app.use(cors());
 app.use((req, res, next) => {
