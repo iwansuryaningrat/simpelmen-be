@@ -23,6 +23,9 @@ const Delivery_Details = (sequelize, Sequelize) => {
       delivery_detail_contact: {
         type: Sequelize.STRING,
       },
+      delivery_detail_method: {
+        type: Sequelize.STRING,
+      },
       delivery_detail_address: {
         type: Sequelize.STRING,
       },
