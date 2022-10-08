@@ -1,5 +1,5 @@
 import db from '../models/index.js';
-const Product_Finishing = db.product_finishing;
+const Product_Finishing = db.product_finishings;
 
 const CreateProductFinishing = async (req, res) => {
     const { product_finishing_name, product_finishing_description } = req.body;

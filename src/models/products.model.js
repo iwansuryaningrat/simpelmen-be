@@ -29,7 +29,7 @@ const Products = (sequelize, Sequelize) => {
         type: Sequelize.STRING,
       },
       product_image: {
-        type: Sequelize.BLOB,
+        type: Sequelize.TEXT("long"),
       },
       product_price: {
         type: Sequelize.DOUBLE,

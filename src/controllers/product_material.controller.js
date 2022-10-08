@@ -1,5 +1,5 @@
 import db from "../models/index.js";
-const Product_Material = db.product_material;
+const Product_Material = db.product_materials;
 
 
 const CreateProductMaterial = async (req, res) => {

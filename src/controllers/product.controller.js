@@ -1,72 +1,84 @@
 import db from "../models/index.js";
-const Product = db.product;
-const Product_Finishing = db.product_finishing;
-const Product_Category = db.product_category;
-const Product_Material = db.product_material;
-// const Product_Size = db.Product_Size;
+const Product = db.products;
+const Product_Finishing = db.product_finishings;
+const Product_Category = db.product_categories;
+const Product_Material = db.product_materials;
+const Product_Size = db.product_sizes;
 
 const ShowAllProduct = (req, res) => {
     try {
-        const product = Product.findAll({
+        Product.findAll({
             include: [
                 {
+                    model: Product_Finishing,
+                    as: "product_finishings",
+                },
+                {
                     model: Product_Category,
-                    as: "product_category",
+                    as: "product_categories",
+                },
+                {
+                    model: Product_Material,
+                    as: "product_materials",
                 },
             ],
+        }).then((products) => {
+            res.status(200).send(products);
         });
-        res.status(200).send(product);
-    }
-    catch (error) {
+    } catch (error) {
         res.status(500).send({
-            message: error.message || "Some error occurred while retrieving product.",
+            message: error.message || "Some error occurred while retrieving products.",
         });
     }
 };
 
 const ShowProduct = (req, res) => {
     try {
-        const product = Product.findAll({
+        Product.findOne({
             where: {
                 product_id: req.params.product_id,
             },
             include: [
                 {
-                    model: Product_Category,
-                    as: "product_category",
+                    model: Product_Finishing,
+                    as: "product_finishings",
                 },
                 {
-                    model: Product_Finishing,
-                    as: "product_finishing",
+                    model: Product_Category,
+                    as: "product_categories",
                 },
                 {
                     model: Product_Material,
-                    as: "product_material",
+                    as: "product_materials",
                 },
                 {
                     model: Product_Size,
-                    as: "product_size",
+                    as: "product_sizes",
                 }
             ],
+        }).then((products) => {
+            res.status(200).send(products);
         });
-        res.status(200).send(product);
-
     } catch (error) {
-        res.status(500).send(error);
+        res.status(500).send({
+            message: error.message || "Some error occurred while retrieving products.",
+        });
     }
 };
 
 const CreateProduct = async (req, res) => {
-    const { product_name, product_description,product_weight, product_category_id, product_finishing_id, product_size_id, product_material_id } = req.body;
+    const { product_name, product_description,product_weight, product_category, product_finishing, product_size, product_material,product_image } = req.body;
     try {
         const product = await Product.create({
             product_name,
             product_description,
             product_weight,
-            product_category_id,
-            product_finishing_id,
-            product_size_id,
-            product_material_id,
+            product_category,
+            product_finishing,
+            product_size,
+            product_material,
+            product_image,
+        
         });
         res.status(201).send(product);
     } catch (error) {

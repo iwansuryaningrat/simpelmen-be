@@ -1,5 +1,5 @@
 import db from "../models/index.js";
-const Product_Category = db.product_category;
+const Product_Category = db.product_categories;
 
 const CreateProductCategory = async (req, res) => {
     const { product_category_name, product_category_description } = req.body;
@@ -27,7 +27,7 @@ const ShowAllProductCategory = (req, res) => {
 
 const ShowProductCategory = (req, res) => {
     try {
-        Product_Category.findAll({
+        Product_Category.findOne({
             where: {
                 product_category_id: req.params.product_category_id,
             },

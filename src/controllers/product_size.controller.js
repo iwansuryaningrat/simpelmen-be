@@ -1,5 +1,5 @@
 import db from "../models/index.js";
-const Product_Size = db.product_size;
+const Product_Size = db.product_sizes;
 
 const CreateProductSize = async (req, res) => {
     const { product_size_length, product_size_width, product_size_height, product_size_shape, product_size_description } = req.body;
@@ -19,25 +19,28 @@ const CreateProductSize = async (req, res) => {
 
 const ShowAllProductSize = (req, res) => {
     try {
-        const product_size = Product_Size.findAll();
-        res.status(200).send(product_size);
-    } catch (error) {
+        Product_Size.findAll().then((product_size) => {
+            res.status(200).send(product_size);
+        });
+    }
+    catch (error) {
         res.status(500).send(error);
     }
-}
+};
 
 const ShowProductSize = (req, res) => {
     try {
-        const product_size = Product_Size.findAll({
+        Product_Size.findOne({
             where: {
                 product_size_id: req.params.product_size_id,
             },
+        }).then((product_size) => {
+            res.status(200).send(product_size);
         });
-        res.status(200).send(product_size);
     } catch (error) {
         res.status(500).send(error);
     }
-}
+};
 
 const UpdateProductSize = async (req, res) => {
     try {
