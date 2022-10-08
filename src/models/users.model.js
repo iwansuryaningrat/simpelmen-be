@@ -7,24 +7,47 @@ const usersModel = (sequelize, Sequelize) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      username: {
+      user_name: {
         type: Sequelize.STRING,
       },
-      email: {
+      user_email: {
         type: Sequelize.STRING,
         validate: {
           isEmail: true,
         },
       },
-      password: {
+      user_ikm: {
         type: Sequelize.STRING,
       },
-      active: {
+      user_contact: {
+        type: Sequelize.STRING,
+      },
+      user_address: {
+        type: Sequelize.STRING,
+      },
+      user_district: {
+        type: Sequelize.STRING,
+      },
+      user_city: {
+        type: Sequelize.STRING,
+      },
+      user_province: {
+        type: Sequelize.STRING,
+      },
+      user_postal_code: {
+        type: Sequelize.INTEGER,
+      },
+      user_password: {
+        type: Sequelize.STRING,
+      },
+      user_picture: {
+        type: Sequelize.BLOB,
+      },
+      user_status: {
         type: Sequelize.BOOLEAN,
-        defaultValue: false,
       },
-      role: {
-        type: Sequelize.STRING,
+      user_verfy: {
+        type: Sequelize.BOOLEAN,
       },
     },
     {
