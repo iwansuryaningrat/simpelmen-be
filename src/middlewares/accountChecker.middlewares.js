@@ -7,7 +7,7 @@ const checkEmail = (req, res, next) => {
 
   Users.findOne({
     where: {
-      email: email,
+      user_email: email,
     },
   })
     .then((data) => {
