@@ -1,4 +1,4 @@
-import { signup, activate } from "../controllers/auth.controllers.js";
+import { signup, activate, login } from "../controllers/auth.controllers.js";
 import { isLogin, isActivated } from "../middlewares/auth.middlewares.js";
 import { checkEmail } from "../middlewares/accountChecker.middlewares.js";
 
@@ -12,6 +12,7 @@ const authRoutes = (app) => {
 
   router.post("/signup", checkEmail, signup);
   router.get("/activate/:token", activate);
+  router.post("/login", login);
 
   app.use("/api/auth", router);
 };
