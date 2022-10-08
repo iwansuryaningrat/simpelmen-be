@@ -32,7 +32,7 @@ app.use((req, res, next) => {
 });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use(
   cookieSession({
     name: "Simpelmen",
@@ -51,29 +51,17 @@ db.sequelize.sync({ force: true }).then(() => {
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Testing" });
+  res.json({ message: "Server is Successfully Running..." });
 });
 
 // routes
 import authRoutes from "./src/routes/auth.routes.js";
-// import userRoutes from "./src/routes/user.routes.js";
-// import cashierRoutes from "./src/routes/cashier.routes.js";
-// import customerserviceRoutes from "./src/routes/customerservice.routes.js";
-import adminRoutes from "./src/routes/superadmin.routes.js";
-// import productRoutes from "./src/routes/production.routes.js";
-// import designRoutes from "./src/routes/design.routes.js";
-// import administrationRoutes from "./src/routes/administration.routes.js";
+
 authRoutes(app);
-// userRoutes(app);
-// cashierRoutes(app);
-// customerserviceRoutes(app);
-adminRoutes(app);
-// productRoutes(app);
-// designRoutes(app);
-// administrationRoutes(app);
 
 // set port, listen for requests
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT;
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
