@@ -3,9 +3,8 @@ const Product_Categories = (sequelize, Sequelize) => {
     "product_categories",
     {
       product_category_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         primaryKey: true,
-        autoIncrement: true,
       },
       product_category_name: {
         type: Sequelize.STRING,

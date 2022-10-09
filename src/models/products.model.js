@@ -11,7 +11,7 @@ const Products = (sequelize, Sequelize) => {
         type: Sequelize.STRING,
       },
       product_category: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       product_material: {
         type: Sequelize.INTEGER,
