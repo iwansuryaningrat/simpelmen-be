@@ -9,7 +9,6 @@ const Delivery_Details = (sequelize, Sequelize) => {
       },
       delivery_detail_order_id: {
         type: Sequelize.INTEGER,
-        primaryKey: true,
       },
       delivery_detail_name: {
         type: Sequelize.STRING,
