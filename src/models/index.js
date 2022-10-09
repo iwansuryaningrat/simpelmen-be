@@ -5,7 +5,7 @@ import { config } from "dotenv";
 // DB connection Config
 const sequelize = new Sequelize(configs.DB, configs.USER, configs.PASSWORD, {
   host: configs.HOST,
-  // port : configs.PORT,
+  port : configs.PORT,
   dialect: configs.dialect,
   operatorsAliases: false,
   pool: {
@@ -34,7 +34,9 @@ import Product_Sizes from "./product_sizes.model.js";
 import Products from "./products.model.js";
 import Roles from "./roles.model.js";
 import Users from "./users.model.js";
-
+import Province from "./province.model.js";
+import City from "./city.model.js";
+import District from "./district.model.js";
 // Insert Models to db
 db.conversations = Conversations(sequelize, Sequelize);
 db.delivery_details = Delivery_Details(sequelize, Sequelize);
@@ -49,7 +51,9 @@ db.product_sizes = Product_Sizes(sequelize, Sequelize);
 db.products = Products(sequelize, Sequelize);
 db.roles = Roles(sequelize, Sequelize);
 db.users = Users(sequelize, Sequelize);
-
+db.province = Province(sequelize, Sequelize);
+db.city = City(sequelize, Sequelize);
+db.district = District(sequelize, Sequelize);
 // Insert Associations
 db.conversations.belongsTo(db.users, {
   foreignKey: "conversation_user_id",
@@ -207,8 +211,17 @@ db.product_sizes.hasMany(db.products, {
 });
 
 db.users.belongsTo(db.roles, {
-  foreignKey: "role_id",
+  foreignKey: "user_role_id",
   as: "roles",
 });
 
+db.city.belongsTo(db.province, {
+  foreignKey: "province_id",
+  as: "provinces",
+});
+
+db.district.belongsTo(db.city, {
+  foreignKey: "city_id",
+  as: "cities",
+});
 export default db;

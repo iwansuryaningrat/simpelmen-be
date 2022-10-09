@@ -12,9 +12,9 @@ const isLogin = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.email = decoded.email;
-    req.role = decoded.role;
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+    req.user_email = decoded.user_email;
+    req.user_role_id = decoded.user_role_id;
     next();
   } catch (err) {
     return res.status(401).send({
