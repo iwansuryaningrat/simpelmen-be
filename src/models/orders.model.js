@@ -3,19 +3,15 @@ const Orders = (sequelize, Sequelize) => {
     "orders",
     {
       order_id: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         primaryKey: true,
+        autoIncrement: true,
       },
       order_code: {
         type: Sequelize.STRING,
       },
-      order_product_id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-      },
       order_user_id: {
         type: Sequelize.INTEGER,
-        primaryKey: true,
       },
       order_quantity: {
         type: Sequelize.INTEGER,
