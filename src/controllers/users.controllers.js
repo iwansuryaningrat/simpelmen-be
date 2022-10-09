@@ -4,7 +4,7 @@ const Op = db.Sequelize.Op;
 import bcrypt from "bcrypt";
 
 // Create and Save a new User
-const create = (req, res) => {
+const createUser = (req, res) => {
   const { user_name, user_email, user_password, user_role } = req.body;
 
   // Validate request
@@ -94,4 +94,4 @@ const findOne = (req, res) => {
     });
 };
 
-export { create, findAll, findOne };
+export { createUser, findAll, findOne };
