@@ -9,11 +9,9 @@ const Messages = (sequelize, Sequelize) => {
       },
       message_conversation_id: {
         type: Sequelize.INTEGER,
-        primaryKey: true,
       },
       message_sender: {
         type: Sequelize.INTEGER,
-        primaryKey: true,
       },
       message: {
         type: Sequelize.TEXT,
