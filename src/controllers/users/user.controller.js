@@ -1,6 +1,9 @@
 import jwt from "jsonwebtoken";
 import db from "../../models/index.js";
 const User = db.users;
+const Province = db.province;
+const City = db.city;
+const District = db.district;
 
 const showProfile = (req, res) => {
     const token = req.headers["x-access-token"];
@@ -55,5 +58,46 @@ const updateProfile = (req, res) => {
         res.status(500).send({ message: err.message });
     }
 }
+const getPronvince = (req, res) => {
+    try {
+        Province.findAll().then((province) => {
+            res.status(200).send(province);
+        });
+    }
+    catch (err) {
+        res.status(500).send({ message: err.message });
+    }
+}
 
-export { showProfile, updateProfile };
+const getCity = (req, res) => {
+    City.findAll({
+        where: {
+            province_id: req.body.province_id,
+        },
+    }).then((city) => {
+        res.status(200).send({
+            message: "Success",
+            data: city,
+        });
+    });
+};
+
+const getDistrict = (req, res) => {
+    try {
+        District.findAll({
+            where: {
+                city_id: req.body.city_id,
+            },
+        }).then((districts) => {
+            res.status(200).send({
+                status: "success",
+                data: districts,
+            });
+        });
+    }
+    catch (err) {
+        res.status(500).send({ message: err.message });
+    }
+};
+
+export { showProfile, updateProfile, getCity, getDistrict, getPronvince };

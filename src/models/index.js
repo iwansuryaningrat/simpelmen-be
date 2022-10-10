@@ -36,7 +36,7 @@ import Roles from "./roles.model.js";
 import Users from "./users.model.js";
 import Province from "./province.model.js";
 import City from "./city.model.js";
-import District from "./district.model.js";
+import Subdistrict from "./subdistrict.model.js";
 // Insert Models to db
 db.conversations = Conversations(sequelize, Sequelize);
 db.delivery_details = Delivery_Details(sequelize, Sequelize);
@@ -53,7 +53,7 @@ db.roles = Roles(sequelize, Sequelize);
 db.users = Users(sequelize, Sequelize);
 db.province = Province(sequelize, Sequelize);
 db.city = City(sequelize, Sequelize);
-db.district = District(sequelize, Sequelize);
+db.subdistrict = Subdistrict(sequelize, Sequelize);
 // Insert Associations
 db.conversations.belongsTo(db.users, {
   foreignKey: "conversation_user_id",
@@ -215,13 +215,39 @@ db.users.belongsTo(db.roles, {
   as: "roles",
 });
 
+//relation between province and city
+db.province.hasMany(db.city, {
+  foreignKey: "province_id",
+  as: "cities",
+});
+
 db.city.belongsTo(db.province, {
   foreignKey: "province_id",
   as: "provinces",
 });
 
-db.district.belongsTo(db.city, {
+//relation between province and subdistrict
+db.province.hasMany(db.subdistrict, {
+  foreignKey: "province_id",
+  as: "subdistricts",
+});
+
+db.subdistrict.belongsTo(db.province, {
+  foreignKey: "province_id",
+  as: "provinces",
+});
+
+//relation between city and subdistrict
+db.city.hasMany(db.subdistrict, {
+  foreignKey: "city_id",
+  as: "subdistricts",
+});
+
+db.subdistrict.belongsTo(db.city, {
   foreignKey: "city_id",
   as: "cities",
 });
+
+
+
 export default db;

@@ -112,12 +112,12 @@ function initRole() {
 
 //init seeder province
 function initProvince() {
-  fs.createReadStream("./src/data/provinsi.csv")
+  fs.createReadStream("./src/data/province.csv")
     .pipe(csv())
     .on("data", (row) => {
       db.province.create({
         province_id: row.province_id,
-        province_name: row.province_name,
+        province: row.province,
       });
     }
     )
@@ -126,15 +126,16 @@ function initProvince() {
     }
     );
 }
-//init seeder city
 function initCity() {
-  fs.createReadStream("./src/data/regencies.csv")
+  fs.createReadStream("./src/data/city.csv")
     .pipe(csv())
     .on("data", (row) => {
       db.city.create({
-        city_id: row.id,
-        city_name: row.name,
+        city_id: row.city_id,
+        type: row.type,
         province_id: row.province_id,
+        city_name: row.city_name,
+        postal_code: row.postal_code,
       });
     }
     )
@@ -143,15 +144,16 @@ function initCity() {
     }
     );
 }
-//init seeder district
 function initDistrict() {
-  fs.createReadStream("./src/data/districts.csv")
+  fs.createReadStream("./src/data/subdistrict.csv")
     .pipe(csv())
     .on("data", (row) => {
-      db.district.create({
-        district_id: row.district_id,
-        district_name: row.district_name,
+      db.subdistrict.create({
+        subdistrict_id: row.subdistrict_id,
+        province_id: row.province_id,
         city_id: row.city_id,
+        type: row.type,
+        subdistrict_name: row.subdistrict_name,
       });
     }
     )

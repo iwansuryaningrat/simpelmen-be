@@ -5,9 +5,9 @@ const Province = (sequelize, Sequelize) => {
             primaryKey: true,
             autoIncrement: false
         },
-        province_name: {
+        province : {
             type: Sequelize.STRING
-        },
+        }
 
     });
     return Province;

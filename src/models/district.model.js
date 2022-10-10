@@ -5,13 +5,13 @@ const District = (sequelize, Sequelize) => {
             primaryKey: true,
             autoIncrement: false
         },
-        district_name: {
-            type: Sequelize.STRING
-        },
         city_id: {
             type: Sequelize.INTEGER,
-        }
-        
+        },
+        city: {
+            type: Sequelize.STRING
+        },
+
     });
     return District;
 };
