@@ -71,7 +71,7 @@ const updateAdmin = (req, res) => {
 };
 const showProfile = (req, res) => {
   const token = req.headers["x-access-token"];
-  const decoded = jwt.verify(token, process.env.SECRET_KEY);
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
   const user_id = decoded.user_id;
   try {
     User.findOne({
@@ -88,7 +88,7 @@ const showProfile = (req, res) => {
 };
 const updateProfile = (req, res) => {
   const token = req.headers["x-access-token"];
-  const decoded = jwt.verify(token, process.env.SECRET_KEY);
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
   const user_id = decoded.user_id;
   try {
     User.update(
