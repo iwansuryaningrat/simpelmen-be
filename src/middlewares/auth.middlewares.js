@@ -16,15 +16,9 @@ const isLogin = (req, res, next) => {
   }
 
   try {
-<<<<<<< HEAD
-    const decoded = jwt.verify(token, process.env.SECRET_KEY);
-    req.user_email = decoded.user_email;
-    req.user_role_id = decoded.user_role_id;
-=======
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.email = decoded.user_email;
     req.role = decoded.user_role_id;
->>>>>>> 7010f03ce2409a5576aad580708a6e4261714627
     next();
   } catch (err) {
     return res.status(401).send({
