@@ -1,5 +1,5 @@
 import {
-    showProfile,updateProfile,getCity,getDistrict,getPronvince
+    showProfile,updateProfile,getCity,getSubDistrict,getPronvince
 } from '../controllers/users/user.controller.js';
 import {
     isUser
@@ -14,7 +14,7 @@ const userRoutes = (app) => {
     router.get("/profile", isUser, showProfile);
     router.put("/profile", isUser, updateProfile);
     router.get("/city", getCity);
-    router.get("/district", getDistrict);
+    router.get("/district", getSubDistrict);
     router.get("/province", getPronvince);
     app.use("/api/user", router);
 };

@@ -3,7 +3,7 @@ import db from "../../models/index.js";
 const User = db.users;
 const Province = db.province;
 const City = db.city;
-const District = db.district;
+const SubDistrict = db.subdistrict;
 
 const showProfile = (req, res) => {
     const token = req.headers["x-access-token"];
@@ -14,13 +14,33 @@ const showProfile = (req, res) => {
             where: {
                 user_id: user_id,
             },
-        }).then((users) => {
-            res.status(200).send(users);
+            include: [
+                {
+                    model: SubDistrict,
+                    as: "subdistricts",
+                    include: [
+                        {
+                            model: City,
+                            as: "cities",
+                            include: [
+                                {
+                                    model: Province,
+                                    as: "provinces",
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        }).then((user) => {
+            res.status(200).send(user);
+        }
+        );
+    } catch (error) {
+        res.status(500).send({
+            message: error.message || "Some error occurred while retrieving users.",
         });
-    }
-    catch (err) {
-        res.status(500).send({ message: err.message });
-    }
+    }           
 };
 
 const updateProfile = (req, res) => {
@@ -82,22 +102,17 @@ const getCity = (req, res) => {
     });
 };
 
-const getDistrict = (req, res) => {
-    try {
-        District.findAll({
-            where: {
-                city_id: req.body.city_id,
-            },
-        }).then((districts) => {
-            res.status(200).send({
-                status: "success",
-                data: districts,
-            });
+const getSubDistrict = (req, res) => {
+    SubDistrict.findAll({
+        where: {
+            city_id: req.body.city_id,
+        },
+    }).then((subdistrict) => {
+        res.status(200).send({
+            message: "Success",
+            data: subdistrict,
         });
-    }
-    catch (err) {
-        res.status(500).send({ message: err.message });
-    }
+    });
 };
 
-export { showProfile, updateProfile, getCity, getDistrict, getPronvince };
+export { showProfile, updateProfile, getCity, getSubDistrict, getPronvince };

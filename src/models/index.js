@@ -248,6 +248,15 @@ db.subdistrict.belongsTo(db.city, {
   as: "cities",
 });
 
+//relation between  subdistrict and user
+db.subdistrict.hasMany(db.users, {
+  foreignKey: "subdistrict_id",
+  as: "users",
+});
 
+db.users.belongsTo(db.subdistrict, {
+  foreignKey: "subdistrict_id",
+  as: "subdistricts",
+});
 
 export default db;
