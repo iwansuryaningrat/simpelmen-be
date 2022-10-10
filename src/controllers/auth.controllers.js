@@ -20,7 +20,7 @@ const signup = (req, res) => {
       name: name_input,
       password: password_input,
     },
-    process.env.SECRET_KEY,
+    process.env.JWT_SECRET,
     {
       expiresIn: 1800,
     }
@@ -105,7 +105,7 @@ const activate = (req, res) => {
   const { token } = req.params;
 
   if (token) {
-    jwt.verify(token, process.env.SECRET_KEY, (err, decodedToken) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
       if (err) {
         res.status(400).send({ message: "Incorrect or Expired link" });
       } else {
