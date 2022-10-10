@@ -37,7 +37,7 @@ const isActivated = (req, res, next) => {
     });
   }
 
-  jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (!decoded.user_status || !decoded.user_verify) {
       return res.status(401).send({
         message: "Email not activated or Token expired!",
