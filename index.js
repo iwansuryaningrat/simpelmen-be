@@ -46,13 +46,13 @@ app.use(
 // // database
 import db from "./src/models/index.js";
 
-// db.sequelize.sync({ force: true }).then(() => {
-//   console.log("Drop and Resync Database with { force: true }");
-//   initRole();
-//   initProvince();
-//   initCity();
-//   initDistrict();
-// });
+db.sequelize.sync({ force: true }).then(() => {
+  console.log("Drop and Resync Database with { force: true }");
+  initRole();
+  initProvince();
+  initCity();
+  initDistrict();
+});
 
 // simple route
 app.get("/", (req, res) => {

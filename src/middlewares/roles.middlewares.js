@@ -5,6 +5,7 @@ const isSuperAdmin = (req, res, next) => {
   if (role !== 1) {
     return res.status(403).send({
       message: "Sorry, You don't have permission to access the resources",
+      // errorMessages: err.message,
     });
   }
 
@@ -18,7 +19,7 @@ const isAdminCS = (req, res, next) => {
   if (role !== 2) {
     return res.status(403).send({
       message: "Sorry, You don't have permission to access the resources",
-      errorMessages: err.message,
+      // errorMessages: err.message,
     });
   }
 
@@ -32,7 +33,7 @@ const isAdminCashier = (req, res, next) => {
   if (role !== 3) {
     return res.status(403).send({
       message: "Sorry, You don't have permission to access the resources",
-      errorMessages: err.message,
+      // errorMessages: err.message,
     });
   }
 
@@ -46,7 +47,7 @@ const isAdminDesign = (req, res, next) => {
   if (role !== 4) {
     return res.status(403).send({
       message: "Sorry, You don't have permission to access the resources",
-      errorMessages: err.message,
+      // errorMessages: err.message,
     });
   }
 
@@ -60,7 +61,7 @@ const isAdminWarehouse = (req, res, next) => {
   if (role !== 5) {
     return res.status(403).send({
       message: "Sorry, You don't have permission to access the resources",
-      errorMessages: err.message,
+      // errorMessages: err.message,
     });
   }
 
@@ -74,7 +75,7 @@ const isAdminProduction = (req, res, next) => {
   if (role !== 6) {
     return res.status(403).send({
       message: "Sorry, You don't have permission to access the resources",
-      errorMessages: err.message,
+      // errorMessages: err.message,
     });
   }
 
@@ -88,7 +89,7 @@ const isAdminTu = (req, res, next) => {
   if (role !== 7) {
     return res.status(403).send({
       message: "Sorry, You don't have permission to access the resources",
-      errorMessages: err.message,
+      // errorMessages: err.message,
     });
   }
 
@@ -102,7 +103,7 @@ const isUser = (req, res, next) => {
   if (role !== 8) {
     return res.status(403).send({
       message: "Sorry, You don't have permission to access the resources",
-      errorMessages: err.message,
+      // errorMessages: err.message,
     });
   }
 
@@ -119,3 +120,4 @@ export {
   isAdminTu,
   isUser,
 };
+
