@@ -28,6 +28,12 @@ const Orders = (sequelize, Sequelize) => {
       order_design: {
         type: Sequelize.STRING,
       },
+      order_payment_method: {
+        type: Sequelize.STRING,
+      },
+      order_payment_status: {
+        type: Sequelize.STRING,
+      },
     },
     {
       timestamps: true, // Enable timestamps
