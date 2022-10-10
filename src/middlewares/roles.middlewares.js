@@ -3,6 +3,7 @@ import db from "../models/index.js";
 const User = db.users;
 
 const isSuperAdmin = (req, res, next) => {
+<<<<<<< HEAD
   try {
     const token = req.headers["x-access-token"];
     if (!token) {
@@ -69,10 +70,18 @@ const isAdminCashier = (req, res, next) => {
     });
   } catch (err) {
     res.status(500).send({ message: err.message });
+=======
+  const email = req.email;
+  const role = req.role;
+
+  if (role === 1) {
+    next();
+>>>>>>> 7010f03ce2409a5576aad580708a6e4261714627
   }
 };
 
 const isAdminCS = (req, res, next) => {
+<<<<<<< HEAD
   try {
     const token = req.headers["x-access-token"];
     if (!token) {
@@ -139,10 +148,27 @@ const isAdminWarehouse = (req, res, next) => {
     });
   } catch (err) {
     res.status(500).send({ message: err.message });
+=======
+  const email = req.email;
+  const role = req.role;
+
+  if (role === 2) {
+    next();
+  }
+};
+
+const isAdminCashier = (req, res, next) => {
+  const email = req.email;
+  const role = req.role;
+
+  if (role === 3) {
+    next();
+>>>>>>> 7010f03ce2409a5576aad580708a6e4261714627
   }
 };
 
 const isAdminDesign = (req, res, next) => {
+<<<<<<< HEAD
   try {
     const token = req.headers["x-access-token"];
     if (!token) {
@@ -209,10 +235,27 @@ const isUser = (req, res, next) => {
     });
   } catch (err) {
     res.status(500).send({ message: err.message });
+=======
+  const email = req.email;
+  const role = req.role;
+
+  if (role === 4) {
+    next();
+  }
+};
+
+const isAdminWarehouse = (req, res, next) => {
+  const email = req.email;
+  const role = req.role;
+
+  if (role === 5) {
+    next();
+>>>>>>> 7010f03ce2409a5576aad580708a6e4261714627
   }
 };
 
 const isAdminProduction = (req, res, next) => {
+<<<<<<< HEAD
   try {
     const token = req.headers["x-access-token"];
     if (!token) {
@@ -244,10 +287,18 @@ const isAdminProduction = (req, res, next) => {
     });
   } catch (err) {
     res.status(500).send({ message: err.message });
+=======
+  const email = req.email;
+  const role = req.role;
+
+  if (role === 6) {
+    next();
+>>>>>>> 7010f03ce2409a5576aad580708a6e4261714627
   }
 };
 
 const isAdminTu = (req, res, next) => {
+<<<<<<< HEAD
   try {
     const token = req.headers["x-access-token"];
     if (!token) {
@@ -279,16 +330,23 @@ const isAdminTu = (req, res, next) => {
     });
   } catch (err) {
     res.status(500).send({ message: err.message });
+=======
+  const email = req.email;
+  const role = req.role;
+
+  if (role === 7) {
+    next();
+>>>>>>> 7010f03ce2409a5576aad580708a6e4261714627
   }
 };
 
-export {
-  isSuperAdmin,
-  isAdminCashier,
-  isAdminCS,
-  isAdminWarehouse,
-  isAdminDesign,
-  isUser,
-  isAdminProduction,
-  isAdminTu,
+const isUser = (req, res, next) => {
+  const email = req.email;
+  const role = req.role;
+
+  if (role === 8) {
+    next();
+  }
 };
+
+export { isSuperAdmin };

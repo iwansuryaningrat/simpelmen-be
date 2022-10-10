@@ -8,12 +8,10 @@ const Order_Status = (sequelize, Sequelize) => {
         autoIncrement: true,
       },
       order_status_order_id: {
-        type: Sequelize.STRING,
-        primaryKey: true,
+        type: Sequelize.INTEGER,
       },
       order_status_user_id: {
         type: Sequelize.INTEGER,
-        primaryKey: true,
       },
       order_status_description: {
         type: Sequelize.STRING,

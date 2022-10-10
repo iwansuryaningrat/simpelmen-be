@@ -1,20 +1,17 @@
-const Messages = (sequelize, Sequelize) => {
-  const Messages = sequelize.define(
-    "messages",
+const orderProducts = (sequelize, Sequelize) => {
+  const Order_Products = sequelize.define(
+    "order_products",
     {
-      message_id: {
+      order_product_id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
-      message_conversation_id: {
+      order_product_order_id: {
         type: Sequelize.INTEGER,
       },
-      message_sender: {
+      order_product_product_id: {
         type: Sequelize.INTEGER,
-      },
-      message: {
-        type: Sequelize.TEXT,
       },
     },
     {
@@ -24,7 +21,7 @@ const Messages = (sequelize, Sequelize) => {
     }
   );
 
-  return Messages;
+  return Order_Products;
 };
 
-export default Messages;
+export default orderProducts;
