@@ -42,7 +42,7 @@ const Users = (sequelize, Sequelize) => {
         type: Sequelize.STRING,
       },
       user_picture: {
-        type: Sequelize.BLOB,
+        type: Sequelize.TEXT("long"),
       },
       user_status: {
         type: Sequelize.BOOLEAN,
