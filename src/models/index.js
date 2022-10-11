@@ -37,6 +37,10 @@ import Products from "./products.model.js";
 import Retributions from "./retributions.model.js";
 import Roles from "./roles.model.js";
 import Users from "./users.model.js";
+import Province from "./province.model.js";
+import City from "./city.model.js";
+import Subdistrict from "./subdistrict.model.js";
+
 
 // Insert Models to db
 db.conversations = Conversations(sequelize, Sequelize);
@@ -55,6 +59,9 @@ db.products = Products(sequelize, Sequelize);
 db.retributions = Retributions(sequelize, Sequelize);
 db.roles = Roles(sequelize, Sequelize);
 db.users = Users(sequelize, Sequelize);
+db.province = Province(sequelize, Sequelize);
+db.city = City(sequelize, Sequelize);
+db.subdistrict = Subdistrict(sequelize, Sequelize);
 
 // Insert Relations
 
@@ -242,6 +249,60 @@ db.retributions.belongsTo(db.orders, {
 db.orders.hasMany(db.retributions, {
   foreignKey: "retribution_order_id",
   as: "retributions",
+});
+
+db.province.hasMany(db.city, {
+  foreignKey: "province_id",
+  as: "cities",
+});
+
+db.city.belongsTo(db.province, {
+  foreignKey: "province_id",
+  as: "provinces",
+});
+
+//relation between province and subdistrict
+db.province.hasMany(db.subdistrict, {
+  foreignKey: "province_id",
+  as: "subdistricts",
+});
+
+db.subdistrict.belongsTo(db.province, {
+  foreignKey: "province_id",
+  as: "provinces",
+});
+
+//relation between city and subdistrict
+db.city.hasMany(db.subdistrict, {
+  foreignKey: "city_id",
+  as: "subdistricts",
+});
+
+db.subdistrict.belongsTo(db.city, {
+  foreignKey: "city_id",
+  as: "cities",
+});
+
+//relation between  subdistrict and user
+db.subdistrict.hasMany(db.users, {
+  foreignKey: "user_district",
+  as: "users",
+});
+
+db.users.belongsTo(db.subdistrict, {
+  foreignKey: "user_district",
+  as: "subdistricts",
+});
+
+//relation between  subdistrict and delivery_details
+db.subdistrict.hasMany(db.delivery_details, {
+  foreignKey: "delivery_detail_district",
+  as: "delivery_details",
+});
+
+db.delivery_details.belongsTo(db.subdistrict, {
+  foreignKey: "delivery_detail_district",
+  as: "subdistricts",
 });
 
 export default db;

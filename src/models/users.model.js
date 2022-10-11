@@ -27,13 +27,7 @@ const Users = (sequelize, Sequelize) => {
         type: Sequelize.STRING,
       },
       user_district: {
-        type: Sequelize.STRING,
-      },
-      user_city: {
-        type: Sequelize.STRING,
-      },
-      user_province: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
       },
       user_postal_code: {
         type: Sequelize.INTEGER,
@@ -49,6 +43,7 @@ const Users = (sequelize, Sequelize) => {
       },
       user_verify: {
         type: Sequelize.BOOLEAN,
+        defaultValue: false,
       },
       user_role_id: {
         type: Sequelize.INTEGER,
