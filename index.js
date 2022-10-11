@@ -46,8 +46,8 @@ app.use(
 // // database
 import db from "./src/models/index.js";
 
-db.sequelize.sync({ force: true }).then(() => {
-  console.log("Drop and Resync Database with { force: true }");
+db.sequelize.sync({ force: false }).then(() => {
+  console.log("Sync database");
   initRole();
   initProvince();
   initCity();
@@ -61,12 +61,11 @@ app.get("/", (req, res) => {
 
 // routes
 import authRoutes from "./src/routes/auth.routes.js";
-import userRoutes from "./src/routes/user.routes.js";
-import superadminRoutes from "./src/routes/superadmin.routes.js";
+import userRoutes from "./src/routes/users.routes.js";
 
 authRoutes(app);
-superadminRoutes(app);
 userRoutes(app);
+
 // set port, listen for requests
 const PORT = process.env.PORT;
 
@@ -78,35 +77,35 @@ app.listen(PORT, () => {
 function initRole() {
   db.roles.create({
     role_id: 1,
-    role_name: "super admin",
+    role_name: "Super Admin",
   });
   db.roles.create({
     role_id: 2,
-    role_name: "admin kasir",
+    role_name: "Admin Cs",
   });
   db.roles.create({
     role_id: 3,
-    role_name: "admin customer",
+    role_name: "Admin Cashier",
   });
   db.roles.create({
     role_id: 4,
-    role_name: "admin gudaang",
+    role_name: "Admin Design",
   });
   db.roles.create({
     role_id: 5,
-    role_name: "admin design",
+    role_name: "Admin Warehouse",
   });
   db.roles.create({
     role_id: 6,
-    role_name: "admin produksi",
+    role_name: "Admin Production",
   });
   db.roles.create({
     role_id: 7,
-    role_name: "admin tata usaha",
+    role_name: "Admin Tata Usaha",
   });
   db.roles.create({
     role_id: 8,
-    role_name: "user",
+    role_name: "User",
   });
 }
 

@@ -5,7 +5,7 @@ import { config } from "dotenv";
 // DB connection Config
 const sequelize = new Sequelize(configs.DB, configs.USER, configs.PASSWORD, {
   host: configs.HOST,
-  port : configs.PORT,
+  // port : configs.PORT,
   dialect: configs.dialect,
   operatorsAliases: false,
   pool: {
@@ -23,6 +23,7 @@ db.sequelize = sequelize;
 // Import models
 import Conversations from "./conversations.model.js";
 import Delivery_Details from "./delivery_details.model.js";
+import Jenis_Products from "./jenis_products.model.js";
 import Messages from "./messages.model.js";
 import Order_Details from "./order_details.model.js";
 import Order_Products from "./order_products.model.js";
@@ -33,6 +34,7 @@ import Product_Finishings from "./product_finishings.model.js";
 import Product_Materials from "./product_materials.model.js";
 import Product_Sizes from "./product_sizes.model.js";
 import Products from "./products.model.js";
+import Retributions from "./retributions.model.js";
 import Roles from "./roles.model.js";
 import Users from "./users.model.js";
 import Province from "./province.model.js";
@@ -43,6 +45,7 @@ import Subdistrict from "./subdistrict.model.js";
 // Insert Models to db
 db.conversations = Conversations(sequelize, Sequelize);
 db.delivery_details = Delivery_Details(sequelize, Sequelize);
+db.jenis_products = Jenis_Products(sequelize, Sequelize);
 db.messages = Messages(sequelize, Sequelize);
 db.order_details = Order_Details(sequelize, Sequelize);
 db.order_products = Order_Products(sequelize, Sequelize);
@@ -53,6 +56,7 @@ db.product_finishings = Product_Finishings(sequelize, Sequelize);
 db.product_materials = Product_Materials(sequelize, Sequelize);
 db.product_sizes = Product_Sizes(sequelize, Sequelize);
 db.products = Products(sequelize, Sequelize);
+db.retributions = Retributions(sequelize, Sequelize);
 db.roles = Roles(sequelize, Sequelize);
 db.users = Users(sequelize, Sequelize);
 db.province = Province(sequelize, Sequelize);
@@ -225,6 +229,28 @@ db.order_products.hasMany(db.order_details, {
   as: "order_details",
 });
 
+// Products - Jenis Products
+db.products.belongsTo(db.jenis_products, {
+  foreignKey: "jenis_product",
+  as: "jenis_products",
+});
+
+db.jenis_products.hasMany(db.products, {
+  foreignKey: "jenis_product",
+  as: "products",
+});
+
+// Retributions - Orders
+db.retributions.belongsTo(db.orders, {
+  foreignKey: "retribution_order_id",
+  as: "orders",
+});
+
+db.orders.hasMany(db.retributions, {
+  foreignKey: "retribution_order_id",
+  as: "retributions",
+});
+
 db.province.hasMany(db.city, {
   foreignKey: "province_id",
   as: "cities",
@@ -264,7 +290,18 @@ db.subdistrict.hasMany(db.users, {
 });
 
 db.users.belongsTo(db.subdistrict, {
+  foreignKey: "user_district",
+  as: "subdistricts",
+});
+
+//relation between  subdistrict and delivery_details
+db.subdistrict.hasMany(db.delivery_details, {
   foreignKey: "subdistrict_id",
+  as: "delivery_details",
+});
+
+db.delivery_details.belongsTo(db.subdistrict, {
+  foreignKey: "delivery_detail_district",
   as: "subdistricts",
 });
 

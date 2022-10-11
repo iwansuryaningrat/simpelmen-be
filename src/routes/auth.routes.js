@@ -5,9 +5,8 @@ import {
   SendResetPassword,
   ResetPassword,
 } from "../controllers/auth.controllers.js";
-import { isLogin, isActivated } from "../middlewares/auth.middlewares.js";
+import { isActivated } from "../middlewares/auth.middlewares.js";
 import { checkEmail } from "../middlewares/accountChecker.middlewares.js";
-import { isSuperAdmin } from "../middlewares/roles.middlewares.js";
 
 import express from "express";
 const router = express.Router();
@@ -19,7 +18,7 @@ const authRoutes = (app) => {
 
   router.post("/signup", checkEmail, signup);
   router.get("/activate/:token", activate);
-  router.post("/login", login);
+  router.post("/login", isActivated, login);
   router.post("/reset-password", SendResetPassword);
   router.post("/reset-password/:token", ResetPassword);
 

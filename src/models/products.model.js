@@ -13,6 +13,9 @@ const Products = (sequelize, Sequelize) => {
       product_category: {
         type: Sequelize.STRING,
       },
+      jenis_product: {
+        type: Sequelize.INTEGER,
+      },
       product_material: {
         type: Sequelize.INTEGER,
       },

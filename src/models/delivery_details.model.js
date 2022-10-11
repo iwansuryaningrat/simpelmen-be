@@ -29,13 +29,7 @@ const Delivery_Details = (sequelize, Sequelize) => {
         type: Sequelize.STRING,
       },
       delivery_detail_district: {
-        type: Sequelize.STRING,
-      },
-      delivery_detail_city: {
-        type: Sequelize.STRING,
-      },
-      delivery_detail_province: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
       },
       delivery_detail_postal_code: {
         type: Sequelize.INTEGER,

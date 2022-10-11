@@ -26,7 +26,7 @@ const Users = (sequelize, Sequelize) => {
       user_address: {
         type: Sequelize.STRING,
       },
-      subdistrict_id: {
+      user_district: {
         type: Sequelize.INTEGER,
       },
       user_postal_code: {
