@@ -1,17 +1,11 @@
-// import jwt from "jsonwebtoken";
-// import * as dotenv from "dotenv";
+import csv from "csv-parser";
+import fs from "fs";
 
-// dotenv.config();
-
-// const secret = "secret";
-
-// const token = jwt.sign({ id: 1 }, secret, { expiresIn: 60 * 60 });
-
-// console.log(token);
-
-// const decoded = jwt.verify(token, secret);
-
-// console.log(decoded);
-
-import "dotenv/config";
-console.log(process.env.JWT_SECRET);
+fs.createReadStream("./src/data/province.csv")
+  .pipe(csv())
+  .on("data", (row) => {
+    console.log(row);
+  })
+  .on("end", () => {
+    console.log("CSV file successfully processed");
+  });
