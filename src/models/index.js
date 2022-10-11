@@ -285,7 +285,7 @@ db.subdistrict.belongsTo(db.city, {
 
 //relation between  subdistrict and user
 db.subdistrict.hasMany(db.users, {
-  foreignKey: "subdistrict_id",
+  foreignKey: "user_district",
   as: "users",
 });
 
@@ -296,7 +296,7 @@ db.users.belongsTo(db.subdistrict, {
 
 //relation between  subdistrict and delivery_details
 db.subdistrict.hasMany(db.delivery_details, {
-  foreignKey: "subdistrict_id",
+  foreignKey: "delivery_detail_district",
   as: "delivery_details",
 });
 
