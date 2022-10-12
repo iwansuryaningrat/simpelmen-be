@@ -1,11 +1,16 @@
-import csv from "csv-parser";
-import fs from "fs";
+var condition = {};
 
-fs.createReadStream("./src/data/province.csv")
-  .pipe(csv())
-  .on("data", (row) => {
-    console.log(row);
-  })
-  .on("end", () => {
-    console.log("CSV file successfully processed");
-  });
+const user_status = true;
+const isAdmin = true;
+
+if (user_status) {
+  condition.user_status = user_status;
+}
+
+if (isAdmin) {
+  condition.user_role = {
+    isAdmin,
+  };
+}
+
+console.log(condition);
