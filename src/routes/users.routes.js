@@ -2,6 +2,9 @@ import {
   createUser,
   findAll,
   findOne,
+  updateUser,
+  deactivateUser,
+  changePassword,
 } from "../controllers/users.controllers.js";
 import { isLogin } from "../middlewares/auth.middlewares.js";
 import { isSuperAdmin } from "../middlewares/roles.middlewares.js";
@@ -16,7 +19,10 @@ const usersRoutes = (app) => {
 
   router.post("/create", isLogin, isSuperAdmin, createUser);
   router.get("/findall", isLogin, findAll);
-  router.get("/findone", isLogin, findOne);
+  router.get("/findone/:id", isLogin, findOne);
+  router.put("/update/:id", isLogin, updateUser);
+  router.put("/deactivate/:id", isLogin, isSuperAdmin, deactivateUser);
+  router.put("/changepassword/:id", isLogin, changePassword);
 
   app.use("/api/users", router);
 };
