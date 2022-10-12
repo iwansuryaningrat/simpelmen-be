@@ -42,8 +42,18 @@ const createUser = (req, res) => {
 
 // Retrieve all Users from the database.
 const findAll = (req, res) => {
-  const { user_status } = req.query;
-  var condition = user_status ? { user_status: user_status } : null;
+  const { user_status, isAdmin } = req.query;
+  var condition = {};
+
+  if (user_status) {
+    condition.user_status = user_status;
+  }
+
+  if (isAdmin) {
+    condition.user_role = {
+      [Op.ne]: 8,
+    };
+  }
 
   Users.findAll({ where: condition })
     .then((data) => {
@@ -67,14 +77,19 @@ const findAll = (req, res) => {
 
 // Find a single User with an id or email
 const findOne = (req, res) => {
-  const { user_id, user_email } = req.query;
-  var condition = user_id
-    ? { user_user_id: id }
-    : email
-    ? { user_email: user_email }
-    : null;
+  const { id } = req.query;
 
-  Users.findOne({ where: condition })
+  if (!id) {
+    return res.status(400).send({
+      message: "Content can not be empty!",
+    });
+  }
+
+  Users.findOne({
+    where: {
+      user_id: id,
+    },
+  })
     .then((data) => {
       if (!data) {
         return res.status(404).send({
@@ -94,4 +109,155 @@ const findOne = (req, res) => {
     });
 };
 
-export { createUser, findAll, findOne };
+// Update a User by the id in the request
+const updateUser = (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).send({
+      message: "User id can not be empty!",
+    });
+  }
+
+  Users.update(req.body, {
+    where: { user_id: id },
+  })
+    .then((num) => {
+      if (num == 1) {
+        res.send({
+          message: "User was updated successfully.",
+        });
+      } else {
+        return res.send({
+          message: `Cannot update User with id=${id}. Maybe User was not found or req.body is empty!`,
+        });
+      }
+    })
+    .catch((err) => {
+      return res.status(500).send({
+        message: err.message || "Some error occurred while updating the User.",
+      });
+    });
+};
+
+// Deactivate a User with the specified id in the request
+const deactivateUser = (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).send({
+      message: "User id can not be empty!",
+    });
+  }
+
+  Users.update(
+    { user_status: false },
+    {
+      where: { user_id: id },
+    }
+  )
+    .then((num) => {
+      if (num == 1) {
+        res.send({
+          message: "User was deactivated successfully.",
+        });
+      } else {
+        return res.send({
+          message: `Cannot deactivate User with id=${id}!`,
+        });
+      }
+    })
+    .catch((err) => {
+      return res.status(500).send({
+        message:
+          err.message || "Some error occurred while deactivating the User.",
+      });
+    });
+};
+
+// Change password of a User with the specified id in the request
+const changePassword = (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).send({
+      message: "User id can not be empty!",
+    });
+  }
+
+  const { user_password_old, user_password_new } = req.body;
+
+  // Validate request
+  if (!user_password_old || !user_password_new) {
+    return res.status(400).send({
+      message: "Content can not be empty!",
+    });
+  }
+
+  Users.findOne({ where: { user_id: id } })
+    .then((data) => {
+      if (!data) {
+        return res.status(404).send({
+          message: "User not found",
+        });
+      }
+
+      const passwordIsValid = bcrypt.compareSync(
+        user_password_old,
+        data.user_password
+      );
+
+      if (!passwordIsValid) {
+        return res.status(401).send({
+          message: "Invalid Password!",
+        });
+      }
+
+      if (user_password_old === user_password_new) {
+        return res.status(400).send({
+          message: "New password cannot be the same as old password!",
+        });
+      }
+
+      // Encrypt password
+      const hashPassword = bcrypt.hashSync(user_password_new, 8);
+
+      Users.update(
+        { user_password: hashPassword },
+        {
+          where: { user_id: id },
+        }
+      )
+        .then((num) => {
+          if (num == 1) {
+            res.send({
+              message: "User password was changed successfully.",
+            });
+          } else {
+            return res.send({
+              message: `Cannot change password of User with id=${id}!`,
+            });
+          }
+        })
+        .catch((err) => {
+          return res.status(500).send({
+            message:
+              err.message || "Some error occurred while changing password.",
+          });
+        });
+    })
+    .catch((err) => {
+      return res.status(500).send({
+        message: err.message || "Some error occurred while retrieving user.",
+      });
+    });
+};
+
+export {
+  createUser,
+  findAll,
+  findOne,
+  updateUser,
+  deactivateUser,
+  changePassword,
+};
