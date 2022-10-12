@@ -40,6 +40,7 @@ const Users = (sequelize, Sequelize) => {
       },
       user_status: {
         type: Sequelize.BOOLEAN,
+        defaultValue: true,
       },
       user_verify: {
         type: Sequelize.BOOLEAN,
