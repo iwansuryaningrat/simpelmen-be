@@ -29,22 +29,22 @@ const isLogin = (req, res, next) => {
 };
 
 const isActivated = (req, res, next) => {
-  const token = req.headers["x-access-token"];
+  const { email } = req.body;
 
-  if (!token) {
-    return res.status(401).send({
-      message: "No token, authorization denied",
-    });
-  }
+  console.log(email);
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    if (!decoded.user_status || !decoded.user_verify) {
+  Users.findOne({
+    where: {
+      user_email: email,
+    },
+  }).then((data) => {
+    if (data.user_status === true) {
+      next();
+    } else {
       return res.status(401).send({
-        message: "Email not activated or Token expired!",
+        message: "User is not activated",
       });
     }
-
-    next();
   });
 };
 
