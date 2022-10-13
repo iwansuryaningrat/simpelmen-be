@@ -14,6 +14,13 @@ const signup = (req, res) => {
   const email_input = req.body.email;
   const password_input = req.body.password;
 
+  // Validate request
+  if (!name_input || !email_input || !password_input) {
+    return res.status(400).send({
+      message: "Content can not be empty!",
+    });
+  }
+
   const token = jwt.sign(
     {
       email: email_input,
@@ -95,7 +102,7 @@ const signup = (req, res) => {
       });
     }
 
-    return res.status(200).send({
+    res.status(200).send({
       message: "Email has been sent",
     });
   });
@@ -107,7 +114,7 @@ const activate = (req, res) => {
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
       if (err) {
-        res.status(400).send({ message: "Incorrect or Expired link" });
+        return res.status(400).send({ message: "Incorrect or Expired link" });
       } else {
         const { name, email, password } = decodedToken;
         Users.create({
@@ -124,12 +131,12 @@ const activate = (req, res) => {
             });
           })
           .catch((err) => {
-            res.status(500).send({ message: err.message });
+            return res.status(500).send({ message: err.message });
           });
       }
     });
   } else {
-    res.status(400).send({ message: "Something went wrong" });
+    return res.status(400).send({ message: "Something went wrong" });
   }
 };
 
@@ -179,7 +186,7 @@ const login = (req, res) => {
       });
     })
     .catch((err) => {
-      res.status(500).send({
+      return res.status(500).send({
         message: err.message,
       });
     });
@@ -187,6 +194,13 @@ const login = (req, res) => {
 
 const SendResetPassword = (req, res) => {
   const { email } = req.body;
+
+  // Validate request
+  if (!email) {
+    return res.status(400).send({
+      message: "Content can not be empty!",
+    });
+  }
 
   Users.findOne({
     where: {
@@ -279,13 +293,14 @@ const SendResetPassword = (req, res) => {
             error: err.message,
           });
         }
-        return res.json({
+
+        res.json({
           message: "Email has been sent",
         });
       });
     })
     .catch((err) => {
-      res.status(500).send({
+      return res.status(500).send({
         message: err.message,
       });
     });
@@ -295,10 +310,17 @@ const ResetPassword = (req, res) => {
   const { token } = req.params;
   const { password } = req.body;
 
+  // Validate request
+  if (!password) {
+    return res.status(400).send({
+      message: "Content can not be empty!",
+    });
+  }
+
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
       if (err) {
-        res.status(400).send({ message: "Incorrect or Expired link" });
+        return res.status(400).send({ message: "Incorrect or Expired link" });
       } else {
         const { email } = decodedToken;
         Users.findOne({
