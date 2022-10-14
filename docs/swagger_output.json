@@ -53,7 +53,7 @@
                   "example": "Email Sent !",
                   "type": "string",
                   "description": "message"
-                },
+                }
               }
             }
           },
@@ -160,7 +160,7 @@
                   "example": "Account Activated !",
                   "type": "string",
                   "description": "message"
-                },
+                }
               }
             }
 
