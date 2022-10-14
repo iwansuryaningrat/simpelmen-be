@@ -694,7 +694,7 @@
                   "type": "object",
                   "properties": {
                     "error": {
-                      "example": "Unauthorized",
+                      "example": "Sorry, You don't have permission to access the resources",
                       "type": "string",
                       "description": "error"
                     }
@@ -883,7 +883,7 @@
                   "type": "object",
                   "properties": {
                     "error": {
-                      "example": "Unauthorized",
+                      "example": "Sorry, You don't have permission to access the resources",
                       "type": "string",
                       "description": "error"
                     }
@@ -1094,7 +1094,7 @@
                   "type": "object",
                   "properties": {
                     "error": {
-                      "example": "Unauthorized",
+                      "example": "Sorry, You don't have permission to access the resources",
                       "type": "string",
                       "description": "error"
                     }
@@ -1288,7 +1288,7 @@
                   "type": "object",
                   "properties": {
                     "error": {
-                      "example": "Unauthorized",
+                      "example": "Sorry, You don't have permission to access the resources",
                       "type": "string",
                       "description": "error"
                     }
@@ -1390,7 +1390,7 @@
                   "type": "object",
                   "properties": {
                     "error": {
-                      "example": "Unauthorized",
+                      "example": "Sorry, You don't have permission to access the resources",
                       "type": "string",
                       "description": "error"
                     }
@@ -1534,7 +1534,7 @@
                   "type": "object",
                   "properties": {
                     "error": {
-                      "example": "Unauthorized",
+                      "example": "Sorry, You don't have permission to access the resources",
                       "type": "string",
                       "description": "error"
                     }
