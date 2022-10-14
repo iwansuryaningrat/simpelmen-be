@@ -1,31 +1,39 @@
 import db from "../models/index.js";
-const User = db.user;
+const Users = db.users;
 import mailgun from "mailgun-js";
 const Op = db.Sequelize.Op;
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
+// Load .env file
+import * as dotenv from "dotenv";
+dotenv.config();
+
 const signup = (req, res) => {
-  var username_input = req.body.username;
-  var password_input = req.body.password;
-  var email_input = req.body.email;
-  var role_input = req.body.role;
-  var active_input = 0;
+  const name_input = req.body.name;
+  const email_input = req.body.email;
+  const password_input = req.body.password;
+
+  // Validate request
+  if (!name_input || !email_input || !password_input) {
+    return res.status(400).send({
+      message: "Content can not be empty!",
+    });
+  }
 
   const token = jwt.sign(
     {
       email: email_input,
-      active: active_input,
-      username: username_input,
+      name: name_input,
       password: password_input,
-      role: role_input,
     },
-    process.env.SECRET_KEY,
+    process.env.JWT_SECRET,
     {
       expiresIn: 1800,
     }
   );
-  const DOMAIN = "sandbox4fd9a87129e842889530d3afda60d74c.mailgun.org";
+
+  const DOMAIN = process.env.MAILGUN_DOMAIN;
   const mg = mailgun({ apiKey: process.env.MAILGUN_API_KEY, domain: DOMAIN });
   const data = {
     from: "Admin <widiw598@gmail.com>",
@@ -79,118 +87,146 @@ const signup = (req, res) => {
     <div class="card">
     <h1>Verify Email</h1>
     <p>Click the button below to verify your email address.</p>
-    <a href="http://localhost:8080/api/auth/activate/${token}">Verify</a>
+    <a href="http://localhost:3000/api/auth/activate/${token}">Verify</a>
     </div>
     </div>
     </body>
     </html>
     `,
   };
+
   mg.messages().send(data, function (error, body) {
     if (error) {
-      return res.json({
+      return res.status(500).send({
         error: err.message,
       });
     }
-    return res.json({
+
+    res.status(200).send({
       message: "Email has been sent",
     });
   });
 };
 
-const signin = (req, res) => {
-  User.findOne({
+const activate = (req, res) => {
+  const { token } = req.params;
+
+  if (token) {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+      if (err) {
+        return res.status(400).send({ message: "Incorrect or Expired link" });
+      } else {
+        const { name, email, password } = decodedToken;
+        Users.create({
+          user_name: name,
+          user_password: bcrypt.hashSync(password, 8),
+          user_email: email,
+          user_status: true,
+          user_verify: true,
+          user_role_id: 1,
+        })
+          .then((user) => {
+            res.status(200).send({
+              message: "Account has been activated",
+            });
+          })
+          .catch((err) => {
+            return res.status(500).send({ message: err.message });
+          });
+      }
+    });
+  } else {
+    return res.status(400).send({ message: "Something went wrong" });
+  }
+};
+
+const login = (req, res) => {
+  const { email, password } = req.body;
+
+  Users.findOne({
     where: {
-      username: req.body.username,
+      user_email: email,
     },
   })
     .then((user) => {
       if (!user) {
         return res.status(404).send({ message: "User Not found." });
       }
-      var passwordIsValid = bcrypt.compareSync(
-        req.body.password,
-        user.password
-      );
+
+      const passwordIsValid = bcrypt.compareSync(password, user.user_password);
+
       if (!passwordIsValid) {
         return res.status(401).send({
           accessToken: null,
           message: "Invalid Password!",
         });
       }
-      var token = jwt.sign({ id: user.user_id, 
-        username : user.username, 
-        email : user.email, 
-        role: user.role 
-      }, process.env.SECRET_KEY, {
-        expiresIn: 86400, 
-      });
+
+      const token = jwt.sign(
+        {
+          user_id: user.user_id,
+          user_name: user.user_name,
+          user_email: user.user_email,
+          user_role_id: user.user_role_id,
+          user_status: user.user_status,
+          user_verify: user.user_verify,
+        },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: 86400, // 24 hours
+        }
+      );
+
       res.status(200).send({
-        id: user.user_id,
-        username: user.username,
-        email: user.email,
-        role: user.role,
-        accessToken: token,
+        message: "Login Success",
+        data: {
+          user_email: user.user_email,
+          token: token,
+        },
       });
     })
     .catch((err) => {
-      res.status(500).send({
+      return res.status(500).send({
         message: err.message,
       });
     });
 };
 
-const activate = (req, res) => {
- const { token } = req.params;
-  if (token) {
-    jwt.verify(token, process.env.SECRET_KEY, (err, decodedToken) => {
-      if (err) {
-        res.status(400).send({ message: "Incorrect or Expired link" });
-      } else {
-        const { username, password, email, role, active } = decodedToken;
-        User.create({
-          username: username,
-          password: bcrypt.hashSync(password, 8),
-          email: email,
-          role: role,
-          active: 1,
-        })
-          .then((user) => {
-            res.status(200).send({ message: "Account activated" });
-          })
-          .catch((err) => {
-            res.status(500).send({ message: err.message });
-          });
-      }
-    });
-  } else {
-    res.status(400).send({ message: "Something went wrong" });
-  }
-
-};
-
 const SendResetPassword = (req, res) => {
   const { email } = req.body;
-  User.findOne({
+
+  // Validate request
+  if (!email) {
+    return res.status(400).send({
+      message: "Content can not be empty!",
+    });
+  }
+
+  Users.findOne({
     where: {
-      email: email,
+      user_email: email,
     },
   })
     .then((user) => {
       if (!user) {
         return res.status(404).send({ message: "User Not found." });
       }
+
       const token = jwt.sign(
         {
           email: email,
         },
-        process.env.SECRET_KEY,
+        process.env.JWT_SECRET,
         {
           expiresIn: 1800,
         }
       );
-      const DOMAIN = "sandbox4fd9a87129e842889530d3afda60d74c.mailgun.org";
-      const mg = mailgun({ apiKey: process.env.MAILGUN_API_KEY, domain: DOMAIN });
+
+      const DOMAIN = process.env.MAILGUN_DOMAIN;
+      const mg = mailgun({
+        apiKey: process.env.MAILGUN_API_KEY,
+        domain: DOMAIN,
+      });
       const data = {
         from: "Admin <widiw598@gmail.com>",
         to: email,
@@ -249,37 +285,45 @@ const SendResetPassword = (req, res) => {
         </body>
         </html>
         `,
-        
       };
+
       mg.messages().send(data, function (error, body) {
         if (error) {
-          return res.json({
+          return res.status(500).json({
             error: err.message,
           });
         }
-        return res.json({
+
+        res.json({
           message: "Email has been sent",
         });
-      }
-      );
+      });
     })
     .catch((err) => {
-      res.status(500).send({
+      return res.status(500).send({
         message: err.message,
       });
-    }
-    );
+    });
 };
+
 const ResetPassword = (req, res) => {
   const { token } = req.params;
   const { password } = req.body;
+
+  // Validate request
+  if (!password) {
+    return res.status(400).send({
+      message: "Content can not be empty!",
+    });
+  }
+
   if (token) {
-    jwt.verify(token, process.env.SECRET_KEY, (err, decodedToken) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
       if (err) {
-        res.status(400).send({ message: "Incorrect or Expired link" });
+        return res.status(400).send({ message: "Incorrect or Expired link" });
       } else {
         const { email } = decodedToken;
-        User.findOne({
+        Users.findOne({
           where: {
             email: email,
           },
@@ -290,22 +334,23 @@ const ResetPassword = (req, res) => {
             }
             user
               .update({
-                password: bcrypt.hashSync(password, 8),
+                user_password: bcrypt.hashSync(password, 8),
               })
               .then(() => {
                 res.status(200).send({ message: "Password updated" });
               })
               .catch((err) => {
-                res.status(500).send({ message: err.message });
+                return res.status(500).send({ message: err.message });
               });
           })
           .catch((err) => {
-            res.status(500).send({ message: err.message });
+            return res.status(500).send({ message: err.message });
           });
       }
     });
   } else {
-    res.status(400).send({ message: "Something went wrong" });
+    return res.status(400).send({ message: "Something went wrong" });
   }
 };
-export { signup, signin, activate , SendResetPassword, ResetPassword};
+
+export { signup, activate, login, SendResetPassword, ResetPassword };

@@ -1,0 +1,1615 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "REST API",
+    "description": ""
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/api/super/admin/users": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "example": {
+                "user_id": 1,
+                "user_name": "user",
+                "user_email": "widiw598@gmail.com",
+                "user_ikm": null,
+                "user_contact": 109380183014,
+                "user_address": "Semarang",
+                "user_district": 1,
+                "user_city": 1,
+                "user_province": 1,
+                "user_postal_code": 540,
+                "user_password": "$2b$08$9Z/lNNa1CowQbFhiWT/adOfZhmrWl9U9xDGdHy22DUBmKBxg4BlcC",
+                "user_picture": "base64picture",
+                "user_status": true,
+                "user_verify": true,
+                "user_role_id": 1,
+                "createdAt": "2022-10-09T12:17:31.000Z",
+                "updatedAt": "2022-10-09T12:17:31.000Z"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/super/admin/users/{id}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_name": {
+                  "example": "wahyuwidi",
+                  "type": "string"
+                },
+                "user_email": {
+                  "example": "widiw598@gmail.com",
+                  "type": "string"
+                },
+                "user_ikm": {
+                  "example": "01981409",
+                  "type": "integer"
+                },
+                "user_contact": {
+                  "example": "0895636461652",
+                  "type": "integer"
+                },
+                "user_address": {
+                  "example": "Pulosono Putat",
+                  "type": "string"
+                },
+                "user_district": {
+                  "example": "1",
+                  "type": "integer"
+                },
+                "user_city": {
+                  "example": "1",
+                  "type": "integer"
+                },
+                "user_province": {
+                  "example": "1",
+                  "type": "integer"
+                },
+                "user_postal_code": {
+                  "example": "1090",
+                  "type": "integer"
+                },
+                "user_password": {
+                  "example": "123456",
+                  "type": "string"
+                },
+                "user_picture": {
+                  "example": "base64picture",
+                  "type": "string"
+                },
+                "user_status": {
+                  "example": "true",
+                  "type": "boolean"
+                },
+                "user_verify": {
+                  "example": "true",
+                  "type": "boolean"
+                },
+                "user_role_id": {
+                  "example": "1",
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "example": {
+                "message": "User updated successfully"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "example": {
+                "message": "User Delete successfully"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/super/admin/profile": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "example": {
+                "user_id": 1,
+                "user_name": "user",
+                "user_email": "widiw598@gmail.com",
+                "user_ikm": null,
+                "user_contact": 109380183014,
+                "user_address": "Semarang",
+                "user_district": 1,
+                "user_city": 1,
+                "user_province": 1,
+                "user_postal_code": 540,
+                "user_password": "$2b$08$9Z/lNNa1CowQbFhiWT/adOfZhmrWl9U9xDGdHy22DUBmKBxg4BlcC",
+                "user_picture": "base64picture",
+                "user_status": true,
+                "user_verify": true,
+                "user_role_id": 1,
+                "createdAt": "2022-10-09T12:17:31.000Z",
+                "updatedAt": "2022-10-09T12:17:31.000Z"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_name": {
+                  "example": "wahyuwidi",
+                  "type": "string"
+                },
+                "user_email": {
+                  "example": "widiw598@gmail.com",
+                  "type": "string"
+                },
+                "user_ikm": {
+                  "example": "01981409",
+                  "type": "integer"
+                },
+                "user_contact": {
+                  "example": "0895636461652",
+                  "type": "integer"
+                },
+                "user_address": {
+                  "example": "Pulosono Putat",
+                  "type": "string"
+                },
+                "user_district": {
+                  "example": "1",
+                  "type": "integer"
+                },
+                "user_city": {
+                  "example": "1",
+                  "type": "integer"
+                },
+                "user_province": {
+                  "example": "1",
+                  "type": "integer"
+                },
+                "user_postal_code": {
+                  "example": "1090",
+                  "type": "integer"
+                },
+                "user_password": {
+                  "example": "123456",
+                  "type": "string"
+                },
+                "user_picture": {
+                  "example": "base64picture",
+                  "type": "string"
+                },
+                "user_status": {
+                  "example": "true",
+                  "type": "boolean"
+                },
+                "user_verify": {
+                  "example": "true",
+                  "type": "boolean"
+                },
+                "user_role_id": {
+                  "example": "1",
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "example": {
+                "message": "User updated successfully"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/super/admin/products": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema":{
+              "example":{
+                
+                  
+                      "product_id": 1,
+                      "product_name": "Design Sangkar",
+                      "product_category": 1,
+                      "product_material": 1,
+                      "product_size": 1,
+                      "product_finishing": 1,
+                      "product_weight": 1000,
+                      "product_description": "Sangkar Burung dengan finishing doff motif naruto",
+                      "product_image": "base64 image",
+                      "product_price": 100000,
+                      "createdAt": "2022-10-09T16:09:24.000Z",
+                      "updatedAt": "2022-10-09T16:09:24.000Z",
+                      "product_finishings": {
+                          "product_finishing_id": 1,
+                          "product_finishing_name": "Clear",
+                          "product_finishing_description": "Finising Clear dengan menggunakan plitur",
+                          "created_at": "2022-10-09T16:08:16.000Z",
+                          "updated_at": "2022-10-09T16:08:16.000Z"
+                      },
+                      "product_categories": {
+                          "product_category_id": 1,
+                          "product_category_name": "Percetakan",
+                          "product_category_description": "Percetakan Design untuk sangkar",
+                          "created_at": "2022-10-09T16:09:03.000Z",
+                          "updated_at": "2022-10-09T16:09:03.000Z"
+                      },
+                      "product_materials": {
+                          "product_material_id": 1,
+                          "product_material_name": "Kayu",
+                          "product_material_description": "Kayu Jati",
+                          "created_at": "2022-10-09T16:07:48.000Z",
+                          "updated_at": "2022-10-09T16:07:48.000Z"
+                      }
+                  
+              
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "product_name": {
+                  "example": "Percetakan",
+                  "type":"string"
+                },
+                "product_description": {
+                  "example": "Percetakan Ukuran A3",
+                  "type":"string"
+                },
+                "product_weight": {
+                  "example": "1000",
+                  "type":"integer"
+                },
+                "product_category": {
+                  "example": "1",
+                  "type":"integer"
+                },
+                "product_finishing": {
+                  "example": "1",
+                  "type":"integer"
+                },
+                "product_size": {
+                  "example": "1",
+                  "type":"integer"
+                },
+                "product_material": {
+                  "example": "1",
+                  "type":"integer"
+                },
+                "product_image": {
+                  "example": "base64image",
+                  "type":"string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema":{
+              "type":"array",
+              "example":{
+                "product_id": 1,
+                "product_name": "Design Sangkar",
+                "product_category": 1,
+                "product_material": 1,
+                "product_size": 1,
+                "product_finishing": 1,
+                "product_weight": 1000,
+                "product_description": "Sangkar Burung dengan finishing doff motif naruto",
+                "product_image": "base64 image",
+                "product_price": 100000,
+                "createdAt": "2022-10-09T16:09:24.000Z",
+                "updatedAt": "2022-10-09T16:09:24.000Z"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/super/admin/products/{product_id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "product_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema":{
+              "example":{
+                "product_id": 1,
+                "product_name": "Design Sangkar",
+                "product_category": 1,
+                "product_material": 1,
+                "product_size": 1,
+                "product_finishing": 1,
+                "product_weight": 1000,
+                "product_description": "Sangkar Burung dengan finishing doff motif naruto",
+                "product_image": "base64 image",
+                "product_price": 100000,
+                "createdAt": "2022-10-09T16:09:24.000Z",
+                "updatedAt": "2022-10-09T16:09:24.000Z",
+                "product_finishings": {
+                    "product_finishing_id": 1,
+                    "product_finishing_name": "Clear",
+                    "product_finishing_description": "Finising Clear dengan menggunakan plitur",
+                    "created_at": "2022-10-09T16:08:16.000Z",
+                    "updated_at": "2022-10-09T16:08:16.000Z"
+                },
+                "product_categories": {
+                    "product_category_id": 1,
+                    "product_category_name": "Percetakan",
+                    "product_category_description": "Percetakan Design untuk sangkar",
+                    "created_at": "2022-10-09T16:09:03.000Z",
+                    "updated_at": "2022-10-09T16:09:03.000Z"
+                },
+                "product_materials": {
+                    "product_material_id": 1,
+                    "product_material_name": "Kayu",
+                    "product_material_description": "Kayu Jati",
+                    "created_at": "2022-10-09T16:07:48.000Z",
+                    "updated_at": "2022-10-09T16:07:48.000Z"
+                }
+            }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "product_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "product_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/super/admin/product_finishing": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema":{
+              "type":"array",
+              "example":{
+              
+                "product_finishing_id": 1,
+                "product_finishing_name": "Clear",
+                "product_finishing_description": "Finising Clear dengan menggunakan plitur",
+                "created_at": "2022-10-09T16:08:16.000Z",
+                "updated_at": "2022-10-09T16:08:16.000Z"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "product_finishing_name": {
+                  "example": "any"
+                },
+                "product_finishing_description": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/super/admin/product_finishing/{product_finishing_id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "product_finishing_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema":{
+              "example":{
+                "product_finishing_id": 1,
+                "product_finishing_name": "Clear",
+                "product_finishing_description": "Finising Clear dengan menggunakan plitur",
+                "created_at": "2022-10-09T16:08:16.000Z",
+                "updated_at": "2022-10-09T16:08:16.000Z"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "product_finishing_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "product_finishing_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/super/admin/product_category": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema":{
+              "type":"array",
+              "example":{
+                "product_category_id": 1,
+                "product_category_name": "Percetakan",
+                "product_category_description": "Percetakan Design untuk sangkar",
+                "created_at": "2022-10-09T16:09:03.000Z",
+                "updated_at": "2022-10-09T16:09:03.000Z"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "product_category_name": {
+                  "example": "any"
+                },
+                "product_category_description": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/super/admin/product_category/{product_category_id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "product_category_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema":{
+              "example":{
+                "product_category_id": 1,
+                "product_category_name": "Percetakan",
+                "product_category_description": "Percetakan Design untuk sangkar",
+                "created_at": "2022-10-09T16:09:03.000Z",
+                "updated_at": "2022-10-09T16:09:03.000Z"
+            }
+          }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "product_category_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "product_category_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/super/admin/product_material": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema":{
+              "type":"array",
+              "example":{
+                "product_material_id": 1,
+                "product_material_name": "Kayu",
+                "product_material_description": "Kayu Jati",
+                "created_at": "2022-10-09T16:07:48.000Z",
+                "updated_at": "2022-10-09T16:07:48.000Z"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "product_material_name": {
+                  "example": "any"
+                },
+                "product_material_description": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/super/admin/product_material/{product_material_id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "product_material_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema":{
+              "example":{
+
+                "product_material_id": 1,
+                "product_material_name": "Kayu",
+                "product_material_description": "Kayu Jati",
+                "created_at": "2022-10-09T16:07:48.000Z",
+                "updated_at": "2022-10-09T16:07:48.000Z"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "product_material_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "product_material_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/super/admin/product_size": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema":{
+              "type":"array",
+              "example":{
+
+                "product_size_id": 1,
+                "product_size_length": 12,
+                "product_size_length2": 12,
+                "product_size_width": 30,
+                "product_size_width2": 13,
+                "product_size_height": 13,
+                "product_size_height2": 43,
+                "product_size_shape": "Cube",
+                "product_size_description": "Kandang Burung",
+                "created_at": "2022-10-09T16:07:07.000Z",
+                "updated_at": "2022-10-09T16:07:07.000Z"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "product_size_length": {
+                  "example": "any"
+                },
+                "product_size_width": {
+                  "example": "any"
+                },
+                "product_size_height": {
+                  "example": "any"
+                },
+                "product_size_shape": {
+                  "example": "any"
+                },
+                "product_size_description": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/super/admin/product_size/{product_size_id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "product_size_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema":{
+              "example":{
+              "product_size_id": 1,
+              "product_size_length": 12,
+              "product_size_length2": 12,
+              "product_size_width": 30,
+              "product_size_width2": 13,
+              "product_size_height": 13,
+              "product_size_height2": 43,
+              "product_size_shape": "Cube",
+              "product_size_description": "Kandang Burung",
+              "created_at": "2022-10-09T16:07:07.000Z",
+              "updated_at": "2022-10-09T16:07:07.000Z"
+              }
+            }
+            
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "product_size_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "product_size_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/auth/register": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "wahyu",
+                  "type":"string"
+                },
+                "email": {
+                  "example": "widiw598@gmail.com",
+                  "type":"string"
+                },
+                "password": {
+                  "example": "123465777",
+                  "type":"string"
+                },
+                "role": {
+                  "example": "1",
+                  "type":"integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema":{
+              "example":{
+                "message":"Email Sent"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/auth/activate/{token}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema":{
+              "example":{
+                "message":"Account activate"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "widiw598@gmail.com",
+                  "type":"string"
+                },
+                "password": {
+                  "example": "112346677",
+                  "type":"string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema":{
+              "example":{
+                  "user_id": 1,
+                  "user_name": "admin1",
+                  "user_email": "widiw598@gmail.com",
+                  "user_role_id": 1,
+                  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX3JvbGVfaWQiOjEsInVzZXJfbmFtZSI6ImFkbWluMSIsInVzZXJfZW1haWwiOiJ3aWRpdzU5OEBnbWFpbC5jb20iLCJpYXQiOjE2NjUzMjU3MzgsImV4cCI6MTY2NTQxMjEzOH0.X-L4SM9qexu1XF-1e45tmohTVBNBsLr2H6ZbLa5Mkjw"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/user/profile": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "example": {
+                "user_id": 1,
+                "user_name": "user",
+                "user_email": "widiw598@gmail.com",
+                "user_ikm": null,
+                "user_contact": 109380183014,
+                "user_address": "Semarang",
+                "user_district": 1,
+                "user_city": 1,
+                "user_province": 1,
+                "user_postal_code": 540,
+                "user_password": "$2b$08$9Z/lNNa1CowQbFhiWT/adOfZhmrWl9U9xDGdHy22DUBmKBxg4BlcC",
+                "user_picture": "base64picture",
+                "createdAt": "2022-10-09T12:17:31.000Z",
+                "updatedAt": "2022-10-09T12:17:31.000Z"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_name": {
+                  "example": "wahyuwidi",
+                  "type": "string"
+                },
+                "user_email": {
+                  "example": "widiw598@gmail.com",
+                  "type": "string"
+                },
+                "user_ikm": {
+                  "example": "01981409",
+                  "type": "integer"
+                },
+                "user_contact": {
+                  "example": "0895636461652",
+                  "type": "integer"
+                },
+                "user_address": {
+                  "example": "Pulosono Putat",
+                  "type": "string"
+                },
+                "user_district": {
+                  "example": "1",
+                  "type": "integer"
+                },
+                "user_city": {
+                  "example": "1",
+                  "type": "integer"
+                },
+                "user_province": {
+                  "example": "1",
+                  "type": "integer"
+                },
+                "user_postal_code": {
+                  "example": "1090",
+                  "type": "integer"
+                },
+                "user_password": {
+                  "example": "123456",
+                  "type": "string"
+                },
+                "user_picture": {
+                  "example": "base64picture",
+                  "type": "string"
+                },
+                "user_status": {
+                  "example": "true",
+                  "type": "boolean"
+                },
+                "user_verify": {
+                  "example": "true",
+                  "type": "boolean"
+                },
+                "user_role_id": {
+                  "example": "1",
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema":{
+              "example":{
+                "message":"Profil Updated"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  }
+}

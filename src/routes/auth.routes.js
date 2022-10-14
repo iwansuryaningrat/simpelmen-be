@@ -1,5 +1,12 @@
-import checkEmail from "../middlewares/verify.middleware.js";
-import { signup, signin, activate, SendResetPassword , ResetPassword} from "../controllers/auth.controllers.js";
+import {
+  signup,
+  activate,
+  login,
+  SendResetPassword,
+  ResetPassword,
+} from "../controllers/auth.controllers.js";
+import { isActivated } from "../middlewares/auth.middlewares.js";
+import { checkEmail } from "../middlewares/accountChecker.middlewares.js";
 
 import express from "express";
 const router = express.Router();
@@ -10,10 +17,10 @@ const authRoutes = (app) => {
   app.use(headers);
 
   router.post("/signup", checkEmail, signup);
-  router.post("/signin", signin);
   router.get("/activate/:token", activate);
-  router.post("/reset", SendResetPassword);
-  router.post("/reset/:token", ResetPassword);
+  router.post("/login", isActivated, login);
+  router.post("/reset-password", SendResetPassword);
+  router.post("/reset-password/:token", ResetPassword);
 
   app.use("/api/auth", router);
 };
