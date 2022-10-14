@@ -50,30 +50,10 @@
               "type": "object",
               "properties": {
                 "message": {
-                  "example": "success",
+                  "example": "Email Sent !",
                   "type": "string",
                   "description": "message"
                 },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "example": "5f9f1b1b8b1b9c0017b8b1a1",
-                      "type": "string",
-                      "description": "id"
-                    },
-                    "name": {
-                      "example": "wahyu widi widayat",
-                      "type": "string",
-                      "description": "name"
-                    },
-                    "email": {
-                      "example": "widiw598@gmail.com",
-                      "type": "string",
-                      "description": "email"
-                    }
-                  }
-                }
               }
             }
           },
@@ -177,30 +157,10 @@
               "type": "object",
               "properties": {
                 "message": {
-                  "example": "success",
+                  "example": "Account Activated !",
                   "type": "string",
                   "description": "message"
                 },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "example": "5f9f1b1b8b1b9c0017b8b1a1",
-                      "type": "string",
-                      "description": "id"
-                    },
-                    "name": {
-                      "example": "wahyu widi widayat",
-                      "type": "string",
-                      "description": "name"
-                    },
-                    "email": {
-                      "example": "widiw598@gmail.com",
-                      "type": "string",
-                      "description": "email"
-                    }
-                  }
-                }
               }
             }
 
