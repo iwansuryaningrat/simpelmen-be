@@ -123,7 +123,7 @@ const activate = (req, res) => {
           user_email: email,
           user_status: true,
           user_verify: true,
-          user_role_id: 1,
+          user_role_id: 8,
         })
           .then((user) => {
             res.status(200).send({
