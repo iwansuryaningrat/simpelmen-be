@@ -51,7 +51,7 @@ app.use(
 // // database
 import db from "./src/models/index.js";
 
-db.sequelize.sync({ force: false }).then(() => {
+db.sequelize.sync({ force: true }).then(() => {
   console.log("Sync database");
   initRoles();
   initProvince();

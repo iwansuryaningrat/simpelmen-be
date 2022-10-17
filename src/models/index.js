@@ -5,7 +5,7 @@ import { config } from "dotenv";
 // DB connection Config
 const sequelize = new Sequelize(configs.DB, configs.USER, configs.PASSWORD, {
   host: configs.HOST,
-  // port : configs.PORT,
+  port : configs.PORT,
   dialect: configs.dialect,
   operatorsAliases: false,
   pool: {
