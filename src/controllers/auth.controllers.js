@@ -181,6 +181,7 @@ const login = (req, res) => {
         message: "Login Success",
         data: {
           user_email: user.user_email,
+          user_name: user.user_name,
           token: token,
         },
       });
@@ -279,7 +280,7 @@ const SendResetPassword = (req, res) => {
         <div class="card">
         <h1>Reset Password</h1>
         <p>Click the button below to reset your password.</p>
-        <a href="http://localhost:8080/api/auth/reset/${token}">Reset</a>
+        <a href="new-password/${token}">Reset</a>
         </div>
         </div>
         </body>

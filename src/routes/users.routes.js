@@ -6,6 +6,10 @@ import {
   deactivateUser,
   changePassword,
 } from "../controllers/users.controllers.js";
+import {
+  createOrder,
+  showOrder
+} from "../controllers/order_detail.controller.js"
 import { isLogin } from "../middlewares/auth.middlewares.js";
 import { isSuperAdmin } from "../middlewares/roles.middlewares.js";
 
@@ -23,6 +27,9 @@ const usersRoutes = (app) => {
   router.put("/update/:id", isLogin, updateUser);
   router.put("/deactivate/:id", isLogin, isSuperAdmin, deactivateUser);
   router.put("/changepassword/:id", isLogin, changePassword);
+  router.post("/createorder", isLogin, createOrder);
+  router.get("/showorder", isLogin, showOrder);
+
 
   app.use("/api/users", router);
 };

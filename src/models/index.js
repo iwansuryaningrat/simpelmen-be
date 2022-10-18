@@ -5,7 +5,7 @@ import { config } from "dotenv";
 // DB connection Config
 const sequelize = new Sequelize(configs.DB, configs.USER, configs.PASSWORD, {
   host: configs.HOST,
-  port : configs.PORT,
+  // port : configs.PORT,
   dialect: configs.dialect,
   operatorsAliases: false,
   pool: {
@@ -198,7 +198,7 @@ db.orders.hasMany(db.delivery_details, {
 
 // Orders - Order Products
 db.order_products.belongsTo(db.orders, {
-  foreignKey: "order_id",
+  foreignKey: "order_product_order_id",
   as: "orders",
 });
 
@@ -209,7 +209,7 @@ db.orders.hasMany(db.order_products, {
 
 // Order Products - Products
 db.order_products.belongsTo(db.products, {
-  foreignKey: "product_id",
+  foreignKey: "order_product_product_id",
   as: "products",
 });
 
