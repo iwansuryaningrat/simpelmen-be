@@ -2,6 +2,15 @@ import db from "../models/index.js";
 const Users = db.users;
 const Op = db.Sequelize.Op;
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+const SubDistrict = db.subdistrict;
+const City = db.city;
+const Province = db.province;
+// Load .env file
+import * as dotenv from "dotenv";
+
+dotenv.config();
+
 
 // Create and Save a new User
 const createUser = (req, res) => {
@@ -253,6 +262,57 @@ const changePassword = (req, res) => {
     });
 };
 
+const userProfile = (req, res) => {
+  const token = req.headers["x-access-token"];
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const user_id = decoded.user_id;
+
+  Users.findOne({
+    where: {
+      user_id: user_id,
+    },
+    include: [
+      {
+        model: SubDistrict,
+        as: "subdistricts",
+        include: [
+          {
+            model: City,
+            as: "cities",
+            include: [
+              {
+                model: Province,
+                as: "provinces",
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  })
+    .then((data) => {
+      if (!data) {
+        return res.status(404).send({
+          message: "User not found",
+        });
+      }
+
+      res.send({
+        message: "User was retrieved successfully.",
+        data,
+      });
+    }
+    )
+    .catch((err) => {
+      return res.status(500).send({
+        message: err.message || "Some error occurred while retrieving user.",
+      });
+    }
+    );
+
+};
+
+
 export {
   createUser,
   findAll,
@@ -260,4 +320,5 @@ export {
   updateUser,
   deactivateUser,
   changePassword,
+  userProfile,
 };

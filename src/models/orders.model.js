@@ -25,6 +25,12 @@ const Orders = (sequelize, Sequelize) => {
       order_total_price: {
         type: Sequelize.INTEGER,
       },
+      order_finishing_id: {
+        type: Sequelize.INTEGER,
+      },
+      order_material_id: {
+        type: Sequelize.INTEGER,
+      },
       order_design: {
         type: Sequelize.STRING,
       },

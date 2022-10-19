@@ -22,22 +22,13 @@
               "type": "object",
               "properties": {
                 "email": {
-                  "example": "widiw598@gmail.com",
-                  "type": "string",
-                  "description": "email",
-                  "required": true
+                  "example": "any"
                 },
                 "name": {
-                  "example": "wahyu widi widayat",
-                  "type": "string",
-                  "description": "name",
-                  "required": true
+                  "example": "any"
                 },
                 "password": {
-                  "example": "123456ABC",
-                  "type": "string",
-                  "description": "password",
-                  "required": true
+                  "example": "any"
                 }
               }
             }
@@ -45,96 +36,16 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "Email Sent !",
-                  "type": "string",
-                  "description": "message"
-                }
-              }
-            }
+            "description": "OK"
           },
           "400": {
-            "description": "Bad Request",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "email": {
-                      "example": "email already exist",
-                      "type": "string",
-                      "description": "email"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Bad Request"
           },
           "406": {
-            "description": "Not Acceptable",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "email": {
-                      "example": "email is required",
-                      "type": "string",
-                      "description": "email"
-                    },
-                    "name": {
-                      "example": "name is required",
-                      "type": "string",
-                      "description": "name"
-                    },
-                    "password": {
-                      "example": "password is required",
-                      "type": "string",
-                      "description": "password"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Not Acceptable"
           },
           "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "Internal Server Error",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Internal Server Error"
           }
         }
       }
@@ -152,64 +63,13 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "Account Activated !",
-                  "type": "string",
-                  "description": "message"
-                }
-              }
-            }
-
+            "description": "OK"
           },
           "400": {
-            "description": "Bad Request",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "Invalid Token",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Bad Request"
           },
           "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "Internal Server Error",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Internal Server Error"
           }
         }
       }
@@ -225,16 +85,10 @@
               "type": "object",
               "properties": {
                 "email": {
-                  "example": "widiw598@gmail.com",
-                  "type": "string",
-                  "description": "email",
-                  "required": true
+                  "example": "any"
                 },
                 "password": {
-                  "example": "123456ABC",
-                  "type": "string",
-                  "description": "password",
-                  "required": true
+                  "example": "any"
                 }
               }
             }
@@ -242,103 +96,16 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "Login Success",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "user_email": {
-                      "example": "widiw598@gmail.com",
-                      "type": "string",
-                      "description": "email"
-                    },
-                    "token":{
-                      "example":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiJXQUhZVSBXSURJIFdJREFZQVQiLCJ1c2VyX2VtYWlsIjoid2lkaXc1OThAZ21haWwuY29tIiwidXNlcl9yb2xlX2lkIjoxLCJ1c2VyX3N0YXR1cyI6dHJ1ZSwidXNlcl92ZXJpZnkiOnRydWUsImlhdCI6MTY2NTc1NjI4OCwiZXhwIjoxNjY1ODQyNjg4fQ.2VgWRJfeBPrc2Iqn4vgA9jNJi9eS0MZVTtazUPPPWXQ",
-                      "type":"string",
-                      "description":"token"
-                    }
-                  }
-                }
-              }
-            }
-            
+            "description": "OK"
           },
           "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "Invalid Email or Password",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
-            
+            "description": "Unauthorized"
           },
           "404": {
-            "description": "Not Found",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "User Not Found",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Not Found"
           },
           "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "Internal Server Error",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Internal Server Error"
           }
         }
       }
@@ -354,9 +121,7 @@
               "type": "object",
               "properties": {
                 "email": {
-                  "example": "widiw598@gmail.com",
-                  "type": "string",
-                  "description": "email"
+                  "example": "any"
                 }
               }
             }
@@ -364,86 +129,16 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "Email has been sent",
-                  "type": "string",
-                  "description": "message"
-                }
-              }
-            }
+            "description": "OK"
           },
           "400": {
-            "description": "Bad Request",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "Email is required",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Bad Request"
           },
           "404": {
-            "description": "Not Found",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "User Not Found",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Not Found"
           },
           "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "Internal Server Error",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Internal Server Error"
           }
         }
       }
@@ -465,10 +160,7 @@
               "type": "object",
               "properties": {
                 "password": {
-                  "example": "123456ABC",
-                  "type": "string",
-                  "description": "password",
-                  "required": true
+                  "example": "any"
                 }
               }
             }
@@ -476,638 +168,16 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "Password has been changed",
-                  "type": "string",
-                  "description": "message"
-                }
-              }
-            }
+            "description": "OK"
           },
           "400": {
-            "description": "Bad Request",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "Password is required",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Bad Request"
           },
           "404": {
-            "description": "Not Found",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "User Not Found",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Not Found"
           },
           "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "Internal Server Error",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/users/create": {
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "x-access-token",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "user_name": {
-                  "example": "wahyu widi widayat",
-                  "type": "string",
-                  "description": "user_name",
-                  "required": true
-                },
-                "user_email": {
-                  "example": "widiw598@gmail.com",
-                  "type": "string",
-                  "description": "user_email",
-                  "required": true
-                },
-                "user_password": {
-                  "example": "123456ABC",
-                  "type": "string",
-                  "description": "user_password",
-                  "required": true
-                },
-                "user_role": {
-                  "example": "1",
-                  "type": "integer",
-                  "description": "user_role",
-                  "required": true
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "User was created successfully",
-                  "type": "string",
-                  "description": "message"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "User Name is required",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "Sorry, You don't have permission to access the resources",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "Forbidden",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "Internal Server Error",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/users/findall": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "x-access-token",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "user_status",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "isAdmin",
-            "in": "query",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "Users were retrieved successfully",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "user_id": {
-                        "example": 1,
-                        "type": "integer",
-                        "description": "user_id"
-                      },
-                      "user_name": {
-                        "example": "wahyu widi widayat",
-                        "type": "string",
-                        "description": "user_name"
-                      },
-                      "user_email": {
-                        "example": "widiw598@gmail.com",
-                        "type": "string",
-                        "description": "user_email"
-                      },
-                      "user_ikm": {
-                        "example": "09809809",
-                        "type": "integer",
-                        "description": "user_ikm"
-                      },
-                      "user_contact": {
-                        "example": "089898989898",
-                        "type": "integer",
-                        "description": "user_contact"
-                      },
-                      "user_address": {
-                        "example": "jl. jalan",
-                        "type": "string",
-                        "description": "user_address"
-                      },
-                      "user_district":{
-                        "example": 1,
-                        "type": "integer",
-                        "description": "user_district"
-                      },
-                      "user_postal_code": {
-                        "example": "12345",
-                        "type": "integer",
-                        "description": "user_postal_code"
-                      },
-                      "user_password":{
-                        "example": "123456",
-                        "type": "string",
-                        "description": "user_password"
-                      },
-                      "user_picture": {
-                        "example": "picture.jpg",
-                        "type": "string",
-                        "description": "user_picture"
-                      },
-                      "user_verify":{
-                        "example": true,
-                        "type": "boolean",
-                        "description": "user_verify"
-                      },
-                      "user_role": {
-                        "example": 1,
-                        "type": "integer",
-                        "description": "user_role"
-                      },
-                      "user_status": {
-                        "type": "boolean",
-                        "example": true,
-                        "description": "user_status"
-                      },
-                      "user_created_at": {
-                        "example": "2020-04-01T00:00:00.000Z",
-                        "type": "string",
-                        "description": "user_created_at"
-                      },
-                      "user_updated_at": {
-                        "example": "2020-04-01T00:00:00.000Z",
-                        "type": "string",
-                        "description": "user_updated_at"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "Sorry, You don't have permission to access the resources",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "Not Found",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "Internal Server Error",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/users/findone/{id}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-            
-          },
-          {
-            "name": "x-access-token",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "id",
-            "in": "query",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "User was retrieved successfully.",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "user_id": {
-                      "example": 1,
-                      "type": "integer",
-                      "description": "user_id"
-                    },
-                    "user_name": {
-                      "example": "wahyu widi widayat",
-                      "type": "string",
-                      "description": "user_name"
-                    },
-                    "user_email": {
-                      "example": "widiw598@gmail.com",
-                      "type": "string",
-                      "description": "user_email"
-                    },
-                    "user_ikm": {
-                      "example": "09809809",
-                      "type": "integer",
-                      "description": "user_ikm"
-                    },
-                    "user_contact": {
-                      "example": "089898989898",
-                      "type": "integer",
-                      "description": "user_contact"
-                    },
-                    "user_address": {
-                      "example": "jl. jalan",
-                      "type": "string",
-                      "description": "user_address"
-                    },
-                    "user_district":{
-                      "example": 1,
-                      "type": "integer",
-                      "description": "user_district"
-                    },
-                    "user_postal_code": {
-                      "example": "12345",
-                      "type": "integer",
-                      "description": "user_postal_code"
-                    },
-                    "user_password":{
-                      "example": "123456",
-                      "type": "string",
-                      "description": "user_password"
-                    },
-                    "user_picture": {
-                      "example": "picture.jpg",
-                      "type": "string",
-                      "description": "user_picture"
-                    },
-                    "user_verify":{
-                      "example": true,
-                      "type": "boolean",
-                      "description": "user_verify"
-                    },
-                    "user_role": {
-                      "example": 1,
-                      "type": "integer",
-                      "description": "user_role"
-                    },
-                    "user_status": {
-                      "type": "boolean",
-                      "example": true,
-                      "description": "user_status"
-                    },
-                    "user_created_at": {
-                      "example": "2020-04-01T00:00:00.000Z",
-                      "type": "string",
-                      "description": "user_created_at"
-                    },
-                    "user_updated_at": {
-                      "example": "2020-04-01T00:00:00.000Z",
-                      "type": "string",
-                      "description": "user_updated_at"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "Bad Request",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "Sorry, You don't have permission to access the resources",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "Not Found",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "Internal Server Error",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Internal Server Error"
           }
         }
       }
@@ -1126,173 +196,28 @@
             "name": "x-access-token",
             "in": "header",
             "type": "string"
-          },
-          {
-            "name":"update user",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "user_name": {
-                  "example": "wahyu widi widayat",
-                  "type": "string",
-                  "description": "user_name"
-                },
-                "user_email": {
-                  "example": "widiw598@gmail.com",
-                  "type": "string",
-                  "description": "user_email"
-                },
-                "user_ikm": {
-                  "example": "09809809",
-                  "type": "integer",
-                  "description": "user_ikm"
-                },
-                "user_contact": {
-                  "example": "089898989898",
-                  "type": "integer",
-                  "description": "user_contact"
-                },
-                "user_address": {
-                  "example": "jl. jalan",
-                  "type": "string",
-                  "description": "user_address"
-                },
-                "user_district":{
-                  "example": 1,
-                  "type": "integer",
-                  "description": "user_district"
-                },
-                "user_postal_code": {
-                  "example": "12345",
-                  "type": "integer",
-                  "description": "user_postal_code"
-                },
-                "user_password":{
-                  "example": "123456",
-                  "type": "string",
-                  "description": "user_password"
-                },
-                "user_picture": {
-                  "example": "picture.jpg",
-                  "type": "string",
-                  "description": "user_picture"
-                },
-                "user_verify":{
-                  "example": true,
-                  "type": "boolean",
-                  "description": "user_verify"
-                },
-                "user_role": {
-                  "example": 1,
-                  "type": "integer",
-                  "description": "user_role"
-                },
-                "user_status": {
-                  "type": "boolean",
-                  "example": true,
-                  "description": "user_status"
-                }
-              }
-            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "User was updated successfully",
-                  "type": "string",
-                  "description": "message"
-                }
-              }
-            }
+            "description": "OK"
           },
           "400": {
-            "description": "Bad Request",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "User id can not be empty!",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Bad Request"
           },
           "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "Sorry, You don't have permission to access the resources",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "Some error occurred while updating the User.",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Internal Server Error"
           }
         }
       }
     },
-    "/api/users/deactivate/{id}": {
-      "put": {
+    "/api/users/profile": {
+      "get": {
         "description": "",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
           {
             "name": "x-access-token",
             "in": "header",
@@ -1301,109 +226,19 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "User was deactivated successfully",
-                  "type": "string",
-                  "description": "message"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "Cannot deactivate User!",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "OK"
           },
           "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "Sorry, You don't have permission to access the resources",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "403": {
-            "description": "Forbidden",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "Forbidden",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
           },
           "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "Some error occurred while updating the User.",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Internal Server Error"
           }
         }
       }
@@ -1430,14 +265,10 @@
               "type": "object",
               "properties": {
                 "user_password_old": {
-                  "example": "123456ABC",
-                  "type": "string",
-                  "description": "user_password_old"
+                  "example": "any"
                 },
                 "user_password_new": {
-                  "example": "1234ABCDEFG",
-                  "type": "string",
-                  "description": "user_password_new"
+                  "example": "any"
                 }
               }
             }
@@ -1445,109 +276,275 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "Password was changed successfully",
-                  "type": "string",
-                  "description": "message"
-                }
-              }
-            }
+            "description": "OK"
           },
           "400": {
-            "description": "Bad Request",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "Cannot change password!",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Bad Request"
           },
           "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "Sorry, You don't have permission to access the resources",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "404": {
-            "description": "Not Found",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "User not found with id 1",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Not Found"
           },
           "500": {
-            "description": "Internal Server Error",
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/users/product/{id}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
             "schema": {
               "type": "object",
               "properties": {
-                "message": {
-                  "example": "error",
-                  "type": "string",
-                  "description": "message"
+                "order_total_price": {
+                  "example": "any"
                 },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "example": "Some error occurred while updating the User.",
-                      "type": "string",
-                      "description": "error"
-                    }
-                  }
+                "order_quantity": {
+                  "example": "any"
+                },
+                "order_note": {
+                  "example": "any"
+                },
+                "order_price": {
+                  "example": "any"
+                },
+                "order_design": {
+                  "example": "any"
+                },
+                "order_payment_method": {
+                  "example": "any"
+                },
+                "order_payment_status": {
+                  "example": "any"
+                },
+                "order_product_id": {
+                  "example": "any"
+                },
+                "panjang_1": {
+                  "example": "any"
+                },
+                "panjang_2": {
+                  "example": "any"
+                },
+                "lebar_1": {
+                  "example": "any"
+                },
+                "lebar_2": {
+                  "example": "any"
+                },
+                "tinggi_1": {
+                  "example": "any"
+                },
+                "tinggi_2": {
+                  "example": "any"
                 }
               }
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/users/cart": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/users/checkout": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "order_id",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "where": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/users/checkout/profile": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/design/profile": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/design/order/{order_id}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "order_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/design/order": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }

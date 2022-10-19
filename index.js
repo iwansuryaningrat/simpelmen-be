@@ -67,10 +67,16 @@ app.get("/", (req, res) => {
 // routes
 import authRoutes from "./src/routes/auth.routes.js";
 import userRoutes from "./src/routes/users.routes.js";
+import adminCSRoutes from "./src/routes/admin_cs.rotes.js";
+import ProductMaterial from "./src/routes/product_material.routes.js";
+import ProductFinishing from "./src/routes/product_finishing.routes.js";
+
 
 authRoutes(app);
 userRoutes(app);
-
+adminCSRoutes(app);
+ProductMaterial(app);
+ProductFinishing(app);
 // set port, listen for requests
 const PORT = process.env.PORT;
 
