@@ -12,13 +12,13 @@ import headers from "../services/headers.services.js";
 const productsRoutes = (app) => {
   app.use(headers);
 
-  router.get("/product", ShowAllProducts);
-  router.get("/product:id", ShowProductById);
-  router.post("/product", createProduct,isSuperAdmin,isLogin);
-  router.put("/product:id", updateProduct,isSuperAdmin,isLogin);
-  router.delete("product/:id", deleteProduct,isSuperAdmin,isLogin);
+  router.get("/", ShowAllProducts);
+  router.get("/:id", ShowProductById);
+  router.post("/", createProduct,isSuperAdmin,isLogin);
+  router.put("/:id", updateProduct,isSuperAdmin,isLogin);
+  router.delete("/:id", deleteProduct,isSuperAdmin,isLogin);
 
-  app.use("/api/", router);
+  app.use("/api/product", router);
 };
 
 export default productsRoutes;

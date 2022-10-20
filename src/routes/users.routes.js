@@ -12,7 +12,6 @@ import {
   addCart,
   findAllCart,
   CheckoutOrder,
-  findUserCheckout,
   // updateOrder,
 } from "../controllers/order_detail.controller.js"
 import {
@@ -43,7 +42,6 @@ const usersRoutes = (app) => {
   // router.post("/product/:id", isLogin, addCart);
   // router.get("/cart", isLogin, findAllCart);
   // router.put("/checkout", isLogin, CheckoutOrder);
-  // router.get("/checkout/profile", isLogin, findUserCheckout);
   
   // router.put("/updateorder/:order_id", isLogin, updateOrder);
 

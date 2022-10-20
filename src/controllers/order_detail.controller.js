@@ -228,46 +228,46 @@ const CheckoutOrder = async (req, res) => {
     }
 };
 
-const findUserCheckout = (req, res) => {
-    const token = req.headers["x-access-token"];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user_id = decoded.user_id;
-    Users.findOne({
-        where: {
-            user_id: user_id,
-        },
-        attributes: {
-            exclude: ["user_password","user_role_id","user_status","user_created_at","user_updated_at"],
-        },
-        include: [
-            {
-                model: SubDistrict,
-                as: "subdistricts",
-                include: [
-                    {
-                        model: City,
-                        as: "cities",
-                        include: [
-                            {
-                                model: Province,
-                                as: "provinces",
-                            },
-                        ],
-                    },
-                ],
-            },
-        ],
-    })
-        .then((data) => {
-            res.send(data);
-        })
-        .catch((err) => {
-            res.status(500).send({
-                message: err.message || "Some error occurred while retrieving Users.",
-            });
-        });
-};
+// const findUserCheckout = (req, res) => {
+//     const token = req.headers["x-access-token"];
+//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//     const user_id = decoded.user_id;
+//     Users.findOne({
+//         where: {
+//             user_id: user_id,
+//         },
+//         attributes: {
+//             exclude: ["user_password","user_role_id","user_status","user_created_at","user_updated_at"],
+//         },
+//         include: [
+//             {
+//                 model: SubDistrict,
+//                 as: "subdistricts",
+//                 include: [
+//                     {
+//                         model: City,
+//                         as: "cities",
+//                         include: [
+//                             {
+//                                 model: Province,
+//                                 as: "provinces",
+//                             },
+//                         ],
+//                     },
+//                 ],
+//             },
+//         ],
+//     })
+//         .then((data) => {
+//             res.send(data);
+//         })
+//         .catch((err) => {
+//             res.status(500).send({
+//                 message: err.message || "Some error occurred while retrieving Users.",
+//             });
+//         });
+// };
 
 
 
-export { addCart,findAllCart,CheckoutOrder ,findUserCheckout};
+export { addCart,findAllCart,CheckoutOrder };

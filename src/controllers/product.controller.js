@@ -64,6 +64,11 @@ const ShowProductById = (req, res) => {
                 model: Product_Finishings,
                 as: "product_finishings",
             },
+            {
+                model: Jenis_Products,
+                as: "jenis_products",
+
+            },
         ],
     })
         .then((data) => {

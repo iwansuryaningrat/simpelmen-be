@@ -72,7 +72,11 @@ import jenisProductsRoutes from "./src/routes/jenis_products.routes.js";
 import rolesRoutes from "./src/routes/roles.routes.js";
 import Product from "./src/routes/products.routes.js";
 import AddressRoutes from "./src/routes/address.routes.js";
-
+import ProductMaterialsRoutes from "./src/routes/product_materials.routes.js";
+import ProductSizesRoutes from "./src/routes/product_sizes.routes.js";
+import productCategoriesRoutes from "./src/routes/product_categories.routes.js";
+import ProductFinishingsRoutes from "./src/routes/product_finishings.routes.js";
+import ordersRoutes from "./src/routes/order.routes.js";
 adminCSRoutes(app);
 authRoutes(app);
 userRoutes(app);
@@ -80,6 +84,11 @@ jenisProductsRoutes(app);
 rolesRoutes(app);
 Product(app);
 AddressRoutes(app);
+ProductMaterialsRoutes(app);
+ProductSizesRoutes(app);
+productCategoriesRoutes(app);
+ProductFinishingsRoutes(app);
+ordersRoutes(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT;

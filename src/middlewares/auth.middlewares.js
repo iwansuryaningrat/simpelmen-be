@@ -38,9 +38,15 @@ const isActivated = (req, res, next) => {
       user_email: email,
     },
   }).then((data) => {
+    if (data == null) {
+      return res.status(401).send({
+        message: "Account is not yet registered",
+      });
+    }
     if (data.user_status === true) {
       next();
-    } else {
+    }
+    else {
       return res.status(401).send({
         message: "User is not activated",
       });

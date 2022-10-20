@@ -37,18 +37,15 @@ const create = (req, res) => {
         });
     }
 const findAll = (req, res) => {
-    const name = req.query.name;
-    var condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
-    
     Product_Materials
-        .findAll({ where: condition })
+        .findAll()
         .then((data) => {
         if (data == null) {
             return res.status(404).send({
             message: "Product_Materials not found",
             });
         }
-        
+
         res.send({
             message: "Product_Materials was retrieved successfully!",
             data,
