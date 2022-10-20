@@ -70,12 +70,16 @@ import userRoutes from "./src/routes/users.routes.js";
 import adminCSRoutes from "./src/routes/admin_cs.rotes.js";
 import jenisProductsRoutes from "./src/routes/jenis_products.routes.js";
 import rolesRoutes from "./src/routes/roles.routes.js";
+import Product from "./src/routes/products.routes.js";
+import AddressRoutes from "./src/routes/address.routes.js";
 
 adminCSRoutes(app);
 authRoutes(app);
 userRoutes(app);
 jenisProductsRoutes(app);
 rolesRoutes(app);
+Product(app);
+AddressRoutes(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT;

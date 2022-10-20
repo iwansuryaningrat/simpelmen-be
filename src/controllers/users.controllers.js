@@ -312,6 +312,33 @@ const userProfile = (req, res) => {
 
 };
 
+const updateProfile = (req, res) => {
+  const token = req.headers["x-access-token"];
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const user_id = decoded.user_id;
+
+  //update profile
+  Users.update(req.body, {
+    where: { user_id: user_id },
+  })
+    .then((num) => {
+      if (num == 1) {
+        res.send({
+          message: "User was updated successfully.",
+        });
+      } else {
+        return res.send({
+          message: `Cannot update User with id=${user_id}. Maybe User was not found or req.body is empty!`,
+        });
+      }
+    })
+    .catch((err) => {
+      return res.status(500).send({
+        message: err.message || "Some error occurred while updating the User.",
+      });
+    });
+};
+
 
 export {
   createUser,
@@ -321,4 +348,5 @@ export {
   deactivateUser,
   changePassword,
   userProfile,
+  updateProfile,
 };

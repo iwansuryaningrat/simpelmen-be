@@ -1,6 +1,7 @@
 import db from "../models/index.js";
 const jenisProducts = db.jenis_products;
 const Op = db.Sequelize.Op;
+const Product = db.products;
 
 // Create and Save a new jenisProduct
 const create = (req, res) => {

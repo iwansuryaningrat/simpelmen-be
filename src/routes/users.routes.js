@@ -6,6 +6,7 @@ import {
   deactivateUser,
   changePassword,
   userProfile,
+  updateProfile,
 } from "../controllers/users.controllers.js";
 import {
   addCart,
@@ -34,14 +35,15 @@ const usersRoutes = (app) => {
   // router.get("/findone/:id", isLogin, findOne);
   router.put("/update/:id", isLogin, updateUser);
   router.get("/profile", isLogin,isUser, userProfile);
+  router.put("/profile", isLogin,isUser, updateProfile);
   // router.put("/deactivate/:id", isLogin, isUser, deactivateUser);
   router.put("/changepassword/:id", isLogin, changePassword);
-  router.get("/product", ShowAllProducts);
-  router.get("/product/:id", ShowProductById);
-  router.post("/product/:id", isLogin, addCart);
-  router.get("/cart", isLogin, findAllCart);
-  router.put("/checkout", isLogin, CheckoutOrder);
-  router.get("/checkout/profile", isLogin, findUserCheckout);
+  // router.get("/product", ShowAllProducts);
+  // router.get("/product/:id", ShowProductById);
+  // router.post("/product/:id", isLogin, addCart);
+  // router.get("/cart", isLogin, findAllCart);
+  // router.put("/checkout", isLogin, CheckoutOrder);
+  // router.get("/checkout/profile", isLogin, findUserCheckout);
   
   // router.put("/updateorder/:order_id", isLogin, updateOrder);
 
