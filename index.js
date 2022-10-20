@@ -68,10 +68,15 @@ app.get("/", (req, res) => {
 import authRoutes from "./src/routes/auth.routes.js";
 import userRoutes from "./src/routes/users.routes.js";
 import adminCSRoutes from "./src/routes/admin_cs.rotes.js";
+import jenisProductsRoutes from "./src/routes/jenis_products.routes.js";
+import rolesRoutes from "./src/routes/roles.routes.js";
 
+adminCSRoutes(app);
 authRoutes(app);
 userRoutes(app);
-adminCSRoutes(app);
+jenisProductsRoutes(app);
+rolesRoutes(app);
+
 // set port, listen for requests
 const PORT = process.env.PORT;
 
