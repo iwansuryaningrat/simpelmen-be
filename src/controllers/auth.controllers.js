@@ -12,6 +12,7 @@ dotenv.config();
 const signup = (req, res) => {
   const name_input = req.body.name;
   const email_input = req.body.email;
+  const phone = req.body.phone;
   const password_input = req.body.password;
 
   // Validate request
@@ -26,6 +27,7 @@ const signup = (req, res) => {
       email: email_input,
       name: name_input,
       password: password_input,
+      phone: phone,
     },
     process.env.JWT_SECRET,
     {
@@ -110,15 +112,16 @@ const signup = (req, res) => {
 
 const activate = (req, res) => {
   const { token } = req.params;
-
+  const temp = token
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
       if (err) {
         return res.status(400).send({ message: "Incorrect or Expired link" });
       } else {
-        const { name, email, password } = decodedToken;
+        const { name, email, password,phone} = decodedToken;
         Users.create({
           user_name: name,
+          user_contact: phone,
           user_password: bcrypt.hashSync(password, 8),
           user_email: email,
           user_status: true,
@@ -126,9 +129,7 @@ const activate = (req, res) => {
           user_role_id: 8,
         })
           .then((user) => {
-            res.status(200).send({
-              message: "Account has been activated",
-            });
+            res.redirect("http://localhost:3000/activate-account/&{token}");
           })
           .catch((err) => {
             return res.status(500).send({ message: err.message });

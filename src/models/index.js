@@ -304,5 +304,14 @@ db.delivery_details.belongsTo(db.subdistrict, {
   foreignKey: "delivery_detail_district",
   as: "subdistricts",
 });
+db.orders.hasMany(db.order_details, {
+  foreignKey: "order_detail_order_id",
+  as: "order_details",
+});
+
+db.order_details.belongsTo(db.orders, {
+  foreignKey: "order_detail_order_id",
+  as: "orders",
+});
 
 export default db;

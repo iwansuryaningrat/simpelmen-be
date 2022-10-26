@@ -6,6 +6,7 @@ import {
     addCart,
     findAllCart,
     CheckoutOrder,
+    removeCart,
 } from "../controllers/order_detail.controller.js"
 
 
@@ -20,8 +21,9 @@ import headers from "../services/headers.services.js";
 const ordersRoutes = (app) => {
   app.use(headers);
 
-    router.post("/:id", isLogin, isUser, addCart);
+    router.post("/cart/:id", isLogin, isUser, addCart);
     router.get("/cart", isLogin, isUser,findAllCart);
+    router.delete("/cart/:id", isLogin, isUser, removeCart);
     router.put("/checkout", isLogin, isUser,CheckoutOrder);
     app.use("/api/order", router);
 

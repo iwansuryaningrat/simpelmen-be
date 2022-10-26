@@ -10,6 +10,9 @@ const Order_Details = (sequelize, Sequelize) => {
       order_detail_order_product_id: {
         type: Sequelize.INTEGER,
       },
+      order_detail_order_id: {
+        type: Sequelize.INTEGER,
+      },
       p1: {
         type: Sequelize.DOUBLE,
       },
