@@ -244,17 +244,6 @@ const CheckoutOrder = async (req, res) => {
         });
         return;
     }
-    const delivery_detail = await Delivery_Details.findOne({
-        where: {
-            delivery_detail_order_id: order_id,
-        },
-    });
-    if (delivery_detail) {
-        res.status(400).send({
-            message: "Error Checkout Order",
-        });
-        return;
-    }
     const { delivery_detail_name,delivery_detail_ikm, delivery_detail_email, delivery_detail_contact, delivery_detail_method, delivery_detail_address, delivery_detail_district,delivery_detail_postal_code, delivery_detail_shipping_cost,delivery_detail_courier,delivery_detail_receipt,delivery_detail_estimate } = req.body;
     const order_id_string = order_id.toString();
     const order_id_array_string = order_id_string.split(",");
@@ -348,6 +337,7 @@ const CheckoutOrder = async (req, res) => {
 //             });
 //         });
 // };
+
 const removeCart = (req, res) => {
     const token = req.headers["x-access-token"];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
