@@ -41,7 +41,9 @@ const showStatusOrder = (req, res) => {
                 model: Order_Status,
                 as: "order_statuses",
                 where: {
-                    order_status_admin_code: "2",
+                    order_status_admin_code: {
+                        [Op.not]: "8",
+                    },
                 },
             },
             {
