@@ -350,6 +350,10 @@ const CheckoutOrder = async (req, res) => {
 // };
 //remove cart 
 const removeCart = (req, res) => {
+    const token = req.headers["x-access-token"];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user_id = decoded.user_id;
+
     const order_id = req.params.id;
     if (!order_id) {
         res.status(400).send({
@@ -357,49 +361,71 @@ const removeCart = (req, res) => {
         });
         return;
     }
-    //destroy relation order_status , order_detail, order_product and order
-    db.sequelize.transaction(function (t) {
-        return Order_Status.destroy({
-            where: {
-                order_status_order_id: order_id,
-            },
-        }, { transaction: t }).then(function (order_status) {
-            return OrderDetails.destroy({
-                where: {
-                    order_detail_order_product_id: order_id,
-                },
-            }, { transaction: t }).then(function (order_detail) {
-                return Order_Products.destroy({
-                    where: {
-                        order_product_order_id: order_id,
+    Orders.findOne({
+        where: {
+            order_id: order_id,
+        },
+    })
+        .then((data) => {
+            if (data.order_user_id !== user_id) {
+                res.status(400).send({
+                    message: "Error Remove Cart",
+                });
+                return;
+            }
+            db.sequelize.transaction(function (t) {
+                return Order_Status.destroy(
+                    {
+                        where: {
+                            order_status_order_id: order_id,
+                        },
                     },
-                }, { transaction: t }).then(function (order_product) {
-                    return Orders.destroy({
-                        where: {
-                            order_id: order_id,
+                    { transaction: t }
+                ).then(function (order_status) {
+                    return OrderDetails.destroy(
+                        {
+                            where: {
+                                order_detail_order_id: order_id,
+                            },
                         },
-                    })
-                }).then(function (order) {
-                    return Orders.destroy({
-                        where: {
-                            order_id: order_id,
+                        { transaction: t }
+                    );
+                }).then(function (order_detail) {
+                    return Order_Products.destroy(
+                        {
+                            where: {
+                                order_product_order_id: order_id,
+                            },
                         },
-                    })
-                }
-            )
+                        { transaction: t }
+                    );
+                }).then(function (order_product) {
+                    return Orders.destroy(
+                        {
+                            where: {
+                                order_id: order_id,
+                            },
+                        },
+                        { transaction: t }
+                    );
+                });
             })
+                .then(function (result) {
+                    res.status(200).send({
+                        message: "Order has been remove",
+                    });
+                })
+                .catch(function (err) {
+                    res.status(500).send({
+                        message: err.message || "Some error occurred while creating the Order.",
+                    });
+                });
         })
-    }).then(function (result) {
-        res.status(200).send({
-            message: "Order has been remove.",
+        .catch((err) => {
+            res.status(500).send({
+                message: err.message || "Some error occurred while retrieving Users.",
+            });
         });
-    }
-    ).catch(function (err) {
-        res.status(500).send({
-            message: err.message || "Some error occurred while creating the Order.",
-        });
-    }
-    );
 };
 const showTracking = (req, res) => {
     const token = req.headers["x-access-token"];
@@ -468,65 +494,157 @@ const ShowAllOrder = (req, res) => {
         } else {
             res.send(data);
         }
-    }
-    )
+    })
+    .catch((err) => {
+        res.status(500).send({
+            message: err.message || "Some error occurred while retrieving Users.",
+        });
+    });
 };
 
 
+// const DetailOrder = (req, res) => {
+//     const token = req.headers["x-access-token"];
+//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//     const user_id = decoded.user_id;
+//     const order_id = req.params.id;
+
+//     //if order_user_id !== user_id then return error
+
+//     Orders.findOne({
+//         where: {
+//             order_id: order_id,
+//         },
+//         attributes: {
+//             exclude: ["order_user_id","order_status_id","order_created_at","order_updated_at"],
+//         },
+//         include: [
+//             {
+//                 model: Order_Status,
+//                 as: "order_statuses",
+//                 attributes: {
+//                     exclude: ["order_status_order_id","order_status_admin_code","order_status_created_at","order_status_updated_at"],
+//                 },
+//             },
+//             {
+//                 model: Order_Products,
+//                 as: "order_products",
+//                 attributes: {
+//                     exclude: ["order_product_order_id","order_product_product_id","order_product_created_at","order_product_updated_at"],
+//                 },
+//                 include: [
+//                     {
+//                         model: Products,
+//                         as: "products",
+//                     },
+//                 ],
+//             },
+//             {
+//                 model: OrderDetails,
+//                 as: "order_details",
+//                 attributes: {
+//                     exclude: ["order_detail_order_product_id","order_detail_created_at","order_detail_updated_at"],
+//                 },
+//             },
+//             {
+//                 model: Users,
+//                 as: "users",
+//                 attributes: {
+//                     exclude: ["user_password","user_role_id","user_status","user_created_at","user_updated_at"],
+//                 },
+//             }
+//         ],
+//     })
+//         .then((data) => {
+//             if (data.length === 0) {
+//                 res.status(404).send({
+//                     message: "Order Not Found",
+//                 });
+//             }
+//             res.send(data);
+//         })
+//         .catch((err) => {
+//             res.status(500).send({
+//                 message: err.message || "Some error occurred while retrieving Users.",
+//             });
+//         });
+// };
+
+//show detail order and middleware for detail order
 const DetailOrder = (req, res) => {
+    const token = req.headers["x-access-token"];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user_id = decoded.user_id;
     const order_id = req.params.id;
     Orders.findOne({
         where: {
             order_id: order_id,
         },
-        attributes: {
-            exclude: ["order_user_id","order_status_id","order_created_at","order_updated_at"],
-        },
-        include: [
-            {
-                model: Order_Status,
-                as: "order_statuses",
-                attributes: {
-                    exclude: ["order_status_order_id","order_status_admin_code","order_status_created_at","order_status_updated_at"],
+    }).then((data) => {
+        if (data.order_user_id !== user_id) {
+            res.status(404).send({
+                message: "Order Not Found",
+            });
+        } else {
+            Orders.findOne({
+                where: {
+                    order_id: order_id,
                 },
-            },
-            {
-                model: Order_Products,
-                as: "order_products",
                 attributes: {
-                    exclude: ["order_product_order_id","order_product_product_id","order_product_created_at","order_product_updated_at"],
+                    exclude: ["order_user_id","order_status_id","order_created_at","order_updated_at"],
                 },
                 include: [
                     {
-                        model: Products,
-                        as: "products",
+                        model: Order_Status,
+                        as: "order_statuses",
+                        attributes: {
+                            exclude: ["order_status_order_id","order_status_admin_code","order_status_created_at","order_status_updated_at"],
+                        },
                     },
+                    {
+                        model: Order_Products,
+                        as: "order_products",
+                        attributes: {
+                            exclude: ["order_product_order_id","order_product_product_id","order_product_created_at","order_product_updated_at"],
+                        },
+                        include: [
+                            {
+                                model: Products,
+                                as: "products",
+                            },
+                        ],
+                    },
+                    {
+                        model: OrderDetails,
+                        as: "order_details",
+                        attributes: {
+                            exclude: ["order_detail_order_product_id","order_detail_created_at","order_detail_updated_at"],
+                        },
+                    },
+                    {
+                        model: Users,
+                        as: "users",
+                        attributes: {
+                            exclude: ["user_password","user_role_id","user_status","user_created_at","user_updated_at"],
+                        },
+                    }
                 ],
-            },
-            {
-                model: OrderDetails,
-                as: "order_details",
-                attributes: {
-                    exclude: ["order_detail_order_product_id","order_detail_created_at","order_detail_updated_at"],
-                },
-            },
-            {
-                model: Users,
-                as: "users",
-                attributes: {
-                    exclude: ["user_password","user_role_id","user_status","user_created_at","user_updated_at"],
-                },
-            }
-        ],
-    })
-        .then((data) => {
-            res.send(data);
-        })
-        .catch((err) => {
-            res.status(500).send({
-                message: err.message || "Some error occurred while retrieving Users.",
-            });
-        });
+            })
+                .then((data) => {
+                    if (data.length === 0) {
+                        res.status(404).send({
+                            message: "Order Not Found",
+                        });
+                    }
+                    res.send(data);
+                })
+                .catch((err) => {
+                    res.status(500).send({
+                        message: err.message || "Some error occurred while retrieving Users.",
+                    });
+                });
+        }
+    });
 };
 
 

@@ -15,8 +15,12 @@ import {
     showStatusOrder,
 } from "../controllers/user_order.controller.js";
 
+import { 
+    
+    isLogin,
+    isOrderUser,
 
-import { isLogin } from "../middlewares/auth.middlewares.js";
+} from "../middlewares/auth.middlewares.js";
 import { isUser } from "../middlewares/roles.middlewares.js";
 
 import express from "express";
@@ -33,8 +37,8 @@ const ordersRoutes = (app) => {
     router.put("/checkout", isLogin, isUser,CheckoutOrder);
     router.get("/status", isLogin, isUser,showStatusOrder);
     router.get("/tracking", isLogin, isUser,showTracking);
-    router.get("/list", isLogin, isUser,ShowAllOrder);
-    router.get("/list/:id", isLogin, isUser,DetailOrder);
+    router.get("/list", isLogin, isUser,ShowAllOrder,isOrderUser);
+    router.get("/list/:id", isLogin, isUser,DetailOrder,isOrderUser);
     app.use("/api/order", router);
 
 };
