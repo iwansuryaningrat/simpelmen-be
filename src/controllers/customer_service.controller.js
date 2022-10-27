@@ -120,7 +120,7 @@ const OrderAccept = (req, res) => {
         .then((data) => {
         Order_Status.create({
             order_status_admin_code: 3,
-            order_status_description: "Order Disetujui",
+            order_status_description: "Menerima Konfirmasi PO CS",
             order_status_order_id: order_id,
         })
             .then((data) => {
