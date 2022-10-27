@@ -63,7 +63,7 @@ const DpPaymentMethod = (req, res) => {
     const id = req.params.id;
     Orders.update(
         {
-            payment_method:"DP",
+            order_payment_method:"DP",
         },
         {
             where: { order_id: id },
@@ -91,35 +91,32 @@ const LangsungPaymentMethod = (req, res) => {
     const id = req.params.id;
     Orders.update(
         {
-            payment_method:"Langsung",
+            order_payment_method:"Langsung",
         },
         {
             where: { order_id: id },
         }
     )
-        .then((num) => {
-        if (num == 1) {
-            res.send({
+    //then return success 
+    .then(() => {
+        res.status(200).send({
             message: "Orders was updated successfully.",
-            });
-        } else {
-            res.send({
-            message: `Cannot update Orders with id=${id}. Maybe Orders was not found or req.body is empty!`,
-            });
-        }
-        })
-        .catch((err) => {
+        });
+    })
+    .catch((err) => {
         res.status(500).send({
             message: "Error updating Orders with id=" + id,
         });
-        });
+    });
     }
+
     
 const LunasPaymentMethod = (req, res) => {
+    //updattes order_payment_method_status to lunas and edit all order_status_admin_code to 7 and create new order_status_admin_code 8
     const id = req.params.id;
     Orders.update(
         {
-            payment_method:"Lunas",
+            order_payment_method_status:"Lunas",
         },
         {
             where: { order_id: id },
@@ -128,47 +125,46 @@ const LunasPaymentMethod = (req, res) => {
     .then(() => {
         Order_Status.update(
             {
-                order_status_admin_code: 4,
+                order_status_admin_code: 7,
             },
             {
-                where: { order_id: id },
+                where: { order_status_order_id: id },
             }
         )
         .then(() => {
             Order_Status.create({
                 order_status_admin_code: 7,
-                order_status_description: "Pembayaran Terkonfirmasi",
-                order_id: id,
+                order_status_description: "Pesanan telah dibayar",
+                order_status_order_id: id,
             })
-            .then((data) => {
-                res.send(data);
+            .then(() => {
+                res.status(200).send({
+                    message: "Orders was updated successfully.",
+                });
             })
             .catch((err) => {
                 res.status(500).send({
-                    message: err.message || "Some error occurred while creating the Order_Status.",
+                    message: "Error updating Orders with id=" + id,
                 });
             });
         })
+        .catch((err) => {
+            res.status(500).send({
+                message: "Error updating Orders with id=" + id,
+            });
+        });
     }
     )
-        .then((num) => {
-        if (num == 1) {
-            res.send({
-            message: "Orders was updated successfully.",
-            });
-        } else {
-            res.send({
-            message: `Cannot update Orders with id=${id}. Maybe Orders was not found or req.body is empty!`,
-            });
-        }
-        }
-        )
-        .catch((err) => {
+    .catch((err) => {
         res.status(500).send({
             message: "Error updating Orders with id=" + id,
         });
-        }
-        );
     }
+    );
+}
+
+    
+
+
 
 export { showAllOrder, DpPaymentMethod, LangsungPaymentMethod, LunasPaymentMethod };
