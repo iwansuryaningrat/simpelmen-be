@@ -244,6 +244,17 @@ const CheckoutOrder = async (req, res) => {
         });
         return;
     }
+    const delivery_detail = await Delivery_Details.findOne({
+        where: {
+            delivery_detail_order_id: order_id,
+        },
+    });
+    if (delivery_detail) {
+        res.status(400).send({
+            message: "Error Checkout Order",
+        });
+        return;
+    }
     const { delivery_detail_name,delivery_detail_ikm, delivery_detail_email, delivery_detail_contact, delivery_detail_method, delivery_detail_address, delivery_detail_district,delivery_detail_postal_code, delivery_detail_shipping_cost,delivery_detail_courier,delivery_detail_receipt,delivery_detail_estimate } = req.body;
     const order_id_string = order_id.toString();
     const order_id_array_string = order_id_string.split(",");
@@ -268,7 +279,7 @@ const CheckoutOrder = async (req, res) => {
                 return Order_Status.update(
                     {
                         order_status_admin_code: "2",
-                        order_status_description: "Belum Dikonfirmasi",
+                        order_status_description: "Watting for Approve Admin Customer Service",
                     },
                     {
                         where: {
@@ -276,20 +287,18 @@ const CheckoutOrder = async (req, res) => {
                         },
                     }
                 )
-            },)
-            .then(function (result) {
+            })
+            .then(function (order) {
                 return Retributions.create({
                     retribution_order_id: order_id_array[i],
-                    retribution_status: "Belum Diterima",
-                }, { transaction: t })
+                    retribution_status: "0",
+                })
             })
-        })
-        .then(function (result) {
+        }).then(function (result) {
             res.status(200).send({
-                message: "Order has been check Admin Customer Service. Check your email to see the order",
+                message: "Order has been check Admin Customer Service.",
             });
-        })
-        .catch(function (err) {
+        }).catch(function (err) {
             res.status(500).send({
                 message: err.message || "Some error occurred while creating the Order.",
             });
