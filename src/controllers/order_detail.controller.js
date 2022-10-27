@@ -348,7 +348,6 @@ const CheckoutOrder = async (req, res) => {
 //             });
 //         });
 // };
-//remove cart 
 const removeCart = (req, res) => {
     const token = req.headers["x-access-token"];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
