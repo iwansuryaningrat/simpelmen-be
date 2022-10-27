@@ -10,6 +10,12 @@ import {
   initProvince,
   initCity,
   initDistrict,
+  initJenisProduct,
+  initProductCategory,
+  initProductFinishings,
+  initProductMaterial,
+  initProductSize,
+  initUserSeed,
 } from "./src/services/seeder.js";
 
 app.use(
@@ -57,6 +63,14 @@ app.use(
 //   initProvince();
 //   initCity();
 //   initDistrict();
+//   initJenisProduct();
+//   initProductCategory();
+//   initProductFinishings();
+//   initProductMaterial();
+//   initProductSize();
+//   initUserSeed();
+
+
 // });
 
 // simple route

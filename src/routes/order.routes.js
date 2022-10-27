@@ -7,7 +7,13 @@ import {
     findAllCart,
     CheckoutOrder,
     removeCart,
+    showTracking,
+    ShowAllOrder,
+    DetailOrder,
 } from "../controllers/order_detail.controller.js"
+import {
+    showStatusOrder,
+} from "../controllers/user_order.controller.js";
 
 
 import { isLogin } from "../middlewares/auth.middlewares.js";
@@ -25,6 +31,10 @@ const ordersRoutes = (app) => {
     router.get("/cart", isLogin, isUser,findAllCart);
     router.delete("/cart/:id", isLogin, isUser, removeCart);
     router.put("/checkout", isLogin, isUser,CheckoutOrder);
+    router.get("/status", isLogin, isUser,showStatusOrder);
+    router.get("/tracking", isLogin, isUser,showTracking);
+    router.get("/list", isLogin, isUser,ShowAllOrder);
+    router.get("/list/:id", isLogin, isUser,DetailOrder);
     app.use("/api/order", router);
 
 };

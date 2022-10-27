@@ -1,6 +1,7 @@
 import db from "../models/index.js";
 import csv from "csv-parser";
 import fs from "fs";
+import bycrpt from "bcrypt";
 
 //init seeder role
 const initRoles = () => {
@@ -41,6 +42,134 @@ const initRoles = () => {
     }
   });
 };
+
+const initUserSeed = () => {
+  db.users.findAll().then((data) => {
+    if (data.length === 0) {
+      db.users.create({
+        user_name: "Super Admin",
+        user_email: "admin@gmail.com",
+        user_password: bycrpt.hashSync("12345abcde", 8),
+        user_role_id: 1,
+        user_status: true,
+        user_verify: true,
+      });
+      db.users.create({
+        user_name: "Admin CS",
+        user_email: "admincs@gmail.com",
+        user_password: bycrpt.hashSync("12345abcde", 8),
+        user_role_id: 2,
+        user_status: true,
+        user_verify: true,
+      });
+      db.users.create({
+        user_name: "Admin Cashier",
+        user_email: "adminkasir@gmail.com",
+        user_password: bycrpt.hashSync("12345abcde", 8),
+        user_role_id: 3,
+        user_status: true,
+        user_verify: true,
+      });
+      db.users.create({
+        user_name: "User",
+        user_email: "user@gmail.com",
+        user_password: bycrpt.hashSync("12345abcde", 8),
+        user_role_id: 8,
+        user_status: true,
+        user_verify: true,
+      });
+    }
+  });
+};
+const initProductMaterial = () => {
+  db.product_materials.findAll().then((data) => {
+    if (data.length === 0) {
+      db.product_materials.create({
+        product_material_id: 1,
+        product_material_name: "Plastik Standing Pouche",
+        product_material_description: "Plastik Standing Pouche",
+      });
+      db.product_materials.create({
+        product_material_id: 2,
+        product_material_name: "Plastik Standing Sachet",
+        product_material_description: "Plastik Standing Sachet",
+      });
+    }
+  });
+};
+
+const initProductFinishings = () => {
+  db.product_finishings.findAll().then((data) => {
+    if (data.length === 0) {
+      db.product_finishings.create({
+        product_finishing_id: 1,
+        product_finishing_name: "Laminating Doff",
+        product_finishing_description: "Laminating Doff for standing pouch",
+      });
+    }
+  });
+};
+
+const initProductCategory = () => {
+  db.product_categories.findAll().then((data) => {
+    if (data.length === 0) {
+      db.product_categories.create({
+        product_category_id:"O",
+        product_category_name: "Standing Pouch",
+        product_category_description: "Standing Pouch", 
+      });
+    }
+  });
+};
+
+const initJenisProduct = () => {
+  db.jenis_products.findAll().then((data) => {
+    if (data.length === 0) {
+      db.jenis_products.create({
+        jenis_product_id: 1,
+        jenis_product_name: "Color Matte",
+        jenis_product_description: "Standing Pouch Color Matte",
+      });
+    }
+  });
+};
+
+const initProductSize = () => {
+  db.product_sizes.findAll().then((data) => {
+    if (data.length === 0) {
+      db.product_sizes.create({
+        product_size_id: 1,
+        product_size_length: 10,
+        product_size_width: 10,
+        product_size_height: 10,
+        product_size_height2: 10,
+        product_size_length2: 10,
+        product_size_width2: 10,
+        product_size_shape: "Square",	
+        product_size_description: "10x10x10x10x10x10 Square",
+      });
+    }
+  });
+};
+
+// const initProduct = () => {
+//   db.products.findAll().then((data) => {
+//     if (data.length === 0) {
+//       db.products.create({
+//         product_id: 1,
+//         product_name: "Standing Pouch",
+//         product_category: "O",	
+//         product_material: 1,
+//         product_finishing: 1,
+//         jenis_product: 1,
+//         product_size: 1,
+//         product_description: "Standing Pouch",
+//         product_weight: 10,
+//       });
+//     }
+//   });
+// };
+
 
 const initProvince = () => {
   db.province.findAll().then((data) => {
@@ -101,4 +230,4 @@ const initDistrict = () => {
   });
 };
 
-export { initRoles, initProvince, initCity, initDistrict };
+export { initRoles, initProvince, initCity, initDistrict, initProductMaterial, initProductFinishings, initProductCategory, initJenisProduct, initProductSize, initUserSeed  };

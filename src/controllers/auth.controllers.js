@@ -89,7 +89,7 @@ const signup = (req, res) => {
     <div class="card">
     <h1>Verify Email</h1>
     <p>Click the button below to verify your email address.</p>
-    <a href="http://localhost:3000/api/auth/activate/${token}">Verify</a>
+    <a href="https://simpelmen.herokuapp.com/api/auth/activate/${token}">Verify</a>
     </div>
     </div>
     </body>
@@ -129,7 +129,7 @@ const activate = (req, res) => {
           user_role_id: 8,
         })
           .then((user) => {
-            res.redirect("http://localhost:3000/activate-account/&{token}");
+            res.redirect("https//localhost:3000/login");
           })
           .catch((err) => {
             return res.status(500).send({ message: err.message });
@@ -182,6 +182,7 @@ const login = (req, res) => {
         message: "Login Success",
         data: {
           user_email: user.user_email,
+          user_role_id: user.user_role_id,
           user_name: user.user_name,
           token: token,
         },
