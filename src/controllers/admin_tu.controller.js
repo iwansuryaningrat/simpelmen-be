@@ -67,15 +67,15 @@ const ApproveOrderTU = (req, res) => {
         },
         {
             where: {
-                order_id: id,
+                order_status_order_id: id,
             },
         }
     )
     .then(() => {
         Order_Status.create({
             order_status_admin_code: 4,
-            description: "Pesanan Dalam Proses Desain",
-            order_id: id,
+            order_status_description: "Pesanan Dalam Proses Desain",
+            order_status_order_id: id,
         })
         .then((data) => {
             res.send(data);
@@ -99,8 +99,8 @@ const UpdateOrderNotApproveTU = (req, res) => {
     const id = req.params.id;
     Order_Status.create({
         order_status_admin_code: 7,
-        description: "Pesanan Ditolak",
-        order_id: id,
+        order_status_description: "Pesanan Ditolak",
+        order_status_order_id: id,
     })
     .then((data) => {
         res.send(data);

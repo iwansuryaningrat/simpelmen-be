@@ -16,6 +16,9 @@ const Orders = (sequelize, Sequelize) => {
       order_quantity: {
         type: Sequelize.INTEGER,
       },
+      order_status:{
+        type: Sequelize.INTEGER,
+      },
       order_note: {
         type: Sequelize.STRING,
       },

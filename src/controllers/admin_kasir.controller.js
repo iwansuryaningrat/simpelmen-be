@@ -97,7 +97,6 @@ const LangsungPaymentMethod = (req, res) => {
             where: { order_id: id },
         }
     )
-    //then return success 
     .then(() => {
         res.status(200).send({
             message: "Orders was updated successfully.",
@@ -112,7 +111,6 @@ const LangsungPaymentMethod = (req, res) => {
 
     
 const LunasPaymentMethod = (req, res) => {
-    //updattes order_payment_method_status to lunas and edit all order_status_admin_code to 7 and create new order_status_admin_code 8
     const id = req.params.id;
     Orders.update(
         {

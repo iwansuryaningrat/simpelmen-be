@@ -57,17 +57,17 @@ app.use(
 // database
 // import db from "./src/models/index.js";
 
-// db.sequelize.sync({ force: true }).then(() => {
+// db.sequelize.sync({ force: false }).then(() => {
 //   console.log("Sync database");
-//   initRoles();
-//   initProvince();
-//   initCity();
-//   initDistrict();
-//   initJenisProduct();
-//   initProductCategory();
-//   initProductFinishings();
-//   initProductMaterial();
-//   initProductSize();
+//   // initRoles();
+//   // initProvince();
+//   // initCity();
+//   // initDistrict();
+//   // initJenisProduct();
+//   // initProductCategory();
+//   // initProductFinishings();
+//   // initProductMaterial();
+//   // initProductSize();
 //   initUserSeed();
 
 
