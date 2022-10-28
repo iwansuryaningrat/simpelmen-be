@@ -13,6 +13,7 @@ import {
     showAllRetribution,
     OrderAccept,
     OrderDecline,
+    showRetributonById,
     updateRetribution,
     removeRetribution,
     rejectRetribution,
@@ -34,6 +35,7 @@ import {
     router.get("/orders", isLogin, isAdminCS, showAllOrder);
     router.put("/orders/accept/:id", isLogin, isAdminCS, OrderAccept);
     router.put("/orders/decline/:id", isLogin, isAdminCS, OrderDecline);
+    router.get("/retributions/:retribution_id", isLogin, isAdminCS, showRetributonById);
     router.get("/retributions", isLogin, isAdminCS, showAllRetribution);
     router.put("/retributions/:retribution_id", isLogin, isAdminCS, updateRetribution);
     router.delete("/retributions/:retribution_id", isLogin, isAdminCS, removeRetribution);
