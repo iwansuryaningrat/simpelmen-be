@@ -99,7 +99,7 @@ const OrderDecline = (req, res) => {
         .then(() => {
             Orders.update(
                 {
-                    order_status_code: 2,
+                    order_status_code: req.body.order_status,
                 },
                 {
                     where: {
@@ -148,7 +148,7 @@ const OrderAccept = (req, res) => {
         .then(() => {
         Orders.update(
             {
-                order_status: 3,
+                order_status: req.body.order_status,
             },
             {
                 where: {
