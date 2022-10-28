@@ -196,23 +196,46 @@ const BelumLunasPaymentMethod = (req, res) => {
             where: { order_id: id },
         }
     )
-        .then((num) => {
-        if (num == 1) {
-            res.send({
-            message: "Orders was updated successfully.",
+    .then(() => {
+        Order_Status.update(
+            {
+                order_status_admin_code: 7,
+            },
+            {
+                where: { order_status_order_id: id },
+            }
+        )
+        .then(() => {
+            Order_Status.create({
+                order_status_admin_code: 7,
+                order_status_description: "Pesanan belum lunas",
+                order_status_order_id: id,
+            })
+            .then(() => {
+                res.status(200).send({
+                    message: "Orders was updated successfully.",
+                });
+            })
+            .catch((err) => {
+                res.status(500).send({
+                    message: "Error updating Orders with id=" + id,
+                });
             });
-        } else {
-            res.send({
-            message: `Cannot update Orders with id=${id}. Maybe Orders was not found or req.body is empty!`,
-            });
-        }
         })
         .catch((err) => {
+            res.status(500).send({
+                message: "Error updating Orders with id=" + id,
+            });
+        });
+    }
+    )
+    .catch((err) => {
         res.status(500).send({
             message: "Error updating Orders with id=" + id,
         });
-        });
     }
+    );
+}
     
 
 

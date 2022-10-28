@@ -127,14 +127,35 @@ const UpdateOrderBelumProduksi = (req, res) => {
         order_id: id,
     })
     .then((data) => {
-        res.send(data);
-    })
+        Orders.update(
+            {
+                order_status: req.body.order_status,
+            },
+            {
+                where: {
+                    order_id: id,
+                },
+            }
+        )
+        .then(() => {
+            res.send({
+                message: "Order was updated successfully.",
+            });
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message: "Error updating Order with id=" + id,
+            });
+        });
+    }
+    )
     .catch((err) => {
         res.status(500).send({
-            message: err.message || "Some error occurred while creating the Order_Status.",
+            message: "Error updating Order with id=" + id,
         });
-    });
-}
+    }
+    );
+};
 
 const UpdateOrderDalamProduksi = (req, res) => {
     const id = req.params.id;
@@ -144,14 +165,35 @@ const UpdateOrderDalamProduksi = (req, res) => {
         order_id: id,
     })
     .then((data) => {
-        res.send(data);
-    })
+        Orders.update(
+            {
+                order_status: req.body.order_status,
+            },
+            {
+                where: {
+                    order_id: id,
+                },
+            }
+        )
+        .then(() => {
+            res.send({
+                message: "Order was updated successfully.",
+            });
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message: "Error updating Order with id=" + id,
+            });
+        });
+    }
+    )
     .catch((err) => {
         res.status(500).send({
-            message: err.message || "Some error occurred while creating the Order_Status.",
+            message: "Error updating Order with id=" + id,
         });
-    });
-}
+    }
+    );
+};
 
 const UpdateOrderSelesaiProduksi = (req, res) => {
     const id = req.params.id;
@@ -171,22 +213,42 @@ const UpdateOrderSelesaiProduksi = (req, res) => {
             description: "Pesanan Masuk Gudang", 
             order_id: id,
         })
-        .then((data) => {
-            res.send(data);
+        //then update order_status
+        .then(() => {
+            Orders.update(
+                {
+                    order_status: req.body.order_status,
+                },
+                {
+                    where: {
+                        order_id: id,
+                    },
+                
+                }
+            )
+            .then(() => {
+                res.send({
+                    message: "Order was updated successfully.",
+                });
+            })
+            .catch((err) => {
+                res.status(500).send({
+                    message: "Error updating Order with id=" + id,
+                });
+            });
         })
         .catch((err) => {
             res.status(500).send({
-                message: err.message || "Some error occurred while creating the Order_Status.",
+                message: "Error updating Order with id=" + id,
             });
         });
-    }
-    )
+    })
     .catch((err) => {
         res.status(500).send({
-            message: err.message || "Some error occurred while updating the Order_Status.",
+            message: "Error updating Order with id=" + id,
         });
     }
     );
 };
-
+            
 export { showAllOrder, showOrderByID, UpdateOrderBelumProduksi, UpdateOrderDalamProduksi, UpdateOrderSelesaiProduksi };

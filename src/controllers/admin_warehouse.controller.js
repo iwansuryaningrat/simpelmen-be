@@ -60,14 +60,35 @@ const UpdateOrderDikirim = (req, res) => {
         order_id: id,
     })
     .then((data) => {
-        res.send(data);
-    })
+        Orders.update(
+            {
+                order_status: req.body.order_status,
+            },
+            {
+                where: {
+                    order_id: id,
+                },
+            }
+        )
+        .then(() => {
+            res.send({
+                message: "Order was updated successfully.",
+            });
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message: "Error updating Order with id=" + id,
+            });
+        });
+    }
+    )
     .catch((err) => {
         res.status(500).send({
-            message: err.message || "Some error occurred while creating the Order_Status.",
+            message: "Error updating Order with id=" + id,
         });
-    });
-}
+    }
+    );
+};
 
 const UpdateResiPengiriman = (req, res) => {
     const id = req.params.id;
