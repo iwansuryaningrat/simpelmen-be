@@ -11,6 +11,7 @@ const Product_Material = db.product_materials;
 const Product_Category = db.product_categories;
 const Delivery_Details = db.delivery_details;
 const Retributions = db.retributions;
+const Product_Sizes = db.product_sizes;
 const Province = db.province;
 const City = db.city;
 const SubDistrict = db.subdistrict;
@@ -28,7 +29,6 @@ import Order_Details from "../models/order_details.model.js";
 dotenv.config();
 
 
-//show all order with order_status_admin_code 2 in tabel Order_status
 const showAllOrder = (req, res) => {
     //order find all
     Orders.findAll({
@@ -96,14 +96,42 @@ const OrderDecline = (req, res) => {
         order_status_description: "Order Ditolak",
         order_status_order_id: order_id,
     })
-        .then((data) => {
-        res.send(data);
+        .then(() => {
+            Orders.update(
+                {
+                    order_status_code: 2,
+                },
+                {
+                    where: {
+                        order_id: order_id,
+                    },
+                },
+            )
+                .then((num) => {
+                    if (num == 1) {
+                        res.send({
+                            message: "Order was updated successfully.",
+                        });
+                    } else {
+                        res.send({
+                            message: `Cannot update Order with id=${order_id}. Maybe Order was not found or req.body is empty!`,
+                        });
+                    }
+                }
+                )
+                .catch((err) => {
+                    res.status(500).send({
+                        message: "Error updating Order with id=" + order_id,
+                    });
+                }
+                );
         })
         .catch((err) => {
-        res.status(500).send({
-            message: err.message || "Some error occurred while creating the Order_Status.",
-        });
-        });
+            res.status(500).send({
+                message: err.message || "Some error occurred while creating the Order.",
+            });
+        }
+        );
     }
 
 const OrderAccept = (req, res) => {
@@ -120,7 +148,7 @@ const OrderAccept = (req, res) => {
         .then(() => {
         Orders.update(
             {
-                order_status_button: 1,
+                order_status: 3,
             },
             {
                 where: {
@@ -134,7 +162,7 @@ const OrderAccept = (req, res) => {
                 order_status_order_id: order_id,
             })
                 .then((data) => {
-                res.send(data);
+                    res.send(data);
                 })
                 .catch((err) => {
                 res.status(500).send({
@@ -301,6 +329,10 @@ const showRetributonById = (req, res) => {
                                             {
                                                 model: Product_Category,
                                                 as: "product_categories",
+                                            },
+                                            {
+                                                model: Product_Sizes,
+                                                as: "product_sizes",
                                             },
                                         ],
                                     },
