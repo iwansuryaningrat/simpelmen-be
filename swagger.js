@@ -5,5 +5,10 @@ const endpointsFiles = [
     "./src/routes/users.routes.js",
     "./src/routes/order.routes.js",
     "./src/routes/admin_cs.rotes.js",
+    "./src/routes/admin_kasir.routes.js",
+    "./src/routes/admin_produksi.routes.js",
+    "./src/routes/admin_tu.routes.js",
+    "./src/routes/admin_warehouse.routes.js",
+    "./src/routes/admin_desain.routes.js",
 ];
 swaggerAutogen(outputFile, endpointsFiles);
