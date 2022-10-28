@@ -29,7 +29,6 @@ import {
     router.get("/orders", isLogin, isAdminTu, showAllOrder);
     router.put("/orders/decline/:id", isLogin, isAdminTu, UpdateOrderNotApproveTU);
     router.put("/orders/approve/:id", isLogin, isAdminTu, ApproveOrderTU);
-    
     app.use("/api/admin/tu", router);
   };
   
