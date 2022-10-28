@@ -69,23 +69,33 @@ const DpPaymentMethod = (req, res) => {
             where: { order_id: id },
         }
     )
-        .then((num) => {
-        if (num == 1) {
+    .then(() => {
+        Orders.update(
+            {
+                order_status : req.body.order_status,
+            },
+            {
+                where: { order_id: id },
+            }
+        )
+        .then(() => {
             res.send({
-            message: "Orders was updated successfully.",
+                message: "Order was updated successfully.",
             });
-        } else {
-            res.send({
-            message: `Cannot update Orders with id=${id}. Maybe Orders was not found or req.body is empty!`,
-            });
-        }
         })
         .catch((err) => {
+            res.status(500).send({
+                message: "Error updating Order with id=" + id,
+            });
+        });
+    })
+    .catch((err) => {
         res.status(500).send({
-            message: "Error updating Orders with id=" + id,
+            message: "Error updating Order with id=" + id,
         });
-        });
-    }
+    });
+}
+
 
 const LangsungPaymentMethod = (req, res) => {
     const id = req.params.id;
@@ -98,16 +108,31 @@ const LangsungPaymentMethod = (req, res) => {
         }
     )
     .then(() => {
-        res.status(200).send({
-            message: "Orders was updated successfully.",
+        Orders.update(
+            {
+                order_status : req.body.order_status,
+            },
+            {
+                where: { order_id: id },
+            }
+        )
+        .then(() => {
+            res.send({
+                message: "Order was updated successfully.",
+            });
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message: "Error updating Order with id=" + id,
+            });
         });
     })
     .catch((err) => {
         res.status(500).send({
-            message: "Error updating Orders with id=" + id,
+            message: "Error updating Order with id=" + id,
         });
     });
-    }
+}
 
     
 const LunasPaymentMethod = (req, res) => {
@@ -161,8 +186,35 @@ const LunasPaymentMethod = (req, res) => {
     );
 }
 
+const BelumLunasPaymentMethod = (req, res) => {
+    const id = req.params.id;
+    Orders.update(
+        {
+            order_payment_method_status:"Belum Lunas",
+        },
+        {
+            where: { order_id: id },
+        }
+    )
+        .then((num) => {
+        if (num == 1) {
+            res.send({
+            message: "Orders was updated successfully.",
+            });
+        } else {
+            res.send({
+            message: `Cannot update Orders with id=${id}. Maybe Orders was not found or req.body is empty!`,
+            });
+        }
+        })
+        .catch((err) => {
+        res.status(500).send({
+            message: "Error updating Orders with id=" + id,
+        });
+        });
+    }
     
 
 
 
-export { showAllOrder, DpPaymentMethod, LangsungPaymentMethod, LunasPaymentMethod };
+export { showAllOrder, DpPaymentMethod, LangsungPaymentMethod, LunasPaymentMethod,BelumLunasPaymentMethod };

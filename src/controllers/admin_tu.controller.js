@@ -78,21 +78,40 @@ const ApproveOrderTU = (req, res) => {
             order_status_order_id: id,
         })
         .then((data) => {
-            res.send(data);
-        })
+            Orders.update(
+                {
+                    order_status: req.body.order_status,
+                },
+                {
+                    where: {
+                        order_id: id,
+                    },
+                }
+            )
+            .then(() => {
+                res.send({
+                    message: "Order was updated successfully.",
+                });
+            })
+            .catch((err) => {
+                res.status(500).send({
+                    message: "Error updating Order with id=" + id,
+                });
+            });
+        }
+        )
         .catch((err) => {
             res.status(500).send({
-                message: err.message || "Some error occurred while creating the Order_Status.",
+                message: "Error updating Order with id=" + id,
             });
-        });
-    }
-    )
+        }
+        );
+    })
     .catch((err) => {
         res.status(500).send({
-            message: err.message || "Some error occurred while updating the Order_Status.",
+            message: "Error updating Order with id=" + id,
         });
-    }
-    );
+    });
 };
 
 const UpdateOrderNotApproveTU = (req, res) => {
@@ -102,15 +121,48 @@ const UpdateOrderNotApproveTU = (req, res) => {
         order_status_description: "Pesanan Ditolak",
         order_status_order_id: id,
     })
-    .then((data) => {
-        res.send(data);
+    .then(() => {
+        Order_Status.create({
+            order_status_admin_code: 4,
+            order_status_description: "Pesanan Dalam Proses Desain",
+            order_status_order_id: id,
+        })
+        .then((data) => {
+            Orders.update(
+                {
+                    order_status: req.body.order_status,
+                },
+                {
+                    where: {
+                        order_id: id,
+                    },
+                }
+            )
+            .then(() => {
+                res.send({
+                    message: "Order was updated successfully.",
+                });
+            })
+            .catch((err) => {
+                res.status(500).send({
+                    message: "Error updating Order with id=" + id,
+                });
+            });
+        }
+        )
+        .catch((err) => {
+            res.status(500).send({
+                message: "Error updating Order with id=" + id,
+            });
+        }
+        );
     })
     .catch((err) => {
         res.status(500).send({
-            message: err.message || "Some error occurred while creating the Order_Status.",
+            message: "Error updating Order with id=" + id,
         });
     });
-}
+};
 
 
 export {showAllOrder, ApproveOrderTU, UpdateOrderNotApproveTU };
