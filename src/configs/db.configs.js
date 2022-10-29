@@ -9,10 +9,10 @@ const configs = {
   PORT: process.env.DB_PORT,
   dialect: "mysql",
   pool: {
-    max: 100,
+    max: 300,
     min: 0,
-    acquire: 30000,
-    idle: 10000,
+    acquire: 3000,
+    idle: 1000,
   },
 };
 
