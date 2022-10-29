@@ -10,6 +10,7 @@ const Product_Finishing = db.product_finishings;
 const Product_Material = db.product_materials;
 const Product_Category = db.product_categories;
 const Delivery_Details = db.delivery_details;
+const Jenis_Products = db.jenis_products;
 const Retributions = db.retributions;
 const Province = db.province;
 const City = db.city;
@@ -69,6 +70,11 @@ const showStatusOrder = (req, res) => {
                                 model: Product_Category,
                                 as: "product_categories",
                             },
+                            {
+                                model: Jenis_Products,
+                                as: "jenis_products",
+                            },
+
                         ],
                     },
                     {

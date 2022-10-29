@@ -33,6 +33,7 @@ import {
     router.get("/profile", isLogin, isAdminCS, userProfile);
     router.put("/profile", isLogin, isAdminCS, updateProfile);
     router.get("/orders", isLogin, isAdminCS, showAllOrder);
+    router.put("/changepassword/:id", isLogin, changePassword);
     router.put("/orders/accept/:id", isLogin, isAdminCS, OrderAccept);
     router.put("/orders/decline/:id", isLogin, isAdminCS, OrderDecline);
     router.get("/retributions/:retribution_id", isLogin, isAdminCS, showRetributonById);

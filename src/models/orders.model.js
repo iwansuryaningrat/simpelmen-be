@@ -37,6 +37,9 @@ const Orders = (sequelize, Sequelize) => {
       order_design: {
         type: Sequelize.STRING,
       },
+      order_design_image:{
+        type: Sequelize.TEXT("long"),
+      },
       order_payment_method: {
         type: Sequelize.STRING,
       },

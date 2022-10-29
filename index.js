@@ -55,23 +55,23 @@ app.use(
 );
 
 // database
-// import db from "./src/models/index.js";
+import db from "./src/models/index.js";
 
-// db.sequelize.sync({ force: false }).then(() => {
-//   console.log("Sync database");
-//   // initRoles();
-//   // initProvince();
-//   // initCity();
-//   // initDistrict();
-//   // initJenisProduct();
-//   // initProductCategory();
-//   // initProductFinishings();
-//   // initProductMaterial();
-//   // initProductSize();
-//   initUserSeed();
+db.sequelize.sync({ force: true }).then(() => {
+  console.log("Sync database");
+  initRoles();
+  initProvince();
+  initCity();
+  initDistrict();
+  initJenisProduct();
+  initProductCategory();
+  initProductFinishings();
+  initProductMaterial();
+  initProductSize();
+  initUserSeed();
 
 
-// });
+});
 
 // simple route
 app.get("/", (req, res) => {

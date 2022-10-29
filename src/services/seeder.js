@@ -71,6 +71,38 @@ const initUserSeed = () => {
         user_verify: true,
       });
       db.users.create({
+        user_name: "Admin Design",
+        user_email: "admindesign@gmail.com",
+        user_password: bycrpt.hashSync("12345abcde", 8),
+        user_role_id: 4,
+        user_status: true,
+        user_verify: true,
+      });
+      db.users.create({
+        user_name: "Admin Warehouse",
+        user_email: "admingudang@gmail.com",
+        user_password: bycrpt.hashSync("12345abcde", 8),
+        user_role_id: 5,
+        user_status: true,
+        user_verify: true,
+      });
+      db.users.create({
+        user_name: "Admin Produksi",
+        user_email: "adminproduksi@gmail.com",
+        user_password: bycrpt.hashSync("12345abcde", 8),
+        user_role_id: 6,
+        user_status: true,
+        user_verify: true,
+      });
+      db.users.create({
+        user_name: "Admin Tu",
+        user_email: "admintu@gmail.com",
+        user_password: bycrpt.hashSync("12345abcde", 8),
+        user_role_id: 7,
+        user_status: true,
+        user_verify: true,
+      });
+      db.users.create({
         user_name: "User",
         user_email: "user@gmail.com",
         user_password: bycrpt.hashSync("12345abcde", 8),

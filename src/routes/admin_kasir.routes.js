@@ -28,6 +28,7 @@ import {
     
     router.get("/profile", isLogin, isAdminCashier, userProfile);
     router.put("/profile", isLogin, isAdminCashier, updateProfile);
+    router.put("/changepassword/:id", isLogin, changePassword);
     router.get("/orders", isLogin, isAdminCashier, showAllOrder);
     router.put("/orders/dp/:id", isLogin, isAdminCashier, DpPaymentMethod);
     router.put("/orders/langsung/:id", isLogin, isAdminCashier, LangsungPaymentMethod);

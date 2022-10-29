@@ -27,6 +27,7 @@ import {
     router.get("/profile", isLogin, isAdminDesign, userProfile);
     router.put("/profile", isLogin, isAdminDesign, updateProfile);
     router.get("/orders", isLogin, isAdminDesign, showAllOrder);
+    router.put("/changepassword/:id", isLogin, changePassword);
     router.put("/orders/decline/:id", isLogin, isAdminDesign, UpdateOrderNotApproveDesain);
     router.put("/orders/approve/:id", isLogin, isAdminDesign, ApproveOrderDesain);
     
