@@ -18,6 +18,7 @@ import {
     removeRetribution,
     rejectRetribution,
     acceptRetribution,
+    showPAD,
   } from "../controllers/customer_service.controller.js";
   import { isLogin } from "../middlewares/auth.middlewares.js";
   import { isAdminCS } from "../middlewares/roles.middlewares.js";
@@ -42,6 +43,7 @@ import {
     router.delete("/retributions/:retribution_id", isLogin, isAdminCS, removeRetribution);
     router.put("/retributions/accept/:retribution_id", isLogin, isAdminCS, acceptRetribution);
     router.put("/retributions/reject/:retribution_id", isLogin, isAdminCS, rejectRetribution);
+    router.get("/pad", isLogin, isAdminCS, showPAD);
     app.use("/api/admin/cs", router);
   };
   

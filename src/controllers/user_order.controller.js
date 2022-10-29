@@ -38,12 +38,14 @@ const showStatusOrder = (req, res) => {
             order_user_id: user_id,
         },
         include: [
+            //order_status latest status
             {
                 model: Order_Status,
                 as: "order_statuses",
                 where: {
-                    order_status_admin_code: {
-                        [Op.not]: "8",
+                    order_status_id: {
+                        //latest id
+                        [Op.eq]: db.sequelize.literal(`(SELECT MAX(order_status_id) FROM order_statuses WHERE order_status_order_id = orders.order_id)`),
                     },
                 },
             },

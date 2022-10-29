@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 const SubDistrict = db.subdistrict;
 const City = db.city;
 const Province = db.province;
+const Role = db.roles;
 // Load .env file
 import * as dotenv from "dotenv";
 
@@ -288,6 +289,10 @@ const userProfile = (req, res) => {
           },
         ],
       },
+      {
+        model: Role,
+        as: "roles",
+      }
     ],
   })
     .then((data) => {

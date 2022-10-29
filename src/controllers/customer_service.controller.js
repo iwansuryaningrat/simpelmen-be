@@ -445,6 +445,35 @@ const rejectRetribution = (req, res) => {
     }
 
 
+const showPAD = (req, res) => {
+    Retributions.findAll({
+        order: [["retribution_id", "DESC"]],
+        attributes:["retribution_id","retribution_jasa_total","retribution_status","createdAt","updatedAt"],
+        include: [
+            {
+                model: Orders,
+                as: "orders",
+                attributes: ["order_id", "order_user_id","order_code"],
+                include: [
+                    {
+                        model: Users,
+                        as: "users",
+                        attributes: ["user_ikm"],
+                    },
+                ],
+            },
+        ],
+    })
+        .then((data) => {
+        res.send(data);
+        })
+        .catch((err) => {
+        res.status(500).send({
+            message: err.message || "Some error occurred while retrieving PAD.",
+        });
+        });
+    }
 
 
-export { showAllOrder, OrderDecline, OrderAccept , showAllRetribution, updateRetribution , showRetributonById , removeRetribution, acceptRetribution, rejectRetribution };
+
+export { showAllOrder, OrderDecline, OrderAccept , showAllRetribution, updateRetribution , showRetributonById , removeRetribution, acceptRetribution, rejectRetribution, showPAD };
