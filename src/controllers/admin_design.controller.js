@@ -67,7 +67,7 @@ const ApproveOrderDesain = (req, res) => {
         },
         {
             where: {
-                order_id: id,
+                order_status_order_id: id,
             },
         }
     )
@@ -128,7 +128,7 @@ const UpdateOrderNotApproveDesain = (req, res) => {
             },
             {
                 where: {
-                    order_id: id,
+                    order_status_order_id: id,
                 },
             }
         )

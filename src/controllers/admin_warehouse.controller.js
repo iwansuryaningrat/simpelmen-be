@@ -38,7 +38,14 @@ const showAllOrder = (req, res) => {
             {
                 model: Delivery_Details,
                 as: "delivery_details",
-            }
+            },
+            {
+                model: Order_Status,
+                as: "order_statuses",
+                where: {
+                    order_status_admin_code: 5,
+                },
+            },
         ],
     })
         .then((data) => {
@@ -97,11 +104,13 @@ const UpdateResiPengiriman = (req, res) => {
         delivery_detail_estimate: req.body.delivery_detail_estimate,
     }, {
         where: {
-            order_id: id,
+            delivery_detail_order_id: id,
         },
     })
     .then((data) => {
-        res.send(data);
+        res.send({
+            message: "Resi pengiriman berhasil diupdate",
+        });
     })
     .catch((err) => {
         res.status(500).send({

@@ -99,6 +99,13 @@ const findOne = (req, res) => {
     where: {
       user_id: id,
     },
+    include: [
+      {
+        model: Role,
+        as: "roles",
+        attributes: ["role_name"],
+      },
+    ],
   })
     .then((data) => {
       if (!data) {

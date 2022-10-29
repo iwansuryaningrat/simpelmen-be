@@ -48,13 +48,12 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use(
   cookieSession({
     name: "Simpelmen",
-    secret: "COOKIE_SECRET", // should use as secret environment variable
+    secret: "COOKIE_SECRET", 
     httpOnly: true,
     sameSite: "strict",
   })
 );
 
-// database
 // import db from "./src/models/index.js";
 
 // db.sequelize.sync({ force: true }).then(() => {
@@ -73,7 +72,6 @@ app.use(
 
 // });
 
-// simple route
 app.get("/", (req, res) => {
   res.json({ message: "Server is Successfully Running..." });
 });
@@ -95,6 +93,7 @@ import adminCashierRoutes from "./src/routes/admin_kasir.routes.js";
 import adminTuRoutes from "./src/routes/admin_tu.routes.js";
 import adminProductionRoutes from "./src/routes/admin_produksi.routes.js";
 import adminWarehouseRoutes from "./src/routes/admin_warehouse.routes.js";
+import adminDesainRoutes from "./src/routes/admin_desain.routes.js";
 
 adminCSRoutes(app);
 authRoutes(app);
@@ -112,6 +111,7 @@ adminCashierRoutes(app);
 adminTuRoutes(app);
 adminProductionRoutes(app);
 adminWarehouseRoutes(app);
+adminDesainRoutes(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT;

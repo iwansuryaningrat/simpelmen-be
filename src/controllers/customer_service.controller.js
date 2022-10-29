@@ -12,6 +12,7 @@ const Product_Category = db.product_categories;
 const Delivery_Details = db.delivery_details;
 const Retributions = db.retributions;
 const Product_Sizes = db.product_sizes;
+const Roles = db.roles;
 const Province = db.province;
 const City = db.city;
 const SubDistrict = db.subdistrict;
@@ -448,7 +449,7 @@ const rejectRetribution = (req, res) => {
 const showPAD = (req, res) => {
     Retributions.findAll({
         order: [["retribution_id", "DESC"]],
-        attributes:["retribution_id","retribution_jasa_total","retribution_status","createdAt","updatedAt"],
+        attributes:["retribution_id","retribution_jasa_total","retribution_pad_status","createdAt","updatedAt"],
         include: [
             {
                 model: Orders,
@@ -474,6 +475,82 @@ const showPAD = (req, res) => {
         });
     }
 
+const UpdateStatusPAD = (req, res) => {
+    const retribution_id = req.params.retribution_id;
+    Retributions.update(
+        {
+            retribution_pad: req.body.retribution_pad,
+        },
+        {
+            where: {
+                retribution_id: retribution_id,
+            },
+        })
+        .then((num) => {
+        if (num == 1) {
+            res.send({
+            message: "Retribution was updated successfully.",
+            });
+        } else {
+            res.send({
+            message: `Cannot update Retribution with id=${retribution_id}. Maybe Retribution was not found or req.body is empty!`,
+            });
+        }
+        })
+        .catch((err) => {
+        res.status(500).send({
+            message: "Error updating Retribution with id=" + retribution_id,
+        });
+        });
+    }
+
+const RekapPesanaan = (req, res) => {
+    Orders.findAll({
+    attributes: ["order_id","order_code"],
+    include: [
+        {
+            model: Users,
+            as: "users",
+            attributes: ["user_ikm"],
+        },
+        {
+            model: Retributions,
+            as: "retributions",
+            attributes: ["retribution_id","retribution_jasa_total"],
+        },
+        {
+            model: Order_Status,
+            as: "order_statuses",
+            attributes: ["order_status_admin_code"],
+            where: {
+                order_status_id: {
+                    [Op.eq]: db.sequelize.literal(`(SELECT MAX(order_status_id) FROM order_statuses WHERE order_status_order_id = orders.order_id)`),
+                },
+            },
+            include: [
+                {
+                    model: Roles,
+                    as: "roles",
+                    attributes: ["role_name"],
+                },
+            ],
+        },
+    ],
+    order: [["order_id", "DESC"]],
+})
+    .then((data) => {
+    res.send(data);
+    }
+    )
+    .catch((err) => {
+    res.status(500).send({
+        message: err.message || "Some error occurred while retrieving orders.",
+    });
+    }
+    );
+}
+
+            
 
 
-export { showAllOrder, OrderDecline, OrderAccept , showAllRetribution, updateRetribution , showRetributonById , removeRetribution, acceptRetribution, rejectRetribution, showPAD };
+export { showAllOrder, OrderDecline, OrderAccept , showAllRetribution, updateRetribution , showRetributonById , removeRetribution, acceptRetribution, rejectRetribution, showPAD, UpdateStatusPAD , RekapPesanaan};

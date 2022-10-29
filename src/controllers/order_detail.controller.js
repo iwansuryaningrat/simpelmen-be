@@ -28,91 +28,24 @@ import Order_Details from "../models/order_details.model.js";
 
 dotenv.config();
 
-// const makeOrderCode = (order_id,product_category) => {
-//     //product_category to int 
-    const date = new Date();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    const romanMonth = [
-        "I",
-        "II",
-        "III",
-        "IV",
-        "V",
-        "VI",
-        "VII",
-        "VIII",
-        "IX",
-        "X",
-        "XI",
-        "XII",
-    ];
-//     const order_code = `${order_id}/BIKDK/${product_category}/${romanMonth[month - 1]}/${year}`;
-//     return order_code;
-// };
+const date = new Date();
+const month = date.getMonth() + 1;
+const year = date.getFullYear();
+const romanMonth = [
+    "I",
+    "II",
+    "III",
+    "IV",
+    "V",
+    "VI",
+    "VII",
+    "VIII",
+    "IX",
+    "X",
+    "XI",
+    "XII",
+];
 
-// const addCart = (req, res, next) => {
-//     const token = req.headers["x-access-token"];
-//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-//     const user_id = decoded.user_id;
-//     const user_email = decoded.user_email;
-//     const product_id = req.params.id;
-//     const { order_total_price, order_quantity , order_note , order_price , order_design , order_payment_method , order_payment_status , order_product_id, panjang_1, panjang_2,lebar_1,lebar_2,tinggi_1,tinggi_2 } = req.body;
-//     db.sequelize.transaction(function (t) {
-//         return Orders.create({
-//             order_user_id: user_id,
-//             order_total_price: order_total_price,
-//             order_quantity: order_quantity,
-//             order_note: order_note,
-//             order_price: order_price,
-//             order_design: order_design,
-//             order_payment_method: order_payment_method,
-//             order_payment_status: order_payment_status,
-//         }, { transaction: t })
-//         .then(function (order) {
-//             return Order_Products.create({
-//                 order_product_order_id: order.order_id,
-//                 order_product_product_id: product_id,
-//             },{ transaction: t })
-//             .then((data) => {
-//                 return OrderDetails.create({
-//                     order_detail_order_id: order.order_id,
-//                     order_detail_order_product_id: data.order_product_id,
-//                     p1: panjang_1,
-//                     p2: panjang_2,
-//                     l1: lebar_1,
-//                     l2: lebar_2,
-//                     t1: tinggi_1,
-//                     t2: tinggi_2,
-//                 },{ transaction: t })
-//             })
-//             .then((data) => {
-//                 return Order_Status.create({
-//                     order_status_order_id: order.order_id,
-//                     order_status_user_id: user_id,
-//                     order_status_admin_code: "8",
-//                     order_status_description: "Di Keranjang",
-//                 },{ transaction: t })
-//             })
-//             .then((data) => {
-//                 return Orders.update({
-//                     order_code: makeOrderCode(order.order_id),
-//                 },{ where: { order_id: order.order_id }, transaction: t })
-//             }
-//             )
-//         })
-//     }).then(function (result) {
-//         res.status(200).send({
-//             message: "Order Created",
-//         });
-//     }).catch(function (err) {
-//         res.status(500).send({
-//             message: err.message || "Some error occurred while creating the Order.",
-//         });
-//     });
-// };
-
-//add cart and update order_code with param order_id and product_category
 const addCart = (req, res, next) => {
     const token = req.headers["x-access-token"];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -131,7 +64,6 @@ const addCart = (req, res, next) => {
             order_payment_method: order_payment_method,
             order_payment_status: order_payment_status,
         }, { transaction: t })
-        //then find product_category by product_id and update order_code with param order_id and product_category 
         .then(function (order) {
             return Products.findOne({
                 where: { product_id: product_id },
@@ -162,7 +94,6 @@ const addCart = (req, res, next) => {
                     },{ transaction: t })
                 })
                 .then((data) => {
-                    //find product_category by product_id
                     return Products.findOne({
                         where: { product_id: product_id },
                     },{ transaction: t })
@@ -251,17 +182,6 @@ const CheckoutOrder = async (req, res) => {
     if (!order_id) {
         res.status(400).send({
             message: "Order ID is required",
-        });
-        return;
-    }
-    const delivery_detail = await Delivery_Details.findOne({
-        where: {
-            delivery_detail_order_id: order_id,
-        },
-    });
-    if (delivery_detail) {
-        res.status(400).send({
-            message: "Error Checkout Order",
         });
         return;
     }
@@ -551,7 +471,36 @@ const DetailOrder = (req, res) => {
     });
 };
 
+const showPAD = (req, res) => {
+    Retributions.findAll({
+        order: [["retribution_id", "DESC"]],
+        include: [
+            {
+                model: Orders,
+                as: "orders",
+                attributes: ["order_id", "order_user_id","order_code"],
+                include: [
+                    {
+                        model: Users,
+                        as: "users",
+                        attributes: ["user_ikm"],
+                    },
+                ],
+            },
+        ],
+    })
+        .then((data) => {
+        res.send(data);
+        })
+        .catch((err) => {
+        res.status(500).send({
+            message: err.message || "Some error occurred while retrieving PAD.",
+        });
+        });
+    }
 
 
 
-export { addCart,findAllCart,CheckoutOrder ,removeCart,showTracking,ShowAllOrder,DetailOrder};
+
+
+export { addCart,findAllCart,CheckoutOrder ,removeCart,showTracking,ShowAllOrder,DetailOrder,showPAD };

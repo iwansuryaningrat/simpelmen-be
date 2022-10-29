@@ -19,6 +19,8 @@ import {
     rejectRetribution,
     acceptRetribution,
     showPAD,
+    UpdateStatusPAD,
+    RekapPesanaan,
   } from "../controllers/customer_service.controller.js";
   import { isLogin } from "../middlewares/auth.middlewares.js";
   import { isAdminCS } from "../middlewares/roles.middlewares.js";
@@ -33,8 +35,8 @@ import {
     
     router.get("/profile", isLogin, isAdminCS, userProfile);
     router.put("/profile", isLogin, isAdminCS, updateProfile);
-    router.get("/orders", isLogin, isAdminCS, showAllOrder);
     router.put("/changepassword/:id", isLogin, changePassword);
+    router.get("/orders", isLogin, isAdminCS, showAllOrder);
     router.put("/orders/accept/:id", isLogin, isAdminCS, OrderAccept);
     router.put("/orders/decline/:id", isLogin, isAdminCS, OrderDecline);
     router.get("/retributions/:retribution_id", isLogin, isAdminCS, showRetributonById);
@@ -44,6 +46,9 @@ import {
     router.put("/retributions/accept/:retribution_id", isLogin, isAdminCS, acceptRetribution);
     router.put("/retributions/reject/:retribution_id", isLogin, isAdminCS, rejectRetribution);
     router.get("/pad", isLogin, isAdminCS, showPAD);
+    router.put("/pad/:id", isLogin, isAdminCS, UpdateStatusPAD);
+    router.get("/rekap/order", isLogin, isAdminCS, RekapPesanaan);
+
     app.use("/api/admin/cs", router);
   };
   

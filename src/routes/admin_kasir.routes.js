@@ -14,6 +14,7 @@ import {
     LangsungPaymentMethod,
     LunasPaymentMethod,
     BelumLunasPaymentMethod,
+    showPAD,
   } from "../controllers/admin_kasir.controller.js";
   import { isLogin } from "../middlewares/auth.middlewares.js";
   import { isAdminCashier } from "../middlewares/roles.middlewares.js";
@@ -34,6 +35,7 @@ import {
     router.put("/orders/langsung/:id", isLogin, isAdminCashier, LangsungPaymentMethod);
     router.put("/orders/lunas/:id", isLogin, isAdminCashier, LunasPaymentMethod);
     router.put("/orders/belum-lunas/:id", isLogin, isAdminCashier, BelumLunasPaymentMethod);
+    router.get("/pad", isLogin, isAdminCashier, showPAD);
 
     app.use("/api/admin/kasir", router);
   };

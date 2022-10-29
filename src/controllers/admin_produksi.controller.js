@@ -123,8 +123,8 @@ const UpdateOrderBelumProduksi = (req, res) => {
     const id = req.params.id;
     Order_Status.create({
         order_status_admin_code: 6,
-        description: "Belum Diproduksi",
-        order_id: id,
+        order_status_description: "Belum Diproduksi",
+        order_status_order_id: id,
     })
     .then((data) => {
         Orders.update(
@@ -161,8 +161,8 @@ const UpdateOrderDalamProduksi = (req, res) => {
     const id = req.params.id;
     Order_Status.create({
         order_status_admin_code: 6,
-        description: "Dalam Produksi",
-        order_id: id,
+        order_status_description: "Dalam Produksi",
+        order_status_order_id: id,
     })
     .then((data) => {
         Orders.update(
@@ -203,15 +203,15 @@ const UpdateOrderSelesaiProduksi = (req, res) => {
         },
         {
             where: {
-                order_id: id,
+                order_status_order_id: id,
             },
         }
     )
     .then(() => {
         Order_Status.create({
             order_status_admin_code: 5,
-            description: "Pesanan Masuk Gudang", 
-            order_id: id,
+            order_status_description: "Pesanan Masuk Gudang", 
+            order_status_order_id: id,
         })
         //then update order_status
         .then(() => {
