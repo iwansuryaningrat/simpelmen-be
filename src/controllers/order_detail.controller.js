@@ -471,7 +471,7 @@ const DetailOrder = (req, res) => {
                                     },
                                     {
                                         model: Product_Material,
-                                        as: "product_material",
+                                        as: "product_materials",
                                         attributes: {
                                             exclude: ["product_material_product_id","product_material_created_at","product_material_updated_at"],
                                         },
