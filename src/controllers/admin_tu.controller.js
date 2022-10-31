@@ -47,6 +47,11 @@ const showAllOrder = (req, res) => {
                     order_status_admin_code: 7,
                 },
             },
+            {
+                model:Users,
+                as: "users",
+                Attributes: ["user_id","user_ikm"],
+            },
         ],
     })
         .then((data) => {
