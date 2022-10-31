@@ -294,7 +294,6 @@ db.users.belongsTo(db.subdistrict, {
   as: "subdistricts",
 });
 
-//relation between  subdistrict and delivery_details
 db.subdistrict.hasMany(db.delivery_details, {
   foreignKey: "delivery_detail_district",
   as: "delivery_details",
@@ -314,15 +313,5 @@ db.order_details.belongsTo(db.orders, {
   as: "orders",
 });
 
-//relation between  order_status and role
-db.order_status.hasMany(db.roles, {
-  foreignKey: "role_id",
-  as: "roles",
-});
-
-db.roles.belongsTo(db.order_status, {
-  foreignKey: "role_id",
-  as: "order_statuses",
-});
 
 export default db;

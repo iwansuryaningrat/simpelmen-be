@@ -46,6 +46,9 @@ const Delivery_Details = (sequelize, Sequelize) => {
       delivery_detail_estimate: {
         type: Sequelize.STRING,
       },
+      delivery_detail_note:{
+        type: Sequelize.STRING,
+      }
     },
     {
       timestamps: true,

@@ -64,7 +64,7 @@ const updateOrder = (req, res) => {
     const order_id = req.params.order_id;
     Order_Status.update(
         {
-            order_status_admin_code: "4",
+            order_status_admin_code: "3",
         },
         {
             where: {
@@ -77,10 +77,23 @@ const updateOrder = (req, res) => {
             Order_Status.create({
                 order_status_order_id: order_id,
                 order_status_user_id: user_id,
-                order_status_admin_code: "4",
+                order_status_admin_code: "3",
                 order_status_description: "Order Accepted",
             })
         })
+        .then(() => {
+            Orders.update(
+                {
+                    order_payment_status: "1",
+                },
+                {
+                    where: {
+                        order_id: order_id,
+                    },
+                }
+            )
+        }
+        )
         .then((data) => {
             res.send(data);
         })

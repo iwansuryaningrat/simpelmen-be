@@ -378,6 +378,31 @@ const ShowAllOrder = (req, res) => {
         attributes: {
             exclude: ["order_user_id","order_status_id","order_created_at","order_updated_at"],
         },
+        include: [
+            {
+                model: Order_Products,
+                as: "order_products",
+                attributes: {
+                    exclude: ["order_product_order_id","order_product_product_id","order_product_created_at","order_product_updated_at"],
+                },
+                include: [
+                    {
+                        model: Products,
+                        as: "products",
+                        attributes: {
+                            exclude: ["product_category_id","product_image"],
+                        },
+                        include: [
+                            {
+                                model: Jenis_Products,
+                                as : "jenis_products",
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
+
     })
     .then((data) => {
         if (data.length === 0) {
@@ -435,6 +460,23 @@ const DetailOrder = (req, res) => {
                             {
                                 model: Products,
                                 as: "products",
+
+                                include: [
+                                    {
+                                        model: Product_Finishing,
+                                        as: "product_finishing",
+                                        attributes: {
+                                            exclude: ["product_finishing_product_id","product_finishing_created_at","product_finishing_updated_at"],
+                                        },
+                                    },
+                                    {
+                                        model: Product_Material,
+                                        as: "product_material",
+                                        attributes: {
+                                            exclude: ["product_material_product_id","product_material_created_at","product_material_updated_at"],
+                                        },
+                                    }
+                                ],
                             },
                         ],
                     },
@@ -451,7 +493,18 @@ const DetailOrder = (req, res) => {
                         attributes: {
                             exclude: ["user_password","user_role_id","user_status","user_created_at","user_updated_at"],
                         },
+                    },
+                    {
+                        model: Retributions,
+                        as: "retributions",
+                        attributes:["retribution_jasa_total"],
+                    },
+                    {
+                        model: Delivery_Details,
+                        as: "delivery_details",
+                        attributes: ["delivery_detail_courier"],
                     }
+
                 ],
             })
                 .then((data) => {
