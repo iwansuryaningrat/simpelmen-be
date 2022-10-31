@@ -12,7 +12,6 @@ const Product_Category = db.product_categories;
 const Delivery_Details = db.delivery_details;
 const Retributions = db.retributions;
 const Product_Sizes = db.product_sizes;
-const Roles = db.roles;
 const Province = db.province;
 const City = db.city;
 const SubDistrict = db.subdistrict;
@@ -527,13 +526,6 @@ const RekapPesanaan = (req, res) => {
                     [Op.eq]: db.sequelize.literal(`(SELECT MAX(order_status_id) FROM order_statuses WHERE order_status_order_id = orders.order_id)`),
                 },
             },
-            include: [
-                {
-                    model: Roles,
-                    as: "roles",
-                    attributes: ["role_name"],
-                },
-            ],
         },
     ],
     order: [["order_id", "DESC"]],
