@@ -41,6 +41,17 @@ const showAllOrder = (req, res) => {
                 ],
             },
             {
+                model: Users,
+                as: "users",
+                attributes: ["user_id", "user_name", "user_email"],
+            },
+            {
+                model: Retributions,
+                as: "retributions",
+                attributes: ["retribution_id", "retribution_pad_status"],
+                
+            },
+            {
                 model: Order_Status,
                 as: "order_statuses",
                 where: {
