@@ -43,7 +43,7 @@ const showAllOrder = (req, res) => {
             {
                 model: Users,
                 as: "users",
-                attributes: ["user_id", "user_name", "user_email"],
+                attributes: ["user_id", "user_name", "user_email", "user_ikm"],
             },
             {
                 model: Retributions,
