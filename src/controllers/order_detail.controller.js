@@ -464,7 +464,7 @@ const DetailOrder = (req, res) => {
                                 include: [
                                     {
                                         model: Product_Finishing,
-                                        as: "product_finishing",
+                                        as: "product_finishings",
                                         attributes: {
                                             exclude: ["product_finishing_product_id","product_finishing_created_at","product_finishing_updated_at"],
                                         },
