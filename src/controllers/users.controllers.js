@@ -2,6 +2,16 @@ import db from "../models/index.js";
 const Users = db.users;
 const Op = db.Sequelize.Op;
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+const SubDistrict = db.subdistrict;
+const City = db.city;
+const Province = db.province;
+const Role = db.roles;
+// Load .env file
+import * as dotenv from "dotenv";
+
+dotenv.config();
+
 
 // Create and Save a new User
 const createUser = (req, res) => {
@@ -89,6 +99,13 @@ const findOne = (req, res) => {
     where: {
       user_id: id,
     },
+    include: [
+      {
+        model: Role,
+        as: "roles",
+        attributes: ["role_name"],
+      },
+    ],
   })
     .then((data) => {
       if (!data) {
@@ -253,6 +270,88 @@ const changePassword = (req, res) => {
     });
 };
 
+const userProfile = (req, res) => {
+  const token = req.headers["x-access-token"];
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const user_id = decoded.user_id;
+
+  Users.findOne({
+    where: {
+      user_id: user_id,
+    },
+    include: [
+      {
+        model: SubDistrict,
+        as: "subdistricts",
+        include: [
+          {
+            model: City,
+            as: "cities",
+            include: [
+              {
+                model: Province,
+                as: "provinces",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        model: Role,
+        as: "roles",
+      }
+    ],
+  })
+    .then((data) => {
+      if (!data) {
+        return res.status(404).send({
+          message: "User not found",
+        });
+      }
+
+      res.send({
+        message: "User was retrieved successfully.",
+        data,
+      });
+    }
+    )
+    .catch((err) => {
+      return res.status(500).send({
+        message: err.message || "Some error occurred while retrieving user.",
+      });
+    }
+    );
+
+};
+
+const updateProfile = (req, res) => {
+  const token = req.headers["x-access-token"];
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const user_id = decoded.user_id;
+
+  //update profile
+  Users.update(req.body, {
+    where: { user_id: user_id },
+  })
+    .then((num) => {
+      if (num == 1) {
+        res.send({
+          message: "User was updated successfully.",
+        });
+      } else {
+        return res.send({
+          message: `Cannot update User with id=${user_id}. Maybe User was not found or req.body is empty!`,
+        });
+      }
+    })
+    .catch((err) => {
+      return res.status(500).send({
+        message: err.message || "Some error occurred while updating the User.",
+      });
+    });
+};
+
+
 export {
   createUser,
   findAll,
@@ -260,4 +359,6 @@ export {
   updateUser,
   deactivateUser,
   changePassword,
+  userProfile,
+  updateProfile,
 };

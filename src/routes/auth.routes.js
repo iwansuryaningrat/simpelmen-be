@@ -18,7 +18,7 @@ const authRoutes = (app) => {
 
   router.post("/signup", checkEmail, signup);
   router.get("/activate/:token", activate);
-  router.post("/login", isActivated, login);
+  router.post("/login",isActivated, login);
   router.post("/reset-password", SendResetPassword);
   router.post("/reset-password/:token", ResetPassword);
 
