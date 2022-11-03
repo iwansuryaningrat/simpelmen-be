@@ -68,7 +68,6 @@ app.use(
 //   initProductMaterial();
 //   initProductSize();
 //   initUserSeed();
-
 // });
 
 app.get("/", (req, res) => {
