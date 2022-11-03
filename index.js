@@ -48,7 +48,7 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use(
   cookieSession({
     name: "Simpelmen",
-    secret: "COOKIE_SECRET", 
+    secret: "COOKIE_SECRET",
     httpOnly: true,
     sameSite: "strict",
   })
@@ -69,7 +69,6 @@ app.use(
 //   initProductSize();
 //   initUserSeed();
 
-
 // });
 
 app.get("/", (req, res) => {
@@ -79,7 +78,7 @@ app.get("/", (req, res) => {
 // routes
 import authRoutes from "./src/routes/auth.routes.js";
 import userRoutes from "./src/routes/users.routes.js";
-import adminCSRoutes from "./src/routes/admin_cs.rotes.js";
+import adminCSRoutes from "./src/routes/admin_cs.routes.js";
 import jenisProductsRoutes from "./src/routes/jenis_products.routes.js";
 import rolesRoutes from "./src/routes/roles.routes.js";
 import Product from "./src/routes/products.routes.js";
