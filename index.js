@@ -57,7 +57,6 @@ app.use(
 import db from "./src/models/index.js";
 
 db.sequelize.sync({ force: true }).then(() => {
-  console.log("Sync database");
   initRoles();
   initProvince();
   initCity();
@@ -68,6 +67,7 @@ db.sequelize.sync({ force: true }).then(() => {
   initProductMaterial();
   initProductSize();
   initUserSeed();
+  console.log("Sync database");
 });
 
 app.get("/", (req, res) => {
