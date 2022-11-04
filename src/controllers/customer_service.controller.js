@@ -390,7 +390,7 @@ const acceptRetribution = (req, res) => {
     const retribution_id = req.params.retribution_id;
     Retributions.update(
         {
-            retribution_status: "Disetujui",
+            retribution_status: "1",
         },
         {
             where: {
@@ -419,7 +419,7 @@ const rejectRetribution = (req, res) => {
     const retribution_id = req.params.retribution_id;
     Retributions.update(
         {
-            retribution_status: "Ditolak",
+            retribution_status: "2",
         },
         {
             where: {

@@ -221,7 +221,7 @@ const CheckoutOrder = async (req, res) => {
             .then(function (order) {
                 return Retributions.create({
                     retribution_order_id: order_id_array[i],
-                    retribution_status: "0",
+                    retribution_status: "1",
                 })
             })
         }).then(function (result) {
