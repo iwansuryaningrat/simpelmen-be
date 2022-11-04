@@ -475,7 +475,7 @@ const showPAD = (req, res) => {
     }
 
 const UpdateStatusPAD = (req, res) => {
-    const retribution_id = req.params.retribution_id;
+    const retribution_id = req.params.id;
     Retributions.update(
         {
             retribution_pad: req.body.retribution_pad,
