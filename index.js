@@ -54,21 +54,21 @@ app.use(
   })
 );
 
-// import db from "./src/models/index.js";
+import db from "./src/models/index.js";
 
-// db.sequelize.sync({ force: true }).then(() => {
-//   console.log("Sync database");
-//   initRoles();
-//   initProvince();
-//   initCity();
-//   initDistrict();
-//   initJenisProduct();
-//   initProductCategory();
-//   initProductFinishings();
-//   initProductMaterial();
-//   initProductSize();
-//   initUserSeed();
-// });
+db.sequelize.sync({ force: true }).then(() => {
+  console.log("Sync database");
+  initRoles();
+  initProvince();
+  initCity();
+  initDistrict();
+  initJenisProduct();
+  initProductCategory();
+  initProductFinishings();
+  initProductMaterial();
+  initProductSize();
+  initUserSeed();
+});
 
 app.get("/", (req, res) => {
   res.json({ message: "Server is Successfully Running..." });
