@@ -7,11 +7,29 @@ const Order_Details = (sequelize, Sequelize) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      order_detail_order_product_id: {
+      order_detail_product_id: {
         type: Sequelize.INTEGER,
       },
       order_detail_order_id: {
         type: Sequelize.INTEGER,
+      },
+      order_quantity: {
+        type: Sequelize.INTEGER,
+      },
+      order_price: {
+        type: Sequelize.INTEGER,
+      },
+      order_finishing_id: {
+        type: Sequelize.INTEGER,
+      },
+      order_material_id: {
+        type: Sequelize.INTEGER,
+      },
+      order_design: {
+        type: Sequelize.STRING,
+      },
+      order_design_image: {
+        type: Sequelize.TEXT("long"),
       },
       p1: {
         type: Sequelize.DOUBLE,
