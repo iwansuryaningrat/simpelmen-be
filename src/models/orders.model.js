@@ -10,6 +10,9 @@ const Orders = (sequelize, Sequelize) => {
       order_code: {
         type: Sequelize.STRING,
       },
+      order_product_category_id: {
+        type: Sequelize.STRING,
+      },
       order_user_id: {
         type: Sequelize.INTEGER,
       },
