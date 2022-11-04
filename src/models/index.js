@@ -267,6 +267,8 @@ db.delivery_details.belongsTo(db.subdistrict, {
   foreignKey: "delivery_detail_district",
   as: "subdistricts",
 });
+
+// Orders - Order Details
 db.orders.hasMany(db.order_details, {
   foreignKey: "order_detail_order_id",
   as: "order_details",
@@ -275,6 +277,39 @@ db.orders.hasMany(db.order_details, {
 db.order_details.belongsTo(db.orders, {
   foreignKey: "order_detail_order_id",
   as: "orders",
+});
+
+// Order Details - Products
+db.order_details.belongsTo(db.products, {
+  foreignKey: "order_detail_product_id",
+  as: "products",
+});
+
+db.products.hasMany(db.order_details, {
+  foreignKey: "order_detail_product_id",
+  as: "order_details",
+});
+
+// Order Details - Product Materials
+db.order_details.belongsTo(db.product_materials, {
+  foreignKey: "order_detail_material_id",
+  as: "product_materials",
+});
+
+db.product_materials.hasMany(db.order_details, {
+  foreignKey: "order_detail_material_id",
+  as: "order_details",
+});
+
+// Order Details - Product Finishings
+db.order_details.belongsTo(db.product_finishings, {
+  foreignKey: "order_detail_finishing_id",
+  as: "product_finishings",
+});
+
+db.product_finishings.hasMany(db.order_details, {
+  foreignKey: "order_detail_finishing_id",
+  as: "order_details",
 });
 
 export default db;
