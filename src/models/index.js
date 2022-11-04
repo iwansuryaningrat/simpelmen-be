@@ -312,4 +312,15 @@ db.product_finishings.hasMany(db.order_details, {
   as: "order_details",
 });
 
+// Orders - Product Categories
+db.orders.belongsTo(db.product_categories, {
+  foreignKey: "order_product_category_id",
+  as: "product_categories",
+});
+
+db.product_categories.hasMany(db.orders, {
+  foreignKey: "order_product_category_id",
+  as: "orders",
+});
+
 export default db;
