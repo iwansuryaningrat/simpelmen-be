@@ -5,7 +5,7 @@ import { config } from "dotenv";
 // DB connection Config
 const sequelize = new Sequelize(configs.DB, configs.USER, configs.PASSWORD, {
   host: configs.HOST,
-  port : configs.PORT,
+  port: configs.PORT,
   dialect: configs.dialect,
   operatorsAliases: false,
   pool: {
@@ -26,7 +26,6 @@ import Delivery_Details from "./delivery_details.model.js";
 import Jenis_Products from "./jenis_products.model.js";
 import Messages from "./messages.model.js";
 import Order_Details from "./order_details.model.js";
-import Order_Products from "./order_products.model.js";
 import Order_Status from "./order_status.model.js";
 import Orders from "./orders.model.js";
 import Product_Categories from "./product_categories.model.js";
@@ -41,14 +40,12 @@ import Province from "./province.model.js";
 import City from "./city.model.js";
 import Subdistrict from "./subdistrict.model.js";
 
-
 // Insert Models to db
 db.conversations = Conversations(sequelize, Sequelize);
 db.delivery_details = Delivery_Details(sequelize, Sequelize);
 db.jenis_products = Jenis_Products(sequelize, Sequelize);
 db.messages = Messages(sequelize, Sequelize);
 db.order_details = Order_Details(sequelize, Sequelize);
-db.order_products = Order_Products(sequelize, Sequelize);
 db.order_status = Order_Status(sequelize, Sequelize);
 db.orders = Orders(sequelize, Sequelize);
 db.product_categories = Product_Categories(sequelize, Sequelize);
@@ -196,39 +193,6 @@ db.orders.hasMany(db.delivery_details, {
   as: "delivery_details",
 });
 
-// Orders - Order Products
-db.order_products.belongsTo(db.orders, {
-  foreignKey: "order_product_order_id",
-  as: "orders",
-});
-
-db.orders.hasMany(db.order_products, {
-  foreignKey: "order_product_order_id",
-  as: "order_products",
-});
-
-// Order Products - Products
-db.order_products.belongsTo(db.products, {
-  foreignKey: "order_product_product_id",
-  as: "products",
-});
-
-db.products.hasMany(db.order_products, {
-  foreignKey: "order_product_product_id",
-  as: "order_products",
-});
-
-// Order Products - Order Details
-db.order_details.belongsTo(db.order_products, {
-  foreignKey: "order_detail_order_product_id",
-  as: "order_products",
-});
-
-db.order_products.hasMany(db.order_details, {
-  foreignKey: "order_detail_order_product_id",
-  as: "order_details",
-});
-
 // Products - Jenis Products
 db.products.belongsTo(db.jenis_products, {
   foreignKey: "jenis_product",
@@ -312,6 +276,5 @@ db.order_details.belongsTo(db.orders, {
   foreignKey: "order_detail_order_id",
   as: "orders",
 });
-
 
 export default db;
