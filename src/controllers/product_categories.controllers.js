@@ -3,7 +3,7 @@ const Product_Categories = db.product_categories;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Product_Categories
-const create = (req, res) => {
+const createCategory = (req, res) => {
     const { name, description } = req.body;
     
     // Validate request
@@ -35,7 +35,7 @@ const create = (req, res) => {
         });
         });
     };
-const findAll = (req, res) => {
+const findAllCategory = (req, res) => {
     const name = req.query.name;
     var condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
     
@@ -60,7 +60,7 @@ const findAll = (req, res) => {
         });
         });
     };
-const findOne = (req, res) => {
+const findOneCategory = (req, res) => {
     const id = req.params.id;
     
     Product_Categories
@@ -84,7 +84,7 @@ const findOne = (req, res) => {
         });
         });
     };
-const update = (req, res) => {
+const updateCategory = (req, res) => {
     const id = req.params.id;
     
     Product_Categories
@@ -109,7 +109,7 @@ const update = (req, res) => {
         });
         });
     };
-const remove = (req, res) => {
+const removeCategory = (req, res) => {
     const id = req.params.id;
     
     Product_Categories
@@ -135,4 +135,4 @@ const remove = (req, res) => {
         });
     };
 
-export { create, findAll, findOne, update, remove };
+export { createCategory, findAllCategory, findOneCategory, updateCategory, removeCategory };

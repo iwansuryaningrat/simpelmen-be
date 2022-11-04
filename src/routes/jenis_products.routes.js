@@ -1,9 +1,5 @@
 import {
-  create,
-  findAll,
-  findOne,
-  update,
-  deleteOne,
+  createjenisProduct,findAllJenisProduct,findOneJenisProduct,updateJenisProduct,deleteOneJenisProduct
 } from "../controllers/jenis_products.controllers.js";
 import { isLogin } from "../middlewares/auth.middlewares.js";
 import { isSuperAdmin } from "../middlewares/roles.middlewares.js";
@@ -16,11 +12,11 @@ import headers from "../services/headers.services.js";
 const jenisProductsRoutes = (app) => {
   app.use(headers);
 
-  router.post("/", isLogin, isSuperAdmin, create);
-  router.get("/", isLogin, isSuperAdmin, findAll);
-  router.get("/:id", isLogin, isSuperAdmin, findOne);
-  router.put("/:id", isLogin, isSuperAdmin, update);
-  router.delete("/:id", isLogin, isSuperAdmin, deleteOne);
+  router.post("/", isLogin, isSuperAdmin, createjenisProduct);
+  router.get("/", isLogin, isSuperAdmin, findAllJenisProduct);
+  router.get("/:id", isLogin, isSuperAdmin, findOneJenisProduct);
+  router.put("/:id", isLogin, isSuperAdmin, updateJenisProduct);
+  router.delete("/:id", isLogin, isSuperAdmin, deleteOneJenisProduct);
 
   app.use("/api/jenisproducts", router);
 };

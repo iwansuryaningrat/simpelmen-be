@@ -1,9 +1,9 @@
 import {
-    create,
-    findAll,
-    findOne,
-    update,
-    remove,
+    createFinishing,
+    findAllFinishing,
+    findOneFinishing,
+    updateFinishing,
+    removeFinishing,
 } from '../controllers/product_finishings.controllers.js';
 
 import { isLogin } from '../middlewares/auth.middlewares.js';
@@ -17,11 +17,11 @@ import headers from '../services/headers.services.js';
 const productFinishingsRoutes = (app) => {
     app.use(headers);
 
-    router.post('/', isLogin, isSuperAdmin, create);
-    router.get('/', isLogin, isSuperAdmin, findAll);
-    router.get('/:id', isLogin, isSuperAdmin, findOne);
-    router.put('/:id', isLogin, isSuperAdmin, update);
-    router.delete('/:id', isLogin, isSuperAdmin, remove);
+    router.post('/', isLogin, isSuperAdmin, createFinishing);
+    router.get('/', isLogin, isSuperAdmin, findAllFinishing);
+    router.get('/:id', isLogin, isSuperAdmin, findOneFinishing);
+    router.put('/:id', isLogin, isSuperAdmin, updateFinishing);
+    router.delete('/:id', isLogin, isSuperAdmin, removeFinishing);
 
     app.use('/api/finishing', router);
 }

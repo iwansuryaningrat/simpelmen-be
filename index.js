@@ -54,23 +54,23 @@ app.use(
   })
 );
 
-// import db from "./src/models/index.js";
+import db from "./src/models/index.js";
 
-// db.sequelize.sync({ force: true }).then(() => {
-//   console.log("Sync database");
-//   initRoles();
-//   initProvince();
-//   initCity();
-//   initDistrict();
-//   initJenisProduct();
-//   initProductCategory();
-//   initProductFinishings();
-//   initProductMaterial();
-//   initProductSize();
-//   initUserSeed();
+db.sequelize.sync({ force: true }).then(() => {
+  console.log("Sync database");
+  initRoles();
+  initProvince();
+  initCity();
+  initDistrict();
+  initJenisProduct();
+  initProductCategory();
+  initProductFinishings();
+  initProductMaterial();
+  initProductSize();
+  initUserSeed();
 
 
-// });
+});
 
 app.get("/", (req, res) => {
   res.json({ message: "Server is Successfully Running..." });
@@ -92,6 +92,7 @@ import ordersRoutes from "./src/routes/order.routes.js";
 import adminCashierRoutes from "./src/routes/admin_kasir.routes.js";
 import adminTuRoutes from "./src/routes/admin_tu.routes.js";
 import adminProductionRoutes from "./src/routes/admin_produksi.routes.js";
+import SuperAdminRoutes from "./src/routes/super_admin.routes.js";
 import adminWarehouseRoutes from "./src/routes/admin_warehouse.routes.js";
 import adminDesainRoutes from "./src/routes/admin_desain.routes.js";
 
@@ -112,6 +113,7 @@ adminTuRoutes(app);
 adminProductionRoutes(app);
 adminWarehouseRoutes(app);
 adminDesainRoutes(app);
+SuperAdminRoutes(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT;

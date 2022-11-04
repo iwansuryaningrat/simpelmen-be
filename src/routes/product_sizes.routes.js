@@ -1,9 +1,5 @@
 import {
-    create,
-    findAll,
-    findOne,
-    update,
-    deleteOne,
+    createSize,findAllSize,findOneSize,updateSize,deleteOneSize
 } from "../controllers/product_sizes.controllers.js";
 
 import { isLogin } from "../middlewares/auth.middlewares.js";
@@ -17,11 +13,11 @@ import headers from "../services/headers.services.js";
 const productSizesRoutes = (app) => {
     app.use(headers);
 
-    router.post("/", isLogin, isSuperAdmin, create);
-    router.get("/", isLogin, isSuperAdmin, findAll);
-    router.get("/:id", isLogin, isSuperAdmin, findOne);
-    router.put("/:id", isLogin, isSuperAdmin, update);
-    router.delete("/:id", isLogin, isSuperAdmin, deleteOne);
+    router.post("/", isLogin, isSuperAdmin, createSize);
+    router.get("/", isLogin, isSuperAdmin, findAllSize);
+    router.get("/:id", isLogin, isSuperAdmin, findOneSize);
+    router.put("/:id", isLogin, isSuperAdmin, updateSize);
+    router.delete("/:id", isLogin, isSuperAdmin, deleteOneSize);
 
     app.use("/api/size", router);
 }

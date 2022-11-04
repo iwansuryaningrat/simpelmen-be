@@ -4,7 +4,7 @@ const Op = db.Sequelize.Op;
 const Product = db.products;
 
 // Create and Save a new jenisProduct
-const create = (req, res) => {
+const createjenisProduct = (req, res) => {
   const { name, description } = req.body;
 
   // Validate request
@@ -38,7 +38,7 @@ const create = (req, res) => {
 };
 
 // Retrieve all jenisProducts from the database.
-const findAll = (req, res) => {
+const findAllJenisProduct = (req, res) => {
   const name = req.query.name;
   var condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
 
@@ -65,7 +65,7 @@ const findAll = (req, res) => {
 };
 
 // Find a single jenisProduct with an id
-const findOne = (req, res) => {
+const findOneJenisProduct = (req, res) => {
   const { id } = req.params;
 
   // Validate request
@@ -97,7 +97,7 @@ const findOne = (req, res) => {
 };
 
 // Update a jenisProduct by the id in the request
-const update = (req, res) => {
+const updateJenisProduct = (req, res) => {
   const { id } = req.params;
   const { name, description } = req.body;
 
@@ -137,7 +137,7 @@ const update = (req, res) => {
 };
 
 // Delete a jenisProduct with the specified id in the request
-const deleteOne = (req, res) => {
+const deleteOneJenisProduct = (req, res) => {
   const { id } = req.params;
 
   // Validate request
@@ -169,4 +169,4 @@ const deleteOne = (req, res) => {
     });
 };
 
-export { create, findAll, findOne, update, deleteOne };
+export { createjenisProduct, findAllJenisProduct, findOneJenisProduct, updateJenisProduct, deleteOneJenisProduct };

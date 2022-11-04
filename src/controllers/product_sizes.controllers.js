@@ -3,7 +3,7 @@ const Product_Sizes = db.product_sizes;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Product_Sizes
-const create = (req, res) => {
+const createSize = (req, res) => {
     const {length, width, height, weight, length2, width2, height2,shape,description,} = req.body;
 
     // Validate request
@@ -42,7 +42,7 @@ const create = (req, res) => {
         });
         });
     }
-const findAll = (req, res) => {
+const findAllSize = (req, res) => {
     Product_Sizes
         .findAll()
         .then((data) => {
@@ -64,7 +64,7 @@ const findAll = (req, res) => {
         });
         });
     }
-const findOne = (req, res) => {
+const findOneSize = (req, res) => {
     const id = req.params.id;
 
     Product_Sizes
@@ -87,7 +87,7 @@ const findOne = (req, res) => {
         });
         });
     }
-const update = (req, res) => {
+const updateSize = (req, res) => {
     const id = req.params.id;
 
     Product_Sizes
@@ -111,7 +111,7 @@ const update = (req, res) => {
         });
         });
     }
-const deleteOne = (req, res) => {
+const deleteOneSize = (req, res) => {
     const id = req.params.id;
 
     Product_Sizes
@@ -136,4 +136,4 @@ const deleteOne = (req, res) => {
         });
     }
 
-    export {create,findAll,findOne,update,deleteOne}
+    export {createSize,findAllSize,findOneSize,updateSize,deleteOneSize}

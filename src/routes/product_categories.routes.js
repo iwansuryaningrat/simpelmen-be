@@ -1,9 +1,9 @@
 import {
-    create,
-    findAll,
-    findOne,
-    update,
-    remove
+    createCategory,
+    findAllCategory,
+    findOneCategory,
+    updateCategory,
+    removeCategory
 } from "../controllers/product_categories.controllers.js";
 
 import { isLogin } from "../middlewares/auth.middlewares.js";
@@ -17,11 +17,11 @@ import headers from "../services/headers.services.js";
 const productCategoriesRoutes = (app) => {
     app.use(headers);
 
-    router.post("/", isLogin, isSuperAdmin, create);
-    router.get("/", isLogin, isSuperAdmin, findAll);
-    router.get("/:id", isLogin, isSuperAdmin, findOne);
-    router.put("/:id", isLogin, isSuperAdmin, update);
-    router.delete("/:id", isLogin, isSuperAdmin, remove);
+    router.post("/", isLogin, isSuperAdmin, createCategory);
+    router.get("/", isLogin, isSuperAdmin, findAllCategory);
+    router.get("/:id", isLogin, isSuperAdmin, findOneCategory);
+    router.put("/:id", isLogin, isSuperAdmin, updateCategory);
+    router.delete("/:id", isLogin, isSuperAdmin, removeCategory);
 
     app.use("/api/category", router);
 }

@@ -16,19 +16,19 @@ import {
     createProduct 
   } from "../controllers/product.controller.js";
   import {
-    create, findAll, findOne, update, remove
+    createFinishing, findAllFinishing, findOneFinishing, updateFinishing, removeFinishing
   } from "../controllers/product_finishings.controllers.js";
   import {
-    create, findAll, findOne, update, remove
+    createMaterial, findAllMaterial, findOneMaterial, updateMaterial, removeMaterial
   } from "../controllers/product_materials.controllers.js";
   import {
-    create, findAll, findOne, update, remove
+    createSize,findAllSize,findOneSize,updateSize,deleteOneSize
   } from "../controllers/product_sizes.controllers.js";
   import {
-    create, findAll, findOne, update, remove
+    createCategory, findAllCategory, findOneCategory, updateCategory, removeCategory
   } from "../controllers/product_categories.controllers.js";
   import {
-    create, findAll, findOne, update, deleteOne
+    createjenisProduct, findAllJenisProduct, findOneJenisProduct, updateJenisProduct, deleteOneJenisProduct 
   } from "../controllers/jenis_products.controllers.js";
   import { isLogin } from "../middlewares/auth.middlewares.js";
   import { isSuperAdmin } from "../middlewares/roles.middlewares.js";
@@ -41,8 +41,8 @@ import {
   const superAdminRoutes = (app) => {
     app.use(headers);
     
-    router.get("/profile", isLogin, isAdminCashier, userProfile);
-    router.put("/profile", isLogin, isAdminCashier, updateProfile);
+    router.get("/profile", isLogin, isSuperAdmin, userProfile);
+    router.put("/profile", isLogin, isSuperAdmin, updateProfile);
     router.put("/changepassword/:id", isLogin, changePassword);
     router.post("/create/admin", isLogin, isSuperAdmin, createUser);
     router.get("/data/admin", isLogin, isSuperAdmin, findAll);
@@ -52,36 +52,36 @@ import {
     router.post("/product", createProduct,isSuperAdmin,isLogin);
     router.put("/product/:id", updateProduct,isSuperAdmin,isLogin);
     router.delete("/product/:id", deleteProduct,isSuperAdmin,isLogin);
-    router.post("/product/finishings", isLogin, isSuperAdmin, create);
-    router.get("/product/finishings", isLogin, isSuperAdmin, findAll);
-    router.get("/product/finishings/:id", isLogin, isSuperAdmin, findOne);
-    router.put("/product/finishings/:id", isLogin, isSuperAdmin, update);
-    router.delete("/product/finishings/:id", isLogin, isSuperAdmin, remove);
-    router.post("/product/materials", isLogin, isSuperAdmin, create);
-    router.get("/product/materials", isLogin, isSuperAdmin, findAll);
-    router.get("/product/materials/:id", isLogin, isSuperAdmin, findOne);
-    router.put("/product/materials/:id", isLogin, isSuperAdmin, update);
-    router.delete("/product/materials/:id", isLogin, isSuperAdmin, remove);
-    router.post("/product/sizes", isLogin, isSuperAdmin, create);
-    router.get("/product/sizes", isLogin, isSuperAdmin, findAll);
-    router.get("/product/sizes/:id", isLogin, isSuperAdmin, findOne);
-    router.put("/product/sizes/:id", isLogin, isSuperAdmin, update);
-    router.delete("/product/sizes/:id", isLogin, isSuperAdmin, remove);
-    router.post("/product/categories", isLogin, isSuperAdmin, create);
-    router.get("/product/categories", isLogin, isSuperAdmin, findAll);
-    router.get("/product/categories/:id", isLogin, isSuperAdmin, findOne);
-    router.put("/product/categories/:id", isLogin, isSuperAdmin, update);
-    router.delete("/product/categories/:id", isLogin, isSuperAdmin, remove);
-    router.post("/product/finishings", isLogin, isSuperAdmin, create);
-    router.get("/product/finishings", isLogin, isSuperAdmin, findAll);
-    router.get("/product/finishings/:id", isLogin, isSuperAdmin, findOne);
-    router.put("/product/finishings/:id", isLogin, isSuperAdmin, update);
-    router.delete("/product/finishings/:id", isLogin, isSuperAdmin, remove);
-    router.post("/product/jenis", isLogin, isSuperAdmin, create);
-    router.get("/product/jenis", isLogin, isSuperAdmin, findAll);
-    router.get("/product/jenis/:id", isLogin, isSuperAdmin, findOne);
-    router.put("/product/jenis/:id", isLogin, isSuperAdmin, update);
-    router.delete("/product/jenis/:id", isLogin, isSuperAdmin, deleteOne);
+    router.post("/product/finishings", isLogin, isSuperAdmin, createFinishing);
+    router.get("/product/finishings", isLogin, isSuperAdmin, findAllFinishing);
+    router.get("/product/finishings/:id", isLogin, isSuperAdmin, findOneFinishing);
+    router.put("/product/finishings/:id", isLogin, isSuperAdmin, updateFinishing);
+    router.delete("/product/finishings/:id", isLogin, isSuperAdmin, removeFinishing);
+    router.post("/product/materials", isLogin, isSuperAdmin, createMaterial);
+    router.get("/product/materials", isLogin, isSuperAdmin, findAllMaterial);
+    router.get("/product/materials/:id", isLogin, isSuperAdmin, findOneMaterial);
+    router.put("/product/materials/:id", isLogin, isSuperAdmin, updateMaterial);
+    router.delete("/product/materials/:id", isLogin, isSuperAdmin, removeMaterial);
+    router.post("/product/sizes", isLogin, isSuperAdmin, createSize);
+    router.get("/product/sizes", isLogin, isSuperAdmin, findAllSize);
+    router.get("/product/sizes/:id", isLogin, isSuperAdmin, findOneSize);
+    router.put("/product/sizes/:id", isLogin, isSuperAdmin, updateSize);
+    router.delete("/product/sizes/:id", isLogin, isSuperAdmin, deleteOneSize);
+    router.post("/product/categories", isLogin, isSuperAdmin, createCategory);
+    router.get("/product/categories", isLogin, isSuperAdmin, findAllCategory);
+    router.get("/product/categories/:id", isLogin, isSuperAdmin, findOneCategory);
+    router.put("/product/categories/:id", isLogin, isSuperAdmin, updateCategory);
+    router.delete("/product/categories/:id", isLogin, isSuperAdmin, removeCategory);
+    router.post("/product/finishings", isLogin, isSuperAdmin, createFinishing);
+    router.get("/product/finishings", isLogin, isSuperAdmin, findAllFinishing);
+    router.get("/product/finishings/:id", isLogin, isSuperAdmin, findOneFinishing);
+    router.put("/product/finishings/:id", isLogin, isSuperAdmin, updateFinishing);
+    router.delete("/product/finishings/:id", isLogin, isSuperAdmin, removeFinishing);
+    router.post("/product/jenis", isLogin, isSuperAdmin, createjenisProduct);
+    router.get("/product/jenis", isLogin, isSuperAdmin, findAllJenisProduct);
+    router.get("/product/jenis/:id", isLogin, isSuperAdmin, findOneJenisProduct);
+    router.put("/product/jenis/:id", isLogin, isSuperAdmin, updateJenisProduct);
+    router.delete("/product/jenis/:id", isLogin, isSuperAdmin, deleteOneJenisProduct);
 
 
     app.use("/api/super/admin", router);

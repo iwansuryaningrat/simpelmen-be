@@ -347,6 +347,23 @@ const updateProfile = (req, res) => {
     });
 };
 
+const showAllRole = (req, res) => {
+  //find all role if not found "role not found"
+  Role.findAll()
+    .then((data) => {
+      if (!data) {
+        return res.status(404).send({
+          message: "Role not found",
+        });
+      }
+    })
+    .catch((err) => {
+      return res.status(500).send({
+        message: err.message || "Some error occurred while retrieving role.",
+      });
+    });
+};
+
 
 export {
   createUser,
@@ -357,4 +374,5 @@ export {
   changePassword,
   userProfile,
   updateProfile,
+  showAllRole,
 };

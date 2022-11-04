@@ -4,7 +4,7 @@ const Product_Materials = db.product_materials;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Product_Materials
-const create = (req, res) => {
+const createMaterial = (req, res) => {
     const { name, description } = req.body;
     
     // Validate request
@@ -36,7 +36,7 @@ const create = (req, res) => {
         });
         });
     }
-const findAll = (req, res) => {
+const findAllMaterial = (req, res) => {
     Product_Materials
         .findAll()
         .then((data) => {
@@ -58,7 +58,7 @@ const findAll = (req, res) => {
         });
         });
     }
-const findOne = (req, res) => {
+const findOneMaterial = (req, res) => {
     const id = req.params.id;
     
     Product_Materials
@@ -81,7 +81,7 @@ const findOne = (req, res) => {
         });
         });
     }
-const update = (req, res) => {
+const updateMaterial = (req, res) => {
     const id = req.params.id;
     
     Product_Materials
@@ -105,7 +105,7 @@ const update = (req, res) => {
         });
         });
     }
-const remove = (req, res) => {
+const removeMaterial = (req, res) => {
     const id = req.params.id;
     
     Product_Materials
@@ -130,4 +130,4 @@ const remove = (req, res) => {
         });
     }
 
-export { create, findAll, findOne, update, remove };
+export { createMaterial, findAllMaterial, findOneMaterial, updateMaterial, removeMaterial };

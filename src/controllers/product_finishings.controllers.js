@@ -3,7 +3,7 @@ const Product_Finishings = db.product_finishings;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Product_Finishings
-const create = (req, res) => {
+const createFinishing = (req, res) => {
     const { name, description } = req.body;
     
     // Validate request
@@ -35,7 +35,7 @@ const create = (req, res) => {
         });
         });
     };
-const findAll = (req, res) => {
+const findAllFinishing = (req, res) => {
     const name = req.query.name;
     var condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
     
@@ -60,7 +60,7 @@ const findAll = (req, res) => {
         });
         });
     }
-const findOne = (req, res) => {
+const findOneFinishing = (req, res) => {
     const id = req.params.id;
     
     Product_Finishings
@@ -83,7 +83,7 @@ const findOne = (req, res) => {
         });
         });
     }
-const update = (req, res) => {
+const updateFinishing = (req, res) => {
     const id = req.params.id;
     
     Product_Finishings
@@ -107,7 +107,7 @@ const update = (req, res) => {
         });
         });
     }
-const remove = (req, res) => {
+const removeFinishing = (req, res) => {
     const id = req.params.id;
     
     Product_Finishings
@@ -132,4 +132,4 @@ const remove = (req, res) => {
         });
     }
 
-export { create, findAll, findOne, update, remove };
+export { createFinishing, findAllFinishing, findOneFinishing, updateFinishing, removeFinishing };
