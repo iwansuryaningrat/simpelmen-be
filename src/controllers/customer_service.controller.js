@@ -528,6 +528,11 @@ const RekapPesanaan = (req, res) => {
             },
         },
     ],
+    where: {
+        order_id: {
+            [Op.notIn]: db.sequelize.literal(`(SELECT order_status_order_id FROM order_statuses WHERE order_status_admin_code = 8)`),
+        },
+    },
     order: [["order_id", "DESC"]],
 })
     .then((data) => {
