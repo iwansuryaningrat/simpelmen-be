@@ -478,7 +478,7 @@ const UpdateStatusPAD = (req, res) => {
     const retribution_id = req.params.id;
     Retributions.update(
         {
-            retribution_pad: req.body.retribution_pad,
+            retribution_pad_status: req.body.retribution_pad,
         },
         {
             where: {
