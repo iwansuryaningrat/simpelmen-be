@@ -50,42 +50,38 @@ const createUser = (req, res) => {
     });
 };
 
-// Retrieve all Users from the database.
 const findAll = (req, res) => {
-  const { user_status, isAdmin } = req.query;
-  var condition = {};
-
-  if (user_status) {
-    condition.user_status = user_status;
-  }
-
-  if (isAdmin) {
-    condition.user_role = {
-      [Op.ne]: 8,
-    };
-  }
-
-  Users.findAll({ where: condition })
-    .then((data) => {
-      if (!data) {
-        return res.status(404).send({
-          message: "User not found",
-        });
-      }
-
+  Users.findAll({
+    include: [
+      {
+        model: Role,
+        as: "roles",
+        attributes: ["role_name"],
+      },
+    ],
+  })
+  .then((data) => {
+    if (data.length > 0) {
       res.send({
-        message: "Users were retrieved successfully.",
+        message: "Data found",
         data,
       });
-    })
-    .catch((err) => {
-      return res.status(500).send({
-        message: err.message || "Some error occurred while retrieving users.",
+    }
+    else {
+      res.send({
+        message: "Data not found",
       });
-    });
+    }
+  })
+    .catch((err) => {
+      res.status(500).send({
+        message:
+          err.message || "cant retrieve data users or data users is empty",
+      });
+    }
+    );
 };
 
-// Find a single User with an id or email
 const findOne = (req, res) => {
   const { id } = req.query;
 
