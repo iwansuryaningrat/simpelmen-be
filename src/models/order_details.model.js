@@ -19,10 +19,10 @@ const Order_Details = (sequelize, Sequelize) => {
       order_price: {
         type: Sequelize.INTEGER,
       },
-      order_finishing_id: {
+      order_detail_finishing_id: {
         type: Sequelize.INTEGER,
       },
-      order_material_id: {
+      order_detail_material_id: {
         type: Sequelize.INTEGER,
       },
       order_design: {
