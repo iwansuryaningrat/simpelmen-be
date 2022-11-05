@@ -56,7 +56,7 @@ app.use(
 
 import db from "./src/models/index.js";
 
-db.sequelize.sync({ force: true }).then(() => {
+db.sequelize.sync({ force: false }).then(() => {
   initRoles();
   initProvince();
   initCity();
