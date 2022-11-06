@@ -308,7 +308,40 @@
             "schema": {
               "type": "object",
               "properties": {
-                "where": {
+                "delivery_detail_name": {
+                  "example": "any"
+                },
+                "delivery_detail_ikm": {
+                  "example": "any"
+                },
+                "delivery_detail_email": {
+                  "example": "any"
+                },
+                "delivery_detail_contact": {
+                  "example": "any"
+                },
+                "delivery_detail_method": {
+                  "example": "any"
+                },
+                "delivery_detail_address": {
+                  "example": "any"
+                },
+                "delivery_detail_district": {
+                  "example": "any"
+                },
+                "delivery_detail_postal_code": {
+                  "example": "any"
+                },
+                "delivery_detail_shipping_cost": {
+                  "example": "any"
+                },
+                "delivery_detail_courier": {
+                  "example": "any"
+                },
+                "delivery_detail_receipt": {
+                  "example": "any"
+                },
+                "delivery_detail_estimate": {
                   "example": "any"
                 }
               }
