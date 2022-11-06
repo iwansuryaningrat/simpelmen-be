@@ -12,7 +12,6 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
-
 // Create and Save a new User
 const createUser = (req, res) => {
   const { user_name, user_email, user_password, user_role } = req.body;
@@ -299,7 +298,7 @@ const userProfile = (req, res) => {
       {
         model: Role,
         as: "roles",
-      }
+      },
     ],
   })
     .then((data) => {
@@ -313,15 +312,12 @@ const userProfile = (req, res) => {
         message: "User was retrieved successfully.",
         data,
       });
-    }
-    )
+    })
     .catch((err) => {
       return res.status(500).send({
         message: err.message || "Some error occurred while retrieving user.",
       });
-    }
-    );
-
+    });
 };
 
 const updateProfile = (req, res) => {
@@ -350,7 +346,6 @@ const updateProfile = (req, res) => {
       });
     });
 };
-
 
 export {
   createUser,
