@@ -5,7 +5,7 @@ const Product = db.products;
 
 // Create and Save a new jenisProduct
 const createjenisProduct = (req, res) => {
-  const { name, description } = req.body;
+  const { name } = req.body;
 
   // Validate request
   if (!name) {
@@ -17,7 +17,6 @@ const createjenisProduct = (req, res) => {
   // Create a jenisProduct
   const jenis_product = {
     jenis_product_name: name,
-    jenis_product_description: description,
   };
 
   // Save jenisProduct in the database

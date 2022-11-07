@@ -4,7 +4,7 @@ const Op = db.Sequelize.Op;
 
 // Create and Save a new Product_Sizes
 const createSize = (req, res) => {
-    const {length, width, height, weight, length2, width2, height2,shape,description,} = req.body;
+    const {length, width, height, weight, length2, width2, height2,shape} = req.body;
 
     // Validate request
     if (!length) {
@@ -23,7 +23,6 @@ const createSize = (req, res) => {
         product_size_width2: width2,
         product_size_height2: height2,
         product_size_shape: shape,
-        product_size_description: description,
     };
 
     // Save Product_Sizes in the database

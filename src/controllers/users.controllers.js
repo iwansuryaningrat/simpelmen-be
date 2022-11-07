@@ -364,6 +364,20 @@ const showAllRole = (req, res) => {
     });
 };
 
+const role = (req, res) => {
+  Role.findAll()
+    .then((data) => {
+      res.send({
+        message: "Role was retrieved successfully.",
+        data,
+      });
+    })
+    .catch((err) => {
+      return res.status(500).send({
+        message: err.message || "Some error occurred while retrieving role.",
+      });
+    });
+};
 
 export {
   createUser,
@@ -375,4 +389,5 @@ export {
   userProfile,
   updateProfile,
   showAllRole,
+  role,
 };

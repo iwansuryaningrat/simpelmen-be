@@ -4,7 +4,7 @@ const Op = db.Sequelize.Op;
 
 // Create and Save a new Product_Categories
 const createCategory = (req, res) => {
-    const { name, description } = req.body;
+    const { id,name } = req.body;
     
     // Validate request
     if (!name) {
@@ -15,8 +15,8 @@ const createCategory = (req, res) => {
     
     // Create a Product_Categories
     const product_categories = {
+        product_category_id: id,
         product_category_name: name,
-        product_category_description: description,
     };
     
     // Save Product_Categories in the database

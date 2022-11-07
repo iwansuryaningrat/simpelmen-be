@@ -5,7 +5,7 @@ const Op = db.Sequelize.Op;
 
 // Create and Save a new Product_Materials
 const createMaterial = (req, res) => {
-    const { name, description } = req.body;
+    const { name} = req.body;
     
     // Validate request
     if (!name) {
@@ -17,7 +17,6 @@ const createMaterial = (req, res) => {
     // Create a Product_Materials
     const product_materials = {
         product_material_name: name,
-        product_material_description: description,
     };
     
     // Save Product_Materials in the database
@@ -37,27 +36,28 @@ const createMaterial = (req, res) => {
         });
     }
 const findAllMaterial = (req, res) => {
-    Product_Materials
-        .findAll()
-        .then((data) => {
+    Product_Materials.findAll()
+    .then((data) => {
         if (data == null) {
             return res.status(404).send({
             message: "Product_Materials not found",
+            "data": data
             });
         }
-
-        res.send({
-            message: "Product_Materials was retrieved successfully!",
-            data,
-        });
+        else {
+            res.send({
+                message: "Product_Materials was retrieved successfully!",
+                data,
+            });
+        }
         })
         .catch((err) => {
         return res.status(500).send({
             message:
             err.message || "Some error occurred while retrieving Product_Materials.",
         });
-        });
-    }
+    });
+}
 const findOneMaterial = (req, res) => {
     const id = req.params.id;
     

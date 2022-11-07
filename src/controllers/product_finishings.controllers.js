@@ -4,7 +4,7 @@ const Op = db.Sequelize.Op;
 
 // Create and Save a new Product_Finishings
 const createFinishing = (req, res) => {
-    const { name, description } = req.body;
+    const { name } = req.body;
     
     // Validate request
     if (!name) {
@@ -16,7 +16,6 @@ const createFinishing = (req, res) => {
     // Create a Product_Finishings
     const product_finishings = {
         product_finishing_name: name,
-        product_finishing_description: description,
     };
     
     // Save Product_Finishings in the database
