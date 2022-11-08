@@ -10,6 +10,8 @@ import {
     showTracking,
     ShowAllOrder,
     DetailOrder,
+    CartIsFalse,
+    CartIsTrue,
 } from "../controllers/order_detail.controller.js"
 import {
     showStatusOrder,
@@ -33,6 +35,8 @@ const ordersRoutes = (app) => {
     router.post("/cart/:id", isLogin, isUser, addCart);
     router.get("/cart", isLogin, isUser,findAllCart);
     router.delete("/cart/:id", isLogin, isUser, removeCart);
+    router.put("/cart/true/:id", isLogin, isUser, CartIsTrue);
+    router.put("/cart/false/:id", isLogin, isUser, CartIsFalse);
     router.put("/checkout", isLogin, isUser,CheckoutOrder);
     router.get("/status", isLogin, isUser,showStatusOrder);
     router.get("/tracking", isLogin, isUser,showTracking);

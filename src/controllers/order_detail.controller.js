@@ -326,6 +326,77 @@ const CheckoutOrder = async (req, res) => {
     });
 };
 
+//set order_cart_status is 1
+const CartIsTrue = (req, res) => {
+    const token = req.headers["x-access-token"];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user_id = decoded.user_id;
+    const order_id = req.params.id;
+    Orders.update(
+        {
+            order_cart_status: "1",
+        },
+        {
+            where: {
+                order_user_id: user_id,
+                order_id: order_id,
+            },
+        }
+    )
+        .then((num) => {
+            if (num == 1) {
+                res.send({
+                    message: "Order was updated successfully.",
+                });
+            } else {
+                res.send({
+                    message: `Cannot update Order with id=${user_id}. Maybe Order was not found or req.body is empty!`,
+                });
+            }
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message: "Error updating Order with id=" + user_id,
+            });
+        });
+};
+
+
+const CartIsFalse = (req, res) => {
+    const token = req.headers["x-access-token"];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user_id = decoded.user_id;
+    const order_id = req.params.id;
+    Orders.update(
+        {
+            order_cart_status: "0",
+        },
+        {
+            where: {
+                order_user_id: user_id,
+                order_id: order_id,
+            },
+        }
+    )
+        .then((num) => {
+            if (num == 1) {
+                res.send({
+                    message: "Order was updated successfully.",
+                });
+            } else {
+                res.send({
+                    message: `Cannot update Order with id=${user_id}. Maybe Order was not found or req.body is empty!`,
+                });
+            }
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message: "Error updating Order with id=" + user_id,
+            });
+        });
+};
+
+
 
 const removeCart = (req, res) => {
     const token = req.headers["x-access-token"];
@@ -628,4 +699,4 @@ const showPAD = (req, res) => {
 
 
 
-export { addCart,findAllCart,CheckoutOrder ,removeCart,showTracking,ShowAllOrder,DetailOrder,showPAD };
+export { addCart,findAllCart,CheckoutOrder ,removeCart,showTracking,ShowAllOrder,DetailOrder,showPAD ,CartIsFalse,CartIsTrue};
