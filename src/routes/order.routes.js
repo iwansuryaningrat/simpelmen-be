@@ -18,7 +18,6 @@ import {
 import { 
     
     isLogin,
-    isOrderUser,
 
 } from "../middlewares/auth.middlewares.js";
 import { isUser } from "../middlewares/roles.middlewares.js";
@@ -37,8 +36,8 @@ const ordersRoutes = (app) => {
     router.put("/checkout", isLogin, isUser,CheckoutOrder);
     router.get("/status", isLogin, isUser,showStatusOrder);
     router.get("/tracking", isLogin, isUser,showTracking);
-    router.get("/list", isLogin, isUser,ShowAllOrder,isOrderUser);
-    router.get("/list/:id", isLogin, isUser,DetailOrder,isOrderUser);
+    router.get("/list", isLogin, isUser,ShowAllOrder);
+    router.get("/list/:id", isLogin, isUser,DetailOrder);
     app.use("/api/order", router);
 
 };
