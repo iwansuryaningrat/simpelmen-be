@@ -91,6 +91,13 @@ import ProductSizesRoutes from "./src/routes/product_sizes.routes.js";
 import productCategoriesRoutes from "./src/routes/product_categories.routes.js";
 import ProductFinishingsRoutes from "./src/routes/product_finishings.routes.js";
 import ordersRoutes from "./src/routes/order.routes.js";
+import adminCashierRoutes from "./src/routes/admin_kasir.routes.js";
+import adminTuRoutes from "./src/routes/admin_tu.routes.js";
+import adminProductionRoutes from "./src/routes/admin_produksi.routes.js";
+import SuperAdminRoutes from "./src/routes/super_admin.routes.js";
+import adminWarehouseRoutes from "./src/routes/admin_warehouse.routes.js";
+import adminDesainRoutes from "./src/routes/admin_desain.routes.js";
+
 adminCSRoutes(app);
 authRoutes(app);
 userRoutes(app);
@@ -103,7 +110,12 @@ ProductSizesRoutes(app);
 productCategoriesRoutes(app);
 ProductFinishingsRoutes(app);
 ordersRoutes(app);
-
+adminCashierRoutes(app);
+adminTuRoutes(app);
+adminProductionRoutes(app);
+adminWarehouseRoutes(app);
+adminDesainRoutes(app);
+SuperAdminRoutes(app);
 // set port, listen for requests
 const PORT = process.env.PORT;
 

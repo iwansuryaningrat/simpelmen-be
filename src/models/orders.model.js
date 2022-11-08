@@ -28,23 +28,17 @@ const Orders = (sequelize, Sequelize) => {
       order_total_price: {
         type: Sequelize.INTEGER,
       },
-      order_finishing_id: {
-        type: Sequelize.INTEGER,
-      },
-      order_material_id: {
-        type: Sequelize.INTEGER,
-      },
-      order_design: {
-        type: Sequelize.STRING,
-      },
-      order_design_image:{
-        type: Sequelize.TEXT("long"),
-      },
       order_payment_method: {
         type: Sequelize.STRING,
       },
       order_payment_status: {
         type: Sequelize.STRING,
+      },
+      order_last_payment_date: {
+        type: Sequelize.DATE,
+      },
+      order_discount: {
+        type: Sequelize.INTEGER,
       },
     },
     {

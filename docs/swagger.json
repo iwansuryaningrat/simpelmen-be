@@ -179,6 +179,9 @@
                 "order_price": {
                   "example": "any"
                 },
+                "order_design_image": {
+                  "example": "any"
+                },
                 "order_design": {
                   "example": "any"
                 },
@@ -186,9 +189,6 @@
                   "example": "any"
                 },
                 "order_payment_status": {
-                  "example": "any"
-                },
-                "order_product_id": {
                   "example": "any"
                 },
                 "panjang_1": {
@@ -207,6 +207,18 @@
                   "example": "any"
                 },
                 "tinggi_2": {
+                  "example": "any"
+                },
+                "order_discount": {
+                  "example": "any"
+                },
+                "order_last_payment_date": {
+                  "example": "any"
+                },
+                "order_finishing_id": {
+                  "example": "any"
+                },
+                "order_material_id": {
                   "example": "any"
                 }
               }

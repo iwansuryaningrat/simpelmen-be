@@ -4,7 +4,6 @@ const Op = db.Sequelize.Op;
 const Products = db.products;
 const Orders = db.orders;
 const OrderDetails = db.order_details;
-const Order_Products = db.order_products;
 const Order_Status = db.order_status;
 const Product_Finishing = db.product_finishings;
 const Product_Material = db.product_materials;
@@ -63,8 +62,8 @@ const UpdateOrderDikirim = (req, res) => {
     const id = req.params.id;
     Order_Status.create({
         order_status_admin_code: 5,
-        description: "Pesanan telah dikirim",
-        order_id: id,
+        order_status_description: "Pesanan telah dikirim",
+        order_status_order_id: id,
     })
     .then((data) => {
         Orders.update(

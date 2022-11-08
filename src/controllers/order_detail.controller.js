@@ -4,7 +4,6 @@ const Op = db.Sequelize.Op;
 const Products = db.products;
 const Orders = db.orders;
 const OrderDetails = db.order_details;
-const Order_Products = db.order_products;
 const Order_Status = db.order_status;
 const Product_Finishing = db.product_finishings;
 const Product_Material = db.product_materials;
@@ -52,37 +51,37 @@ const addCart = (req, res, next) => {
     const user_id = decoded.user_id;
     const user_email = decoded.user_email;
     const product_id = req.params.id;
-    const { order_total_price, order_quantity , order_note , order_price , order_design , order_payment_method , order_payment_status , order_product_id, panjang_1, panjang_2,lebar_1,lebar_2,tinggi_1,tinggi_2 } = req.body;
+    const { order_total_price, order_quantity , order_note , order_price , order_design_image , order_design, order_payment_method , order_payment_status,panjang_1, panjang_2,lebar_1,lebar_2,tinggi_1,tinggi_2 , order_discount, order_last_payment_date,order_finishing_id,order_material_id} = req.body;
     db.sequelize.transaction(function (t) {
         return Orders.create({
             order_user_id: user_id,
             order_total_price: order_total_price,
             order_quantity: order_quantity,
+            order_discount: order_discount,
             order_note: order_note,
             order_price: order_price,
-            order_design: order_design,
             order_payment_method: order_payment_method,
             order_payment_status: order_payment_status,
+            order_last_payment_date: order_last_payment_date,
         }, { transaction: t })
         .then(function (order) {
             return Products.findOne({
                 where: { product_id: product_id },
             },{ transaction: t })
-            .then((data) => {
-                return Order_Products.create({
-                    order_product_order_id: order.order_id,
-                    order_product_product_id: product_id,
-                },{ transaction: t })
                 .then((data) => {
                     return OrderDetails.create({
                         order_detail_order_id: order.order_id,
-                        order_detail_order_product_id: data.order_product_id,
+                        order_detail_product_id: product_id,
                         p1: panjang_1,
                         p2: panjang_2,
                         l1: lebar_1,
                         l2: lebar_2,
                         t1: tinggi_1,
                         t2: tinggi_2,
+                        order_finishing_id: order_finishing_id,
+                        order_material_id: order_material_id,
+                        order_design: order_design,
+                        order_design_image: order_design_image
                     },{ transaction: t })
                 })
                 .then((data) => {
@@ -103,8 +102,7 @@ const addCart = (req, res, next) => {
                         },{ where: { order_id: order.order_id }, transaction: t })
                     })
                 }
-                )
-            })
+            )
         }
         )
     }).then(function (result) {
@@ -130,8 +128,8 @@ const findAllCart = (req, res) => {
         },
         include: [
             {
-                model: Order_Products,
-                as: "order_products",
+                model: OrderDetails,
+                as: "order_details",
                 include: [
                     {
                         model: Products,
@@ -152,10 +150,6 @@ const findAllCart = (req, res) => {
                         ], 
                     },
                 ],
-            },
-            {
-                model: OrderDetails,
-                as: "order_details",
             },
             {
                 model: Order_Status,
@@ -278,15 +272,6 @@ const removeCart = (req, res) => {
                         { transaction: t }
                     );
                 }).then(function (order_detail) {
-                    return Order_Products.destroy(
-                        {
-                            where: {
-                                order_product_order_id: order_id,
-                            },
-                        },
-                        { transaction: t }
-                    );
-                }).then(function (order_product) {
                     return Orders.destroy(
                         {
                             where: {
@@ -334,11 +319,8 @@ const showTracking = (req, res) => {
                 },
             },
             {
-                model: Order_Products,
-                as: "order_products",
-                attributes: {
-                    exclude: ["order_product_order_id","order_product_product_id","order_product_created_at","order_product_updated_at"],
-                },
+                model: OrderDetails,
+                as: "order_details",
                 include: [
                     {
                         model: Products,
@@ -380,10 +362,10 @@ const ShowAllOrder = (req, res) => {
         },
         include: [
             {
-                model: Order_Products,
-                as: "order_products",
+                model: OrderDetails,
+                as: "order_details",
                 attributes: {
-                    exclude: ["order_product_order_id","order_product_product_id","order_product_created_at","order_product_updated_at"],
+                    exclude: ["order_detail_created_at","order_detail_updated_at"],
                 },
                 include: [
                     {
@@ -451,10 +433,10 @@ const DetailOrder = (req, res) => {
                         },
                     },
                     {
-                        model: Order_Products,
-                        as: "order_products",
+                        model: OrderDetails,
+                        as: "order_details",
                         attributes: {
-                            exclude: ["order_product_order_id","order_product_product_id","order_product_created_at","order_product_updated_at"],
+                            exclude: ["order_detail_created_at","order_detail_updated_at"],
                         },
                         include: [
                             {
@@ -479,13 +461,6 @@ const DetailOrder = (req, res) => {
                                 ],
                             },
                         ],
-                    },
-                    {
-                        model: OrderDetails,
-                        as: "order_details",
-                        attributes: {
-                            exclude: ["order_detail_order_product_id","order_detail_created_at","order_detail_updated_at"],
-                        },
                     },
                     {
                         model: Users,

@@ -4,7 +4,6 @@ const Op = db.Sequelize.Op;
 const Products = db.products;
 const Orders = db.orders;
 const OrderDetails = db.order_details;
-const Order_Products = db.order_products;
 const Order_Status = db.order_status;
 const Product_Finishing = db.product_finishings;
 const Product_Material = db.product_materials;
@@ -34,12 +33,6 @@ const showAllOrder = (req, res) => {
             {
                 model: OrderDetails,
                 as: "order_details",
-                include: [
-                    {
-                        model: Order_Products,
-                        as: "order_products",
-                    },
-                ],
             },
             {
                 model: Order_Status,
@@ -70,35 +63,29 @@ const showOrderByID = (req, res) => {
                 model: OrderDetails,
                 as: "order_details",
                 include: [
-                    {
-                        model: Order_Products,
-                        as: "order_products",
-                        include: [
-                            {
-                                model: Products,
-                                as: "products",
-                                include: [
-                                    {
-                                        model: Product_Finishing,
-                                        as: "product_finishings",
+                        {
+                            model: Products,
+                            as: "products",
+                            include: [
+                                {
+                                    model: Product_Finishing,
+                                    as: "product_finishings",
 
-                                    },
-                                    {
-                                        model: Product_Material,
-                                        as: "product_materials",
-                                    },
-                                    {
-                                        model: Product_Category,
-                                        as: "product_categories",
-                                    },
-                                    {
-                                        model: Jenis_Products,
-                                        as: "jenis_products",
-                                    }
-                                ],
-                            },
-                        ],
-                    },
+                                },
+                                {
+                                    model: Product_Material,
+                                    as: "product_materials",
+                                },
+                                {
+                                    model: Product_Category,
+                                    as: "product_categories",
+                                },
+                                {
+                                    model: Jenis_Products,
+                                    as: "jenis_products",
+                                }
+                            ],
+                        },
                 ],
             },
         ],

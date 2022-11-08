@@ -4,7 +4,6 @@ const Op = db.Sequelize.Op;
 const Products = db.products;
 const Orders = db.orders;
 const OrderDetails = db.order_details;
-const Order_Products = db.order_products;
 const Order_Status = db.order_status;
 
 import jwt from "jsonwebtoken";
@@ -29,17 +28,13 @@ const findAllOrder = (req, res) => {
                         as: "users",
                     },
                     {
-                        model: Order_Products,
-                        as: "order_products",
+                        model: OrderDetails,
+                        as: "order_details",
                         include: [
                             {
                                 model: Products,
                                 as: "products",
                             },
-                            {
-                                model: OrderDetails,
-                                as: "order_details",
-                            }
                         ],
                     },
                 ],

@@ -20,7 +20,6 @@ const getAll = (req, res) => {
 const getOne = (req, res) => {
   const { id } = req.params;
 
-  // Validate request
   if (!id) {
     return res.status(400).send({
       message: "Content can not be empty!",
