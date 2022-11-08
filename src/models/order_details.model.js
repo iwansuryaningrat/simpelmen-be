@@ -16,10 +16,13 @@ const Order_Details = (sequelize, Sequelize) => {
       order_detail_materials_id: {
         type: Sequelize.INTEGER,
       },
-      order_design: {
+      order_detail_quantity: {
+        type: Sequelize.INTEGER,
+      },
+      order_detail_design: {
         type: Sequelize.STRING,
       },
-      order_design_image: {
+      order_detail_design_image: {
         type: Sequelize.TEXT("long"),
       },
       order_detail_order_id: {

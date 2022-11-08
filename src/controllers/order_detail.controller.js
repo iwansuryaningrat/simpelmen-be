@@ -56,7 +56,6 @@ const addCart = (req, res, next) => {
         return Orders.create({
             order_user_id: user_id,
             order_total_price: order_total_price,
-            order_quantity: order_quantity,
             order_discount: order_discount,
             order_note: order_note,
             order_price: order_price,
@@ -72,16 +71,17 @@ const addCart = (req, res, next) => {
                     return OrderDetails.create({
                         order_detail_order_id: order.order_id,
                         order_detail_product_id: product_id,
+                        order_detail_quantity: order_quantity,
                         p1: panjang_1,
                         p2: panjang_2,
                         l1: lebar_1,
                         l2: lebar_2,
                         t1: tinggi_1,
                         t2: tinggi_2,
-                        order_finishing_id: order_finishing_id,
-                        order_material_id: order_material_id,
-                        order_design: order_design,
-                        order_design_image: order_design_image
+                        order_detail_finishing_id: order_finishing_id,
+                        order_detail_material_id: order_material_id,
+                        order_detail_design: order_design,
+                        order_detail_design_image: order_design_image
                     },{ transaction: t })
                 })
                 .then((data) => {
