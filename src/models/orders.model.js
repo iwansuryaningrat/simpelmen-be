@@ -22,6 +22,9 @@ const Orders = (sequelize, Sequelize) => {
       order_price: {
         type: Sequelize.INTEGER,
       },
+      order_cart_status: {
+        type: Sequelize.INTEGER,
+      },
       order_total_price: {
         type: Sequelize.INTEGER,
       },

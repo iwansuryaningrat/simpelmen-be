@@ -171,36 +171,133 @@ const findAllCart = (req, res) => {
         });
 }
 
+// const CheckoutOrder = async (req, res) => {
+//     const { order_id } = req.query;
+//     if (!order_id) {
+//         res.status(400).send({
+//             message: "Order ID is required",
+//         });
+//         return;
+//     }
+//     const { delivery_detail_name,delivery_detail_ikm, delivery_detail_email, delivery_detail_contact, delivery_detail_method, delivery_detail_address, delivery_detail_district,delivery_detail_postal_code, delivery_detail_shipping_cost,delivery_detail_courier,delivery_detail_receipt,delivery_detail_estimate } = req.body;
+//     const order_id_string = order_id.toString();
+//     const order_id_array_string = order_id_string.split(",");
+//     const order_id_array = order_id_array_string.map(Number);
+//     for (let i = 0; i < order_id_array.length; i++) {
+//         await db.sequelize.transaction(function (t) {
+//             return Delivery_Details.create({
+//                 delivery_detail_order_id: order_id_array[i],
+//                 delivery_detail_name: delivery_detail_name,
+//                 delivery_detail_ikm: delivery_detail_ikm,
+//                 delivery_detail_email: delivery_detail_email,
+//                 delivery_detail_contact: delivery_detail_contact,
+//                 delivery_detail_method: delivery_detail_method,
+//                 delivery_detail_address: delivery_detail_address,
+//                 delivery_detail_district: delivery_detail_district,
+//                 delivery_detail_postal_code: delivery_detail_postal_code,
+//                 delivery_detail_shipping_cost: delivery_detail_shipping_cost,
+//                 delivery_detail_courier: delivery_detail_courier,
+//                 delivery_detail_receipt: delivery_detail_receipt,
+//                 delivery_detail_estimate: delivery_detail_estimate,
+//             }, { transaction: t }).then(function (delivery) {
+//                 return Order_Status.update(
+//                     {
+//                         order_status_admin_code: "2",
+//                         order_status_description: "Watting for Approve Admin Customer Service",
+//                     },
+//                     {
+//                         where: {
+//                             order_status_order_id: order_id_array[i],
+//                         },
+//                     }
+//                 )
+//             })
+//             .then(function (order) {
+//                 return Retributions.create({
+//                     retribution_order_id: order_id_array[i],
+//                     retribution_status: "1",
+//                 })
+//             })
+//         }).then(function (result) {
+//             res.status(200).send({
+//                 message: "Order has been check Admin Customer Service.",
+//             });
+//         }).catch(function (err) {
+//             res.status(500).send({
+//                 message: err.message || "Some error occurred while creating the Order.",
+//             });
+//         });
+//     }
+// };
+//create checkout order
 const CheckoutOrder = async (req, res) => {
-    const { order_id } = req.query;
-    if (!order_id) {
+    const token = req.headers["x-access-token"];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user_id = decoded.user_id;
+    //process checkout order with user_id and order_cart_status is 1
+    const order = await Orders.findOne({
+        where: {
+            order_user_id: user_id,
+            order_cart_status: "1",
+        },
+    });
+    if (!order) {
         res.status(400).send({
-            message: "Order ID is required",
+            message: "Order not found",
         });
         return;
     }
     const { delivery_detail_name,delivery_detail_ikm, delivery_detail_email, delivery_detail_contact, delivery_detail_method, delivery_detail_address, delivery_detail_district,delivery_detail_postal_code, delivery_detail_shipping_cost,delivery_detail_courier,delivery_detail_receipt,delivery_detail_estimate } = req.body;
-    const order_id_string = order_id.toString();
-    const order_id_array_string = order_id_string.split(",");
-    const order_id_array = order_id_array_string.map(Number);
+    //find all order_id with user_id and order_cart_status is 1
+    const order_id = await Orders.findAll({
+        where: {
+            order_user_id: user_id,
+            order_cart_status: "1",
+        },
+        attributes: ["order_id"],
+    });
+    //convert order_id to array
+    const order_id_array = order_id.map((item) => item.order_id);
+    //process checkout order with order_id_array
     for (let i = 0; i < order_id_array.length; i++) {
-        await db.sequelize.transaction(function (t) {
-            return Delivery_Details.create({
-                delivery_detail_order_id: order_id_array[i],
-                delivery_detail_name: delivery_detail_name,
-                delivery_detail_ikm: delivery_detail_ikm,
-                delivery_detail_email: delivery_detail_email,
-                delivery_detail_contact: delivery_detail_contact,
-                delivery_detail_method: delivery_detail_method,
-                delivery_detail_address: delivery_detail_address,
-                delivery_detail_district: delivery_detail_district,
-                delivery_detail_postal_code: delivery_detail_postal_code,
-                delivery_detail_shipping_cost: delivery_detail_shipping_cost,
-                delivery_detail_courier: delivery_detail_courier,
-                delivery_detail_receipt: delivery_detail_receipt,
-                delivery_detail_estimate: delivery_detail_estimate,
-            }, { transaction: t }).then(function (delivery) {
-                return Order_Status.update(
+        //error capture
+        try {
+            //at processTicksAndRejections (node:internal/process/task_queues:96:5) {
+            //   code: 'ERR_HTTP_HEADERS_SENT',
+            //   message: 'Cannot set headers after they are sent to the client'
+            // }
+            //process checkout order with order_id_array
+            await db.sequelize.transaction(async function (t) {
+                //update orders with order_cart_status is 0
+                await Orders.update(
+                    {
+                        order_cart_status: "0",
+                    },
+                    {
+                        where: {
+                            order_id: order_id_array[i],
+                        },
+                    },
+                    { transaction: t }
+                );
+                //create delivery details
+                await Delivery_Details.create({
+                    delivery_detail_order_id: order_id_array[i],
+                    delivery_detail_name: delivery_detail_name,
+                    delivery_detail_ikm: delivery_detail_ikm,
+                    delivery_detail_email: delivery_detail_email,
+                    delivery_detail_contact: delivery_detail_contact,
+                    delivery_detail_method: delivery_detail_method,
+                    delivery_detail_address: delivery_detail_address,
+                    delivery_detail_district: delivery_detail_district,
+                    delivery_detail_postal_code: delivery_detail_postal_code,
+                    delivery_detail_shipping_cost: delivery_detail_shipping_cost,
+                    delivery_detail_courier: delivery_detail_courier,
+                    delivery_detail_receipt: delivery_detail_receipt,
+                    delivery_detail_estimate: delivery_detail_estimate,
+                }, { transaction: t });
+                //update order status
+                await Order_Status.update(
                     {
                         order_status_admin_code: "2",
                         order_status_description: "Watting for Approve Admin Customer Service",
@@ -209,26 +306,26 @@ const CheckoutOrder = async (req, res) => {
                         where: {
                             order_status_order_id: order_id_array[i],
                         },
-                    }
-                )
-            })
-            .then(function (order) {
-                return Retributions.create({
+                    },
+                    { transaction: t }
+                );
+                //create retribution
+                await Retributions.create({
                     retribution_order_id: order_id_array[i],
                     retribution_status: "1",
-                })
-            })
-        }).then(function (result) {
-            res.status(200).send({
-                message: "Order has been check Admin Customer Service.",
+                }, { transaction: t });
             });
-        }).catch(function (err) {
+        } catch (error) {
             res.status(500).send({
-                message: err.message || "Some error occurred while creating the Order.",
+                message: error.message || "Some error occurred while creating the Order.",
             });
-        });
+        }
     }
+    res.status(200).send({
+        message: "Order has been check Admin Customer Service.",
+    });
 };
+
 
 const removeCart = (req, res) => {
     const token = req.headers["x-access-token"];
