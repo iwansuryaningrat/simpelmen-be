@@ -50,8 +50,9 @@ const showStatusOrder = (req, res) => {
                 },
             },
             {
-                model: Order_Products,
-                as: "order_products",
+            
+                model: OrderDetails,
+                as: "order_details",
                 include: [
                     {
                         model: Products,
@@ -78,10 +79,6 @@ const showStatusOrder = (req, res) => {
                             },
 
                         ],
-                    },
-                    {
-                        model: OrderDetails,
-                        as: "order_details",
                     },
                 ],
             },
