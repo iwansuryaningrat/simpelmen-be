@@ -180,30 +180,6 @@ const OrderAccept = (req, res) => {
         }
         );
     }
-    
-    
-
-    //     .then((data) => {
-    //     Order_Status.create({
-    //         order_status_admin_code: 3,
-    //         order_status_description: "Menerima Konfirmasi PO CS",
-    //         order_status_order_id: order_id,
-    //     })
-    //         .then((data) => {
-    //         res.send(data);
-    //         })
-    //         .catch((err) => {
-    //         res.status(500).send({
-    //             message: err.message || "Some error occurred while creating the Order_Status.",
-    //         });
-    //         });
-    //     })
-    //     .catch((err) => {
-    //     res.status(500).send({
-    //         message: err.message || "Some error occurred while updating the Order_Status.",
-    //     });
-    //     });
-    // }
 
 const showAllRetribution = (req, res) => {
     Retributions.findAll({

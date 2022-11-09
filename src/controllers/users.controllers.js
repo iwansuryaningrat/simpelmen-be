@@ -15,10 +15,10 @@ dotenv.config();
 
 // Create and Save a new User
 const createUser = (req, res) => {
-  const { user_name, user_email, user_password, user_role } = req.body;
+  const { user_name, user_email, user_password, user_role_id } = req.body;
 
   // Validate request
-  if (!user_name || !user_email || !user_password || !user_role) {
+  if (!user_name || !user_email || !user_password || !user_role_id) {
     return res.status(400).send({
       message: "Content can not be empty!",
     });
@@ -32,7 +32,7 @@ const createUser = (req, res) => {
     user_name,
     user_email,
     user_password: hashPassword,
-    user_role,
+    user_role_id,
   };
 
   // Save User in the database
