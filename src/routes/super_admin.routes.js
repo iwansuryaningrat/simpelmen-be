@@ -24,6 +24,7 @@ import {
     router.put("/profile", isLogin, isSuperAdmin, updateProfile);
     router.put("/changepassword/:id", isLogin, changePassword);
     router.post("/create/admin", isLogin, isSuperAdmin, createUser);
+    router.put("/update/admin/:id", isLogin, isSuperAdmin, updateUser);
     router.get("/data/admin", isLogin, isSuperAdmin, findAll);
     router.get("/data/admin/:id", isLogin, isSuperAdmin, findOne);
     router.get("/role", isLogin, isSuperAdmin, role);
