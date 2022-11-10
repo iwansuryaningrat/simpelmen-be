@@ -171,95 +171,21 @@ const findAllCart = (req, res) => {
         });
 }
 
-// const CheckoutOrderTest = async (req, res) => {
-//     const { order_id } = req.query;
-//     if (!order_id) {
-//         res.status(400).send({
-//             message: "Order ID is required",
-//         });
-//         return;
-//     }
-//     const { delivery_detail_name,delivery_detail_ikm, delivery_detail_email, delivery_detail_contact, delivery_detail_method, delivery_detail_address, delivery_detail_district,delivery_detail_postal_code, delivery_detail_shipping_cost,delivery_detail_courier,delivery_detail_receipt,delivery_detail_estimate } = req.body;
-//     const order_id_string = order_id.toString();
-//     const order_id_array_string = order_id_string.split(",");
-//     const order_id_array = order_id_array_string.map(Number);
-//     for (let i = 0; i < order_id_array.length; i++) {
-//         try {
-//             await db.sequelize.transaction(async function (t) {
-//                 await Delivery_Details.create({
-//                     delivery_detail_order_id: order_id_array[i],
-//                     delivery_detail_name: delivery_detail_name,
-//                     delivery_detail_ikm: delivery_detail_ikm,
-//                     delivery_detail_email: delivery_detail_email,
-//                     delivery_detail_contact: delivery_detail_contact,
-//                     delivery_detail_method: delivery_detail_method,
-//                     delivery_detail_address: delivery_detail_address,
-//                     delivery_detail_district: delivery_detail_district,
-//                     delivery_detail_postal_code: delivery_detail_postal_code,
-//                     delivery_detail_shipping_cost: delivery_detail_shipping_cost,
-//                     delivery_detail_courier: delivery_detail_courier,
-//                     delivery_detail_receipt: delivery_detail_receipt,
-//                     delivery_detail_estimate: delivery_detail_estimate,
-//                 }, { transaction: t });
-//                 await Order_Status.update(
-//                     {
-//                         order_status_admin_code: "2",
-//                         order_status_description: "Watting for Approve Admin Customer Service",
-//                     },
-//                     {
-//                         where: {
-//                             order_status_order_id: order_id_array[i],
-//                         },
-//                     },
-//                     { transaction: t }
-//                 );
-//                 await Retributions.create({
-//                     retribution_order_id: order_id_array[i],
-//                     retribution_status: "0",
-//                 }, { transaction: t });
-//             });
-//         } catch (error) {
-//             res.status(500).send({
-//                 message: error.message || "Some error occurred while creating the Order.",
-//             });
-//         }
-//     }
-//     res.status(200).send({
-//         message: "Order has been check Admin Customer Service.",
-//     });
-
-// };
-//create checkout order
 const CheckoutOrder = async (req, res) => {
-    const token = req.headers["x-access-token"];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user_id = decoded.user_id;
+    const { order_id } = req.query;
+    if (!order_id) {
+        res.status(400).send({
+            message: "Order ID is required",
+        });
+        return;
+    }
     const { delivery_detail_name,delivery_detail_ikm, delivery_detail_email, delivery_detail_contact, delivery_detail_method, delivery_detail_address, delivery_detail_district,delivery_detail_postal_code, delivery_detail_shipping_cost,delivery_detail_courier,delivery_detail_receipt,delivery_detail_estimate } = req.body;
-    //find all order_id with user_id and order_cart_status is 1 and return order_id object
-    const order_id = await Orders.findAll({
-        where: {
-            order_user_id: user_id,
-            order_cart_status: "1",
-        },
-        attributes: ["order_id"],
-    });
-    //get order_id array from order_id object result
-    const order_id_array = order_id.map((item) => item.order_id);
-    //loop order_id_array and then execute transaction
+    const order_id_string = order_id.toString();
+    const order_id_array_string = order_id_string.split(",");
+    const order_id_array = order_id_array_string.map(Number);
     for (let i = 0; i < order_id_array.length; i++) {
         try {
             await db.sequelize.transaction(async function (t) {
-                await Orders.update(
-                    {
-                        order_cart_status: "0",
-                    },
-                    {
-                        where: {
-                            order_id: order_id_array[i],
-                        },
-                    },
-                    { transaction: t }
-                );
                 await Delivery_Details.create({
                     delivery_detail_order_id: order_id_array[i],
                     delivery_detail_name: delivery_detail_name,
@@ -301,7 +227,81 @@ const CheckoutOrder = async (req, res) => {
     res.status(200).send({
         message: "Order has been check Admin Customer Service.",
     });
+
 };
+//create checkout order
+// const CheckoutOrder = async (req, res) => {
+//     const token = req.headers["x-access-token"];
+//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//     const user_id = decoded.user_id;
+//     const { delivery_detail_name,delivery_detail_ikm, delivery_detail_email, delivery_detail_contact, delivery_detail_method, delivery_detail_address, delivery_detail_district,delivery_detail_postal_code, delivery_detail_shipping_cost,delivery_detail_courier,delivery_detail_receipt,delivery_detail_estimate } = req.body;
+//     //find all order_id with user_id and order_cart_status is 1 and return order_id object
+//     const order_id = await Orders.findAll({
+//         where: {
+//             order_user_id: user_id,
+//             order_cart_status: "1",
+//         },
+//         attributes: ["order_id"],
+//     });
+//     //get order_id array from order_id object result
+//     const order_id_array = order_id.map((item) => item.order_id);
+//     //loop order_id_array and then execute transaction
+//     for (let i = 0; i < order_id_array.length; i++) {
+//         try {
+//             await db.sequelize.transaction(async function (t) {
+//                 await Orders.update(
+//                     {
+//                         order_cart_status: "0",
+//                     },
+//                     {
+//                         where: {
+//                             order_id: order_id_array[i],
+//                         },
+//                     },
+//                     { transaction: t }
+//                 );
+//                 await Delivery_Details.create({
+//                     delivery_detail_order_id: order_id_array[i],
+//                     delivery_detail_name: delivery_detail_name,
+//                     delivery_detail_ikm: delivery_detail_ikm,
+//                     delivery_detail_email: delivery_detail_email,
+//                     delivery_detail_contact: delivery_detail_contact,
+//                     delivery_detail_method: delivery_detail_method,
+//                     delivery_detail_address: delivery_detail_address,
+//                     delivery_detail_district: delivery_detail_district,
+//                     delivery_detail_postal_code: delivery_detail_postal_code,
+//                     delivery_detail_shipping_cost: delivery_detail_shipping_cost,
+//                     delivery_detail_courier: delivery_detail_courier,
+//                     delivery_detail_receipt: delivery_detail_receipt,
+//                     delivery_detail_estimate: delivery_detail_estimate,
+//                 }, { transaction: t });
+//                 await Order_Status.update(
+//                     {
+//                         order_status_admin_code: "2",
+//                         order_status_description: "Watting for Approve Admin Customer Service",
+//                     },
+//                     {
+//                         where: {
+//                             order_status_order_id: order_id_array[i],
+//                         },
+//                     },
+//                     { transaction: t }
+//                 );
+//                 await Retributions.create({
+//                     retribution_order_id: order_id_array[i],
+//                     retribution_status: "0",
+//                 }, { transaction: t });
+//             });
+//         } catch (error) {
+//             res.status(500).send({
+//                 message: error.message || "Some error occurred while creating the Order.",
+//             });
+//         }
+//     }
+//     res.status(200).send({
+//         message: "Order has been check Admin Customer Service.",
+//     });
+// };
 
 const CartIsTrue = (req, res) => {
     const token = req.headers["x-access-token"];

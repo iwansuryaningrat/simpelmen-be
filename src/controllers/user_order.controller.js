@@ -86,6 +86,11 @@ const showStatusOrder = (req, res) => {
         order: [
             ['order_id', 'DESC']
         ],
+        where: {
+            order_id: {
+                [Op.notIn]: db.sequelize.literal(`(SELECT order_status_order_id FROM order_statuses WHERE order_status_admin_code = 8)`),
+            },
+        },
     })
         .then((data) => {
             res.send(data);
