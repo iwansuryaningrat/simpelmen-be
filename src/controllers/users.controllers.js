@@ -132,8 +132,30 @@ const updateUser = (req, res) => {
     });
   }
 
-  Users.update(req.body, {
-    where: { user_id: id },
+  const { user_name, user_email, user_password, user_role_id } = req.body;
+  
+  // Validate request
+  if (!user_name || !user_email || !user_password || !user_role_id) {
+    return res.status(400).send({
+      message: "Content can not be empty!",
+    });
+  }
+
+  // Encrypt password
+  const hashPassword = bcrypt.hashSync(user_password, 8);
+
+  //update user
+  const user = {
+    user_name,
+    user_email,
+    user_password: hashPassword,
+    user_role_id,
+  };
+
+  Users.update(user, {
+    where: {
+      user_id: id,
+    },
   })
     .then((num) => {
       if (num == 1) {
@@ -141,17 +163,18 @@ const updateUser = (req, res) => {
           message: "User was updated successfully.",
         });
       } else {
-        return res.send({
+        res.send({
           message: `Cannot update User with id=${id}. Maybe User was not found or req.body is empty!`,
         });
       }
     })
     .catch((err) => {
       return res.status(500).send({
-        message: err.message || "Some error occurred while updating the User.",
+        message: err.message || "Error updating User with id=" + id,
       });
     });
 };
+
 
 // Deactivate a User with the specified id in the request
 const deactivateUser = (req, res) => {
