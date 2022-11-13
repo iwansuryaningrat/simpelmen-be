@@ -5,7 +5,7 @@ const Products = db.products;
 const Orders = db.orders;
 const OrderDetails = db.order_details;
 const Order_Status = db.order_status;
-
+import mailgun from "mailgun-js";
 import jwt from "jsonwebtoken";
 
 // Load .env file
@@ -55,7 +55,6 @@ const findAllOrder = (req, res) => {
 const updateOrder = (req, res) => {
     const token = req.headers["x-access-token"];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user_id = decoded.user_id;
     const order_id = req.params.order_id;
     Order_Status.update(
         {
@@ -71,34 +70,54 @@ const updateOrder = (req, res) => {
             //make new data
             Order_Status.create({
                 order_status_order_id: order_id,
-                order_status_user_id: user_id,
                 order_status_admin_code: "3",
                 order_status_description: "Order Accepted",
             })
         })
+        //order status updated and send email to user
         .then(() => {
-            Orders.update(
-                {
-                    order_payment_status: "1",
+            Orders.findOne({
+                where: {
+                    order_id: order_id,
                 },
-                {
-                    where: {
-                        order_id: order_id,
+                include: [
+                    {
+                        model: Users,
+                        as: "users",
                     },
-                }
-            )
+                ],
+            })
+                .then((data) => {
+                    const mg = mailgun({
+                        apiKey: process.env.MAILGUN_API_KEY,
+                        domain: process.env.MAILGUN_DOMAIN,
+                    });
+                    const dataEmail = {
+                        from: "admin@cs.com",
+                        to: data.users.user_email,
+                        subject: "Order Accepted",
+                        text: "Your order has been accepted",
+                    };
+                    mg.messages().send(dataEmail, function (error, body) {
+                        console.log(body);
+                    }
+                    );
+                })
+        })
+        .then(() => {
+            res.send({
+                message: "Order Accepted",
+            });
         }
         )
-        .then((data) => {
-            res.send(data);
-        })
         .catch((err) => {
             res.status(500).send({
-                message:
-                    err.message || "Some error occurred while updating the Order.",
+                message: err.message || "Some error occurred while updating Order.",
             });
-        });
-}
+        }
+        );
+};
+
 
 
 

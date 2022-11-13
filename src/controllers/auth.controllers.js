@@ -89,7 +89,7 @@ const signup = (req, res) => {
     <div class="card">
     <h1>Verify Email</h1>
     <p>Click the button below to verify your email address.</p>
-    <a href="https://simpelmen.herokuapp.com/api/auth/activate/${token}">Verify</a>
+    <a href="http://localhost:8000/api/auth/activate/${token}">Verify</a>
     </div>
     </div>
     </body>

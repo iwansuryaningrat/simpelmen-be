@@ -10,9 +10,6 @@ const Order_Status = (sequelize, Sequelize) => {
       order_status_order_id: {
         type: Sequelize.INTEGER,
       },
-      order_status_user_id: {
-        type: Sequelize.INTEGER,
-      },
       order_status_description: {
         type: Sequelize.STRING,
       },

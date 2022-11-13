@@ -87,7 +87,6 @@ const addCart = (req, res, next) => {
                 .then((data) => {
                     return Order_Status.create({
                         order_status_order_id: order.order_id,
-                        order_status_user_id: user_id,
                         order_status_admin_code: "8",
                         order_status_description: "Di Keranjang",
                     },{ transaction: t })
