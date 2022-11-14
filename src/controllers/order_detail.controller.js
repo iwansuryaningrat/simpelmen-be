@@ -171,7 +171,7 @@ const findAllCart = (req, res) => {
 }
 
 const CheckoutOrder = async (req, res) => {
-    const { order_id } = req.query;
+    const order_id = req.body.order_id;
     if (!order_id) {
         res.status(400).send({
             message: "Order ID is required",
