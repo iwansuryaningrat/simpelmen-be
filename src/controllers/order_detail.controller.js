@@ -448,6 +448,9 @@ const showTracking = (req, res) => {
     Orders.findAll({
         where: {
             order_user_id: user_id,
+            order_id: {
+                [Op.notIn]: db.sequelize.literal(`(SELECT order_status_order_id FROM order_statuses WHERE order_status_admin_code = 8)`),
+            },
         },
         attributes: {
             exclude: ["order_user_id","order_status_id","order_created_at","order_updated_at"],
@@ -480,11 +483,6 @@ const showTracking = (req, res) => {
                 ],
             },
         ],
-        where: {
-            order_id: {
-                [Op.notIn]: db.sequelize.literal(`(SELECT order_status_order_id FROM order_statuses WHERE order_status_admin_code = 8)`),
-            },
-        },
     })
         .then((data) => {
             res.send(data);
@@ -503,6 +501,9 @@ const ShowAllOrder = (req, res) => {
     Orders.findAll({
         where: {
             order_user_id: user_id,
+            order_id: {
+                [Op.notIn]: db.sequelize.literal(`(SELECT order_status_order_id FROM order_statuses WHERE order_status_admin_code = 8)`),
+            },
         },
         attributes: {
             exclude: ["order_status_id","order_created_at","order_updated_at"],
@@ -531,11 +532,6 @@ const ShowAllOrder = (req, res) => {
                 ],
             },
         ],
-        where: {
-            order_id: {
-                [Op.notIn]: db.sequelize.literal(`(SELECT order_status_order_id FROM order_statuses WHERE order_status_admin_code = 8)`),
-            },
-        },
 
     })
     .then((data) => {
