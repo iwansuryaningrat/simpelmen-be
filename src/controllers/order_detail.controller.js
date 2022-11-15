@@ -535,13 +535,7 @@ const ShowAllOrder = (req, res) => {
 
     })
     .then((data) => {
-        if (data.length === 0) {
-            res.status(404).send({
-                message: "Order Not Found",
-            });
-        } else {
-            res.send(data);
-        }
+        res.send(data);
     })
     .catch((err) => {
         res.status(500).send({
