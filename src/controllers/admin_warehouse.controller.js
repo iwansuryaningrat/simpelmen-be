@@ -118,5 +118,43 @@ const UpdateResiPengiriman = (req, res) => {
     });
 }
 
+const UpdateOrderBelumDikirim = (req, res) => {
+    const id = req.params.id;
+    Order_Status.create({
+        order_status_admin_code: 5,
+        order_status_description: "Pesanan sedang dikemas untuk dikirim",
+        order_status_order_id: id,
+    })
+    .then((data) => {
+        Orders.update(
+            {
+                order_status: req.body.order_status,
+            },
+            {
+                where: {
+                    order_id: id,
+                },
+            }
+        )
+        .then(() => {
+            res.send({
+                message: "Order was updated successfully.",
+            });
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message: "Error updating Order with id=" + id,
+            });
+        });
+    }
+    )
+    .catch((err) => {
+        res.status(500).send({
+            message: "Error updating Order with id=" + id,
+        });
+    }
+    );
+};
 
-export { showAllOrder, UpdateOrderDikirim, UpdateResiPengiriman };
+
+export { showAllOrder, UpdateOrderDikirim, UpdateResiPengiriman, UpdateOrderBelumDikirim };

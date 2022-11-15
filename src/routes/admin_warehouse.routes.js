@@ -12,6 +12,7 @@ import {
     showAllOrder,
     UpdateOrderDikirim,
     UpdateResiPengiriman,
+    UpdateOrderBelumDikirim,
   } from "../controllers/admin_warehouse.controller.js";
   import { isLogin } from "../middlewares/auth.middlewares.js";
   import { isAdminWarehouse } from "../middlewares/roles.middlewares.js";
@@ -28,6 +29,7 @@ import {
     router.put("/profile", isLogin, isAdminWarehouse, updateProfile);
     router.get("/orders", isLogin, isAdminWarehouse, showAllOrder);
     router.put("/orders/dikirim/:id", isLogin, isAdminWarehouse, UpdateOrderDikirim);
+    router.put("/orders/belum-dikirim/:id", isLogin, isAdminWarehouse, UpdateOrderBelumDikirim);
     router.put("/orders/resi/:id", isLogin, isAdminWarehouse, UpdateResiPengiriman);
 
     app.use("/api/admin/gudang", router);
