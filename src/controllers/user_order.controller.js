@@ -36,6 +36,9 @@ const showStatusOrder = (req, res) => {
     Orders.findAll({
         where: {
             order_user_id: user_id,
+            order_id: {
+                [Op.notIn]: db.sequelize.literal(`(SELECT order_status_order_id FROM order_statuses WHERE order_status_admin_code = 8)`),
+            },
         },
         include: [
             //order_status latest status
@@ -86,11 +89,6 @@ const showStatusOrder = (req, res) => {
         order: [
             ['order_id', 'DESC']
         ],
-        where: {
-            order_id: {
-                [Op.notIn]: db.sequelize.literal(`(SELECT order_status_order_id FROM order_statuses WHERE order_status_admin_code = 8)`),
-            },
-        },
     })
         .then((data) => {
             res.send(data);
