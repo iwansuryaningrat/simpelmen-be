@@ -13,6 +13,7 @@ import {
 } from "../controllers/order_detail.controller.js"
 import {
     showStatusOrder,
+    acceptOrder,
 } from "../controllers/user_order.controller.js";
 
 import { 
@@ -38,6 +39,7 @@ const ordersRoutes = (app) => {
     router.get("/tracking", isLogin, isUser,showTracking);
     router.get("/list", isLogin, isUser,ShowAllOrder);
     router.get("/list/:id", isLogin, isUser,DetailOrder);
+    router.put("/accept/:id", isLogin, isUser,acceptOrder);
     app.use("/api/order", router);
 
 };

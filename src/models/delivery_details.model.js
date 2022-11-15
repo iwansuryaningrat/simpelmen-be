@@ -48,7 +48,11 @@ const Delivery_Details = (sequelize, Sequelize) => {
       },
       delivery_detail_note:{
         type: Sequelize.STRING,
-      }
+      },
+      //delivery detail status
+      delivery_detail_status: {
+        type: Sequelize.INTEGER,
+      },
     },
     {
       timestamps: true,

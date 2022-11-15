@@ -100,4 +100,56 @@ const showStatusOrder = (req, res) => {
         });
 };
 
-export { showStatusOrder };
+
+const acceptOrder = (req, res) => {
+    const token = req.headers["x-access-token"];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user_id = decoded.user_id;
+    const order_id = req.params.id;
+
+    Delivery_Details.findOne({
+        where: {
+            delivery_detail_order_id: order_id,
+        },
+    })
+        .then((data) => {
+            Delivery_Details.update(
+                {
+                    delivery_detail_status: 1,
+                },
+                {
+                    where: {
+                        delivery_detail_order_id: order_id
+                    },
+                }
+            )
+                .then((data) => {
+                    Order_Status.create({
+                        order_status_admin_code: 6,
+                        order_status_description: "Pesanan telah diterima",
+                        order_status_order_id: order_id,
+                    })
+                        .then((data) => {
+                            res.send(data);
+                        })
+                        .catch((err) => {
+                            res.status(500).send({
+                                message: err.message || "Some error occurred while creating the Order_Status.",
+                            });
+                        });
+                })
+                .catch((err) => {
+                    res.status(500).send({
+                        message: err.message || "Some error occurred while updating the Delivery_Details.",
+                    });
+                });
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message: err.message || "Some error occurred while retrieving the Delivery_Details.",
+            });
+        });
+};
+
+
+export { showStatusOrder , acceptOrder };

@@ -106,17 +106,54 @@ const UpdateResiPengiriman = (req, res) => {
             delivery_detail_order_id: id,
         },
     })
-    .then((data) => {
-        res.send({
-            message: "Resi pengiriman berhasil diupdate",
-        });
-    })
-    .catch((err) => {
+    .then(() => {
+        Delivery_Details.findOne({
+            where: {
+                delivery_detail_order_id: id,
+            },
+        })
+        .then((data) => {
+            if (data.delivery_detail_status == 0) {
+                setTimeout(() => {
+                    Delivery_Details.update({
+                        delivery_detail_status: 1,
+                    }, {
+                        where: {
+                            delivery_detail_order_id: id,
+                        },
+                    })
+                    .then(() => {
+                        Order_Status.create({
+                            order_status_admin_code: 6,
+                            order_status_description: "Pesanan telah sampai",
+                            order_status_order_id: id,
+                        })
+                        .then(() => {
+                            Delivery_Details.update({
+                                delivery_detail_status: 1,
+                            }, {
+                                where: {
+                                    delivery_detail_order_id: id,
+                                },
+                            })
+                            .then(() => {
+                                res.send({
+                                    message: "Order was updated successfully.",
+                                });
+                            })
+
+                        })
+                    })
+                }, 3600000);
+            }
+        })
+    }).catch((err) => {
         res.status(500).send({
-            message: err.message || "Some error occurred while creating the Order_Status.",
+            message: "Error updating Order with id=" + id,
         });
     });
-}
+};
+
 
 const UpdateOrderBelumDikirim = (req, res) => {
     const id = req.params.id;
