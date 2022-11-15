@@ -25,6 +25,27 @@
             "name": "x-access-token",
             "in": "header",
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_name": {
+                  "example": "any"
+                },
+                "user_email": {
+                  "example": "any"
+                },
+                "user_password": {
+                  "example": "any"
+                },
+                "user_role_id": {
+                  "example": "any"
+                }
+              }
+            }
           }
         ],
         "responses": {
@@ -379,6 +400,9 @@
             "schema": {
               "type": "object",
               "properties": {
+                "order_id": {
+                  "example": "any"
+                },
                 "delivery_detail_name": {
                   "example": "any"
                 },
@@ -422,6 +446,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "401": {
             "description": "Unauthorized"
@@ -1189,18 +1216,6 @@
             "name": "x-access-token",
             "in": "header",
             "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "order_status": {
-                  "example": "any"
-                }
-              }
-            }
           }
         ],
         "responses": {
@@ -1233,18 +1248,6 @@
             "name": "x-access-token",
             "in": "header",
             "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "order_status": {
-                  "example": "any"
-                }
-              }
-            }
           }
         ],
         "responses": {
@@ -2317,6 +2320,27 @@
             "name": "x-access-token",
             "in": "header",
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_name": {
+                  "example": "any"
+                },
+                "user_email": {
+                  "example": "any"
+                },
+                "user_password": {
+                  "example": "any"
+                },
+                "user_role_id": {
+                  "example": "any"
+                }
+              }
+            }
           }
         ],
         "responses": {
@@ -2408,6 +2432,32 @@
       }
     },
     "/api/super/admin/role": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/super/admin/rekap/pesanan": {
       "get": {
         "description": "",
         "parameters": [
@@ -2940,6 +2990,9 @@
             "schema": {
               "type": "object",
               "properties": {
+                "product_size_description": {
+                  "example": "any"
+                },
                 "length": {
                   "example": "any"
                 },

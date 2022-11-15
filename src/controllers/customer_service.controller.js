@@ -87,7 +87,7 @@ const OrderDecline = (req, res) => {
     const order_id = req.params.id;
     Order_Status.create({
         order_status_admin_code: 2,
-        order_status_description: "Order Ditolak",
+        order_status_description: "Pesanan PO dalam proses pengecekan ulang",
         order_status_order_id: order_id,
     })
         .then(() => {

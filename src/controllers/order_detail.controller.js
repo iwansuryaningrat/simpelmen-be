@@ -203,7 +203,7 @@ const CheckoutOrder = async (req, res) => {
                 await Order_Status.update(
                     {
                         order_status_admin_code: "2",
-                        order_status_description: "Watting for Approve Admin Customer Service",
+                        order_status_description: "Pesanan dalam pengecekan oleh CS",
                     },
                     {
                         where: {

@@ -590,51 +590,39 @@ const UpdateOrderNotApproveTU = (req, res) => {
     const id = req.params.id;
     Order_Status.create({
         order_status_admin_code: 7,
-        order_status_description: "Pesanan Ditolak",
+        order_status_description: "Pesanan PO dalam pengecekan ulang sebelum dilanjutkan ke proses desain",
         order_status_order_id: id,
     })
-    .then(() => {
-        Order_Status.create({
-            order_status_admin_code: 4,
-            order_status_description: "Pesanan Dalam Proses Desain",
-            order_status_order_id: id,
-        })
-        .then((data) => {
-            Orders.update(
-                {
-                    order_status: req.body.order_status,
+    .then((data) => {
+        Orders.update(
+            {
+                order_status: req.body.order_status,
+            },
+            {
+                where: {
+                    order_id: id,
                 },
-                {
-                    where: {
-                        order_id: id,
-                    },
-                }
-            )
-            .then(() => {
-                res.send({
-                    message: "Order was updated successfully.",
-                });
-            })
-            .catch((err) => {
-                res.status(500).send({
-                    message: "Error updating Order with id=" + id,
-                });
-            });
-        }
+            }
         )
+        .then(() => {
+            res.send({
+                message: "Order was updated successfully.",
+            });
+        })
         .catch((err) => {
             res.status(500).send({
                 message: "Error updating Order with id=" + id,
             });
-        }
-        );
-    })
+        });
+    }
+    )
     .catch((err) => {
         res.status(500).send({
             message: "Error updating Order with id=" + id,
         });
-    });
-};
+    }
+    );
+}
 
 
 export {showAllOrder, ApproveOrderTU, UpdateOrderNotApproveTU };
