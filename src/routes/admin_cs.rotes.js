@@ -21,6 +21,7 @@ import {
     showPAD,
     UpdateStatusPAD,
     RekapPesanaan,
+    showRetributionByDate,
   } from "../controllers/customer_service.controller.js";
   import { isLogin } from "../middlewares/auth.middlewares.js";
   import { isAdminCS } from "../middlewares/roles.middlewares.js";
@@ -48,6 +49,7 @@ import {
     router.get("/pad", isLogin, isAdminCS, showPAD);
     router.put("/pad/:id", isLogin, isAdminCS, UpdateStatusPAD);
     router.get("/rekap/order", isLogin, isAdminCS, RekapPesanaan);
+    router.get("/sorting/pad/", isLogin, isAdminCS, showRetributionByDate);
 
     app.use("/api/admin/cs", router);
   };

@@ -1481,7 +1481,41 @@ const RekapPesanaan = (req, res) => {
     );
 }
 
-            
+const showRetributionByDate = (req, res) => {
+    const { start_date, end_date } = req.body;
+    Retributions.findAll({
+        order: [["retribution_id", "DESC"]],
+        attributes: ["retribution_id","retribution_jasa_total","retribution_pad_status","createdAt","updatedAt"],
+        include: [
+            {
+                model: Orders,
+                as: "orders",
+                attributes: ["order_id", "order_user_id","order_code"],
+                include: [
+                    {
+                        model: Users,
+                        as: "users",
+                        attributes: ["user_ikm"],
+                    },
+                ],
+            },
+        ],
+        where: {
+            createdAt: {
+                [Op.between]: [start_date, end_date],
+            },
+        },
+    })
+        .then((data) => {
+        res.send(data);
+        })
+        .catch((err) => {
+        res.status(500).send({
+            message: err.message || "Some error occurred while retrieving PAD.",
+        });
+        });
+    }
 
 
-export { showAllOrder, OrderDecline, OrderAccept , showAllRetribution, updateRetribution , showRetributonById , removeRetribution, acceptRetribution, rejectRetribution, showPAD, UpdateStatusPAD , RekapPesanaan};
+
+export { showAllOrder, OrderDecline, OrderAccept , showAllRetribution, updateRetribution , showRetributonById , removeRetribution, acceptRetribution, rejectRetribution, showPAD, UpdateStatusPAD , RekapPesanaan, showRetributionByDate};
