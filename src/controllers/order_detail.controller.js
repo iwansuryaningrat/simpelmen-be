@@ -505,7 +505,7 @@ const ShowAllOrder = (req, res) => {
             order_user_id: user_id,
         },
         attributes: {
-            exclude: ["order_user_id","order_status_id","order_created_at","order_updated_at"],
+            exclude: ["order_status_id","order_created_at","order_updated_at"],
         },
         include: [
             {
