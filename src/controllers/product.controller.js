@@ -143,11 +143,11 @@ const createProduct = (req, res) => {
         product_description: req.body.product_description,
         product_price: req.body.product_price,
         product_image: req.body.product_image,
-        product_material_id: req.body.product_material_id,
-        product_size_id: req.body.product_size_id,
-        product_category_id: req.body.product_category_id,
-        product_finishing_id: req.body.product_finishing_id,
-        jenis_product_id: req.body.jenis_product_id,
+        product_material: req.body.product_material_id,
+        product_size: req.body.product_size_id,
+        product_category: req.body.product_category_id,
+        product_finishing: req.body.product_finishing_id,
+        jenis_product: req.body.jenis_product_id,
         product_weight: req.body.product_weight,
     };
 
