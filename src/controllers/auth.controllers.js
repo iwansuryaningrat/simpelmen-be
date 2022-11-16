@@ -12,6 +12,7 @@ dotenv.config();
 const signup = (req, res) => {
   const name_input = req.body.name;
   const email_input = req.body.email;
+  const phone = req.body.phone;
   const password_input = req.body.password;
 
   // Validate request
@@ -26,6 +27,7 @@ const signup = (req, res) => {
       email: email_input,
       name: name_input,
       password: password_input,
+      phone: phone,
     },
     process.env.JWT_SECRET,
     {
@@ -87,7 +89,7 @@ const signup = (req, res) => {
     <div class="card">
     <h1>Verify Email</h1>
     <p>Click the button below to verify your email address.</p>
-    <a href="http://localhost:3000/api/auth/activate/${token}">Verify</a>
+    <a href="https://simpelmen.herokuapp.com/api/auth/activate/${token}">Verify</a>
     </div>
     </div>
     </body>
@@ -110,15 +112,16 @@ const signup = (req, res) => {
 
 const activate = (req, res) => {
   const { token } = req.params;
-
+  const temp = token
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
       if (err) {
         return res.status(400).send({ message: "Incorrect or Expired link" });
       } else {
-        const { name, email, password } = decodedToken;
+        const { name, email, password,phone} = decodedToken;
         Users.create({
           user_name: name,
+          user_contact: phone,
           user_password: bcrypt.hashSync(password, 8),
           user_email: email,
           user_status: true,
@@ -126,9 +129,7 @@ const activate = (req, res) => {
           user_role_id: 8,
         })
           .then((user) => {
-            res.status(200).send({
-              message: "Account has been activated",
-            });
+            res.redirect("http://simpelmenok-dev.herokuapp.com/login");
           })
           .catch((err) => {
             return res.status(500).send({ message: err.message });
@@ -181,6 +182,8 @@ const login = (req, res) => {
         message: "Login Success",
         data: {
           user_email: user.user_email,
+          user_role_id: user.user_role_id,
+          user_name: user.user_name,
           token: token,
         },
       });
@@ -279,7 +282,7 @@ const SendResetPassword = (req, res) => {
         <div class="card">
         <h1>Reset Password</h1>
         <p>Click the button below to reset your password.</p>
-        <a href="http://localhost:8080/api/auth/reset/${token}">Reset</a>
+        <a href="new-password/${token}">Reset</a>
         </div>
         </div>
         </body>

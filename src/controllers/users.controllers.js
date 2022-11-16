@@ -2,13 +2,23 @@ import db from "../models/index.js";
 const Users = db.users;
 const Op = db.Sequelize.Op;
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+const SubDistrict = db.subdistrict;
+const City = db.city;
+const Province = db.province;
+const Role = db.roles;
+// Load .env file
+import * as dotenv from "dotenv";
+
+dotenv.config();
+
 
 // Create and Save a new User
 const createUser = (req, res) => {
-  const { user_name, user_email, user_password, user_role } = req.body;
+  const { user_name, user_email, user_password, user_role_id } = req.body;
 
   // Validate request
-  if (!user_name || !user_email || !user_password || !user_role) {
+  if (!user_name || !user_email || !user_password || !user_role_id) {
     return res.status(400).send({
       message: "Content can not be empty!",
     });
@@ -22,7 +32,7 @@ const createUser = (req, res) => {
     user_name,
     user_email,
     user_password: hashPassword,
-    user_role,
+    user_role_id,
   };
 
   // Save User in the database
@@ -40,42 +50,38 @@ const createUser = (req, res) => {
     });
 };
 
-// Retrieve all Users from the database.
 const findAll = (req, res) => {
-  const { user_status, isAdmin } = req.query;
-  var condition = {};
-
-  if (user_status) {
-    condition.user_status = user_status;
-  }
-
-  if (isAdmin) {
-    condition.user_role = {
-      [Op.ne]: 8,
-    };
-  }
-
-  Users.findAll({ where: condition })
-    .then((data) => {
-      if (!data) {
-        return res.status(404).send({
-          message: "User not found",
-        });
-      }
-
+  Users.findAll({
+    include: [
+      {
+        model: Role,
+        as: "roles",
+        attributes: ["role_name"],
+      },
+    ],
+  })
+  .then((data) => {
+    if (data.length > 0) {
       res.send({
-        message: "Users were retrieved successfully.",
+        message: "Data found",
         data,
       });
-    })
-    .catch((err) => {
-      return res.status(500).send({
-        message: err.message || "Some error occurred while retrieving users.",
+    }
+    else {
+      res.send({
+        message: "Data not found",
       });
-    });
+    }
+  })
+    .catch((err) => {
+      res.status(500).send({
+        message:
+          err.message || "cant retrieve data users or data users is empty",
+      });
+    }
+    );
 };
 
-// Find a single User with an id or email
 const findOne = (req, res) => {
   const { id } = req.query;
 
@@ -89,6 +95,13 @@ const findOne = (req, res) => {
     where: {
       user_id: id,
     },
+    include: [
+      {
+        model: Role,
+        as: "roles",
+        attributes: ["role_name"],
+      },
+    ],
   })
     .then((data) => {
       if (!data) {
@@ -119,8 +132,30 @@ const updateUser = (req, res) => {
     });
   }
 
-  Users.update(req.body, {
-    where: { user_id: id },
+  const { user_name, user_email, user_password, user_role_id } = req.body;
+  
+  // Validate request
+  if (!user_name || !user_email || !user_password || !user_role_id) {
+    return res.status(400).send({
+      message: "Content can not be empty!",
+    });
+  }
+
+  // Encrypt password
+  const hashPassword = bcrypt.hashSync(user_password, 8);
+
+  //update user
+  const user = {
+    user_name,
+    user_email,
+    user_password: hashPassword,
+    user_role_id,
+  };
+
+  Users.update(user, {
+    where: {
+      user_id: id,
+    },
   })
     .then((num) => {
       if (num == 1) {
@@ -128,17 +163,18 @@ const updateUser = (req, res) => {
           message: "User was updated successfully.",
         });
       } else {
-        return res.send({
+        res.send({
           message: `Cannot update User with id=${id}. Maybe User was not found or req.body is empty!`,
         });
       }
     })
     .catch((err) => {
       return res.status(500).send({
-        message: err.message || "Some error occurred while updating the User.",
+        message: err.message || "Error updating User with id=" + id,
       });
     });
 };
+
 
 // Deactivate a User with the specified id in the request
 const deactivateUser = (req, res) => {
@@ -253,6 +289,119 @@ const changePassword = (req, res) => {
     });
 };
 
+const userProfile = (req, res) => {
+  const token = req.headers["x-access-token"];
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const user_id = decoded.user_id;
+
+  Users.findOne({
+    where: {
+      user_id: user_id,
+    },
+    include: [
+      {
+        model: SubDistrict,
+        as: "subdistricts",
+        include: [
+          {
+            model: City,
+            as: "cities",
+            include: [
+              {
+                model: Province,
+                as: "provinces",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        model: Role,
+        as: "roles",
+      }
+    ],
+  })
+    .then((data) => {
+      if (!data) {
+        return res.status(404).send({
+          message: "User not found",
+        });
+      }
+
+      res.send({
+        message: "User was retrieved successfully.",
+        data,
+      });
+    }
+    )
+    .catch((err) => {
+      return res.status(500).send({
+        message: err.message || "Some error occurred while retrieving user.",
+      });
+    }
+    );
+
+};
+
+const updateProfile = (req, res) => {
+  const token = req.headers["x-access-token"];
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const user_id = decoded.user_id;
+
+  //update profile
+  Users.update(req.body, {
+    where: { user_id: user_id },
+  })
+    .then((num) => {
+      if (num == 1) {
+        res.send({
+          message: "User was updated successfully.",
+        });
+      } else {
+        return res.send({
+          message: `Cannot update User with id=${user_id}. Maybe User was not found or req.body is empty!`,
+        });
+      }
+    })
+    .catch((err) => {
+      return res.status(500).send({
+        message: err.message || "Some error occurred while updating the User.",
+      });
+    });
+};
+
+const showAllRole = (req, res) => {
+  //find all role if not found "role not found"
+  Role.findAll()
+    .then((data) => {
+      if (!data) {
+        return res.status(404).send({
+          message: "Role not found",
+        });
+      }
+    })
+    .catch((err) => {
+      return res.status(500).send({
+        message: err.message || "Some error occurred while retrieving role.",
+      });
+    });
+};
+
+const role = (req, res) => {
+  Role.findAll()
+    .then((data) => {
+      res.send({
+        message: "Role was retrieved successfully.",
+        data,
+      });
+    })
+    .catch((err) => {
+      return res.status(500).send({
+        message: err.message || "Some error occurred while retrieving role.",
+      });
+    });
+};
+
 export {
   createUser,
   findAll,
@@ -260,4 +409,8 @@ export {
   updateUser,
   deactivateUser,
   changePassword,
+  userProfile,
+  updateProfile,
+  showAllRole,
+  role,
 };
