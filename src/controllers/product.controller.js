@@ -5,6 +5,7 @@ const Product_Sizes = db.product_sizes;
 const Product_Categories = db.product_categories;
 const Product_Finishings = db.product_finishings;
 const Jenis_Products = db.jenis_products;
+const Op = db.Sequelize.Op;
 
 const ShowAllProducts = (req, res) => {
     Products.findAll({
@@ -80,6 +81,62 @@ const ShowProductById = (req, res) => {
             });
         });
 }
+
+// const ShowProductById = (req, res) => {
+//     const id = req.params.id;
+//     Products.findByPk(id, {
+//         include: [
+//             {
+//                 model: Product_Materials,
+//                 as: "product_materials",
+//             },
+//             {
+//                 model: Product_Sizes,
+//                 as: "product_sizes",
+
+//             },
+//             {
+//                 model: Product_Categories,
+//                 as: "product_categories",
+//             },
+//             {
+//                 model: Product_Finishings,
+//                 as: "product_finishings",
+//             },
+//             {
+//                 model: Jenis_Products,
+//                 as: "jenis_products",
+//             },
+//         ],
+//     })
+//         .then((data) => {
+//             const productSizeArray = data.product_sizes.product_size.split(",").map((item) => item.trim());
+//             const productMaterialArray = data.product_materials.product_material.split(",").map((item) => item.trim());
+//             const productFinishingArray = data.product_finishings.product_finishing.split(",").map((item) => item.trim());
+//             const productCategoryArray = data.product_categories.product_category.split(",").map((item) => item.trim());
+//             const productJenisArray = data.jenis_products.jenis_product.split(",").map((item) => item.trim());
+            
+//             res.send({
+//                 product_id: data.product_id,
+//                 product_name: data.product_name,
+//                 product_description: data.product_description,
+//                 product_price: data.product_price,
+//                 product_image: data.product_image,
+//                 product_size: productSizeArray,
+//                 product_material: productMaterialArray,
+//                 product_finishing: productFinishingArray,
+//                 product_category: productCategoryArray,
+//                 jenis_product: productJenisArray,
+//             });
+//         })
+//         .catch((err) => {
+//             res.status(500).send({
+//                 message: err.message || "Some error occurred while retrieving products.",
+//             });
+//         });
+// }
+
+
 const updateProduct = (req, res) => {
     const id = req.params.id;
 
@@ -163,6 +220,62 @@ const createProduct = (req, res) => {
         });
 }
 
+const ShowAllProductByCategory = (req, res) => {
+    const id = req.params.id;
+    Products.findOne({
+        where: { product_id: id },
+        include: [
+            {
+                model: Product_Categories,
+                as: "product_categories",
+            },
+        ],
+    })
+    .then((data) => {
+        Products.findAll({
+            where: { product_category: data.product_category },
+            // where: { product_category: data.product_category , product_id: { [Op.ne]: id } },
+            order: [
+                ['product_id', 'DESC'],
+            ],
+            attributes: { exclude: ['product_image'] },
+            include: [
+                {
+                    model: Product_Categories,
+                    as: "product_categories",
+                    attributes: ['product_category_name', 'product_category_id']
+                },
+                {
+                    model: Product_Materials,
+                    as: "product_materials",
+                    attributes: ['product_material_name', 'product_material_id']
+                },
+                {
+                    model: Product_Sizes,
+                    as: "product_sizes",
+                },
+                {
+                    model: Product_Finishings,
+                    as: "product_finishings",
+                },
+            ],
+        })
+        
 
+        .then((data) => {
+            res.send(data);
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message: err.message || "Some error occurred while retrieving products.",
+            });
+        });
+    })
+    .catch((err) => {
+        res.status(500).send({
+            message: err.message || "Some error occurred while retrieving products.",
+        });
+    });
+}
 
-export { ShowAllProducts, ShowProductById, updateProduct, deleteProduct, createProduct };
+export { ShowAllProducts, ShowProductById, updateProduct, deleteProduct, createProduct,ShowAllProductByCategory };

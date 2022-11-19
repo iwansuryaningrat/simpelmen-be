@@ -1,5 +1,5 @@
 import {
-  ShowAllProducts, ShowProductById, updateProduct, deleteProduct, createProduct
+  ShowAllProducts, ShowProductById, updateProduct, deleteProduct, createProduct,ShowAllProductByCategory
 } from "../controllers/product.controller.js";
 import { isLogin } from "../middlewares/auth.middlewares.js";
 import { isSuperAdmin } from "../middlewares/roles.middlewares.js";
@@ -17,7 +17,7 @@ const productsRoutes = (app) => {
   router.post("/", createProduct,isSuperAdmin,isLogin);
   router.put("/:id", updateProduct,isSuperAdmin,isLogin);
   router.delete("/:id", deleteProduct,isSuperAdmin,isLogin);
-
+  router.get("/category/:id", ShowAllProductByCategory);
   app.use("/api/product", router);
 };
 
