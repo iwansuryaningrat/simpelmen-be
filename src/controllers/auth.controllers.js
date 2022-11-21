@@ -282,7 +282,7 @@ const SendResetPassword = (req, res) => {
         <div class="card">
         <h1>Reset Password</h1>
         <p>Click the button below to reset your password.</p>
-        <a href="new-password/${token}">Reset</a>
+        <a href="http://simpelmenok-dev.herokuapp.com/new-password/${token}">Reset</a>
         </div>
         </div>
         </body>
