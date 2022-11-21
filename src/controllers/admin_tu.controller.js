@@ -99,20 +99,6 @@ const ApproveOrderTU = (req, res) => {
                             {
                                 model: Products,
                                 as: "products",
-                                include: [
-                                    {
-                                        model: Product_Category,
-                                        as: "product_categories",
-                                    },
-                                    {
-                                        model: Product_Material,
-                                        as: "product_materials",
-                                    },
-                                    {
-                                        model: Product_Finishing,
-                                        as: "product_finishings",
-                                    }
-                                ],
                             },
                         ],
                     },
@@ -474,17 +460,7 @@ const ApproveOrderTU = (req, res) => {
                                                                     <span>${item.products.product_name} x ${item.order_detail_quantity}</span>
                                                                     `
                                                                 }).join('')}
-                                                                <br>
-                                                                ${data.order_details.map((item) => {
-                                                                   
-                                                                    return `
-                                                                    <p>${item.products.product_categories.product_category_name}</p>
-                                                                    <p>${item.products.product_finishings.product_finishing_name}</p>
-                                                                    `
-                                                                }).join('')}
-                                                                </p>
-                                                                <br>
-
+                                                                <br
                                                           </div>
                                                       </div>
                                                   </td>
