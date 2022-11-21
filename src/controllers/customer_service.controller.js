@@ -42,21 +42,6 @@ const showAllOrder = (req, res) => {
                         as: "products",
                         //attributes: ["product_id", "product_name", "product_price", "product_stock", "product_description", "product_image", "product_category_id", "product_material_id", "product_finishing_id"],
                         attributes : [ "product_name", "product_price", "product_category", "product_material", "product_finishing" ],
-                        include: [
-                            {
-                                model: Product_Finishing,
-                                as: "product_finishings",
-                                
-                            },
-                            {
-                                model: Product_Material,
-                                as: "product_materials",
-                            },
-                            {
-                                model: Product_Category,
-                                as: "product_categories",
-                            },
-                        ],
                     },
                 ],
             },
