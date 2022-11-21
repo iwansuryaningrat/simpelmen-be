@@ -484,6 +484,10 @@ const showTracking = (req, res) => {
                     },
                 ],
             },
+            {
+                model:Delivery_Details,
+                as:"delivery_details",
+            }
         ],
     })
         .then((data) => {
