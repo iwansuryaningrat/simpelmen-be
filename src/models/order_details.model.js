@@ -46,6 +46,9 @@ const Order_Details = (sequelize, Sequelize) => {
       t2: {
         type: Sequelize.DOUBLE,
       },
+      order_detail_sablon:{
+        type: Sequelize.STRING,
+      },
     },
     {
       timestamps: true, // Enable timestamps

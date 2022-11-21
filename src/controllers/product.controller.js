@@ -224,21 +224,22 @@ const ShowAllProductByCategory = (req, res) => {
     const id = req.params.id;
     Products.findOne({
         where: { product_id: id },
+        attributes: { exclude:['product_weight','createdAt','updatedAt','product_price']},
         include: [
             {
-                model: Product_Categories,
-                as: "product_categories",
+                model: Jenis_Products,
+                as: "jenis_products",
             },
         ],
     })
     .then((data) => {
         Products.findAll({
-            where: { product_category: data.product_category },
+            where: { jenis_product: data.jenis_products.jenis_product_id },
             // where: { product_category: data.product_category , product_id: { [Op.ne]: id } },
             order: [
                 ['product_id', 'DESC'],
             ],
-            attributes: { exclude: ['product_image'] },
+            attributes: { exclude: ['product_image','product_price','product_description','product_name','createdAt','updatedAt'] },
             include: [
                 {
                     model: Product_Categories,
@@ -253,10 +254,12 @@ const ShowAllProductByCategory = (req, res) => {
                 {
                     model: Product_Sizes,
                     as: "product_sizes",
+                    attributes:{exclude:['createdAt','updatedAt']}
                 },
                 {
                     model: Product_Finishings,
                     as: "product_finishings",
+                    attributes:{exclude:['createdAt','updatedAt']}
                 },
             ],
         })
