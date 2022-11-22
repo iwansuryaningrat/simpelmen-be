@@ -185,7 +185,8 @@ const CheckoutOrder = async (req, res) => {
     const order_id_array = order_id_array_string.map(Number);
     for (let i = 0; i < order_id_array.length; i++) {
         try {
-            await db.sequelize.transaction(async function (t) {
+            db.sequelize.transaction(async function (t) {
+                //await db.sequelize delivery detail create
                 await Delivery_Details.create({
                     delivery_detail_order_id: order_id_array[i],
                     delivery_detail_name: delivery_detail_name,

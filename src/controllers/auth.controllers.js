@@ -4,7 +4,7 @@ import mailgun from "mailgun-js";
 const Op = db.Sequelize.Op;
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-
+import fs from "fs";
 // Load .env file
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -35,66 +35,15 @@ const signup = (req, res) => {
     }
   );
 
+  const html = fs.readFileSync("./src/views/email.html", "utf8");
+
   const DOMAIN = process.env.MAILGUN_DOMAIN;
   const mg = mailgun({ apiKey: process.env.MAILGUN_API_KEY, domain: DOMAIN });
   const data = {
     from: "Admin <widiw598@gmail.com>",
     to: email_input,
     subject: "Email Verification",
-    html: `
-    <html>
-    <head>
-    <style>
-    .container {
-      width: 100%;
-      height: 100%;
-      background-color: orange;
-      padding: 20px;
-    }
-    .card {
-      width: 400px;
-      height: 400px;
-      background-color: white;
-      margin: 0 auto;
-      margin-top: 100px;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    .card h1 {
-      text-align: center;
-      font-size: 30px;
-      margin-bottom: 20px;
-    }
-    .card p {
-      text-align: center;
-      font-size: 20px;
-      margin-bottom: 20px;
-    }
-    .card a {
-      text-decoration: none;
-      background-color: #000;
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 5px;
-      display: block;
-      width: 100px;
-      text-align: center;
-      margin: 0 auto;
-    }
-    </style>
-    </head>
-    <body>
-    <div class="container">
-    <div class="card">
-    <h1>Verify Email</h1>
-    <p>Click the button below to verify your email address.</p>
-    <a href="https://simpelmen.herokuapp.com/api/auth/activate/${token}">Verify</a>
-    </div>
-    </div>
-    </body>
-    </html>
-    `,
+    html : html.replace("{token}", token),
   };
 
   mg.messages().send(data, function (error, body) {
@@ -177,7 +126,15 @@ const login = (req, res) => {
           expiresIn: 86400, // 24 hours
         }
       );
-
+      const refreshToken = jwt.sign(
+        {
+          user_id: user.user_id,
+        },
+        process.env.JWT_REFRESH,
+        {
+          expiresIn: 259200,
+        }
+      );
       res.status(200).send({
         message: "Login Success",
         data: {
@@ -185,6 +142,7 @@ const login = (req, res) => {
           user_role_id: user.user_role_id,
           user_name: user.user_name,
           token: token,
+          refreshToken: refreshToken,
         },
       });
     })
@@ -197,8 +155,6 @@ const login = (req, res) => {
 
 const SendResetPassword = (req, res) => {
   const { email } = req.body;
-
-  // Validate request
   if (!email) {
     return res.status(400).send({
       message: "Content can not be empty!",
@@ -224,7 +180,7 @@ const SendResetPassword = (req, res) => {
           expiresIn: 1800,
         }
       );
-
+      const html = fs.readFileSync("./src/views/reset-password.html", "utf8");
       const DOMAIN = process.env.MAILGUN_DOMAIN;
       const mg = mailgun({
         apiKey: process.env.MAILGUN_API_KEY,
@@ -234,60 +190,7 @@ const SendResetPassword = (req, res) => {
         from: "Admin <widiw598@gmail.com>",
         to: email,
         subject: "Reset Password",
-        html: `
-        <html>
-        <head>
-        <style>
-        .container {
-          width: 100%;
-          height: 100%;
-          background-color: orange;
-          padding: 20px;
-        }
-        .card {
-          width: 400px;
-          height: 400px;
-          background-color: white;
-          margin: 0 auto;
-          margin-top: 100px;
-          padding: 20px;
-          border-radius: 10px;
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .card h1 {
-          text-align: center;
-          font-size: 30px;
-          margin-bottom: 20px;
-        }
-        .card p {
-          text-align: center;
-          font-size: 20px;
-          margin-bottom: 20px;
-        }
-        .card a {
-          text-decoration: none;
-          background-color: #000;
-          color: #fff;
-          padding: 10px 20px;
-          border-radius: 5px;
-          display: block;
-          width: 100px;
-          text-align: center;
-          margin: 0 auto;
-        }
-        </style>
-        </head>
-        <body>
-        <div class="container">
-        <div class="card">
-        <h1>Reset Password</h1>
-        <p>Click the button below to reset your password.</p>
-        <a href="http://simpelmenok-dev.herokuapp.com/new-password/${token}">Reset</a>
-        </div>
-        </div>
-        </body>
-        </html>
-        `,
+        html: html.replace("{token}", token),
       };
 
       mg.messages().send(data, function (error, body) {
@@ -356,4 +259,67 @@ const ResetPassword = (req, res) => {
   }
 };
 
-export { signup, activate, login, SendResetPassword, ResetPassword };
+const refreshToken = (req, res) => {
+  const { token } = req.body;
+  if (!token) {
+    return res.status(400).send({
+      message: "Content can not be empty!",
+    });
+  }
+
+  jwt.verify(token, process.env.JWT_REFRESH, (err, decodedToken) => {
+    if (err) {
+      return res.status(400).send({ message: "Incorrect or Expired link" });
+    } else {
+      const { user_id } = decodedToken;
+      Users.findOne({
+        where: {
+          user_id: user_id,
+        },
+      })
+        .then((user) => {
+          if (!user) {
+            return res.status(404).send({ message: "User Not found." });
+          }
+          const newToken = jwt.sign(
+            {
+              user_id: user.user_id,
+              user_name: user.user_name,
+              user_email: user.user_email,
+              user_role_id: user.user_role_id,
+              user_status: user.user_status,
+              user_verify: user.user_verify,
+            },
+            process.env.JWT_SECRET,
+            {
+              expiresIn: 86400, 
+            }
+          );
+          const newRefreshToken = jwt.sign(
+            {
+              user_id: user.user_id,
+            },
+            process.env.JWT_REFRESH,
+            
+          );
+          res.status(200).send({
+            message: "Refresh Token Success",
+            data: {
+              user_email: user.user_email,
+              user_role_id: user.user_role_id,
+              user_name: user.user_name,
+              token: newToken,
+              refreshToken: newRefreshToken,
+            },
+          });
+        })
+        .catch((err) => {
+          return res.status(500).send({
+            message: err.message,
+          });
+        });
+    }
+  });
+};
+
+export { signup, activate, login, SendResetPassword, ResetPassword , refreshToken};
