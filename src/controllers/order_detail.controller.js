@@ -185,21 +185,43 @@ const CheckoutOrder = (req, res) => {
     const order_id_array = order_id_array_string.map(Number);
     for (let i = 0; i < order_id_array.length; i++) {
             db.sequelize.transaction(function (t) {
-                return Delivery_Details.create({
-                    delivery_detail_order_id: order_id_array[i],
-                    delivery_detail_name: delivery_detail_name,
-                    delivery_detail_ikm: delivery_detail_ikm,
-                    delivery_detail_email: delivery_detail_email,
-                    delivery_detail_contact: delivery_detail_contact,
-                    delivery_detail_method: delivery_detail_method,
-                    delivery_detail_address: delivery_detail_address,
-                    delivery_detail_district: delivery_detail_district,
-                    delivery_detail_postal_code: delivery_detail_postal_code,
-                    delivery_detail_shipping_cost: delivery_detail_shipping_cost,
-                    delivery_detail_courier: delivery_detail_courier,
-                    delivery_detail_receipt: delivery_detail_receipt,
-                    delivery_detail_estimate: delivery_detail_estimate,
-                }, { transaction: t })
+                return Delivery_Details.findOne({
+                    where: { delivery_detail_order_id: order_id_array[i] },
+                },{ transaction: t })
+                    .then((data) => {
+                        if (data) {
+                            return Delivery_Details.update({
+                                delivery_detail_name: delivery_detail_name,
+                                delivery_detail_ikm: delivery_detail_ikm,
+                                delivery_detail_email: delivery_detail_email,
+                                delivery_detail_contact: delivery_detail_contact,
+                                delivery_detail_method: delivery_detail_method,
+                                delivery_detail_address: delivery_detail_address,
+                                delivery_detail_district: delivery_detail_district,
+                                delivery_detail_postal_code: delivery_detail_postal_code,
+                                delivery_detail_shipping_cost: delivery_detail_shipping_cost,
+                                delivery_detail_courier: delivery_detail_courier,
+                                delivery_detail_receipt: delivery_detail_receipt,
+                                delivery_detail_estimate: delivery_detail_estimate,
+                            },{ where: { delivery_detail_order_id: order_id_array[i] }, transaction: t })
+                        } else {
+                            return Delivery_Details.create({
+                                delivery_detail_order_id: order_id_array[i],
+                                delivery_detail_name: delivery_detail_name,
+                                delivery_detail_ikm: delivery_detail_ikm,
+                                delivery_detail_email: delivery_detail_email,
+                                delivery_detail_contact: delivery_detail_contact,
+                                delivery_detail_method: delivery_detail_method,
+                                delivery_detail_address: delivery_detail_address,
+                                delivery_detail_district: delivery_detail_district,
+                                delivery_detail_postal_code: delivery_detail_postal_code,
+                                delivery_detail_shipping_cost: delivery_detail_shipping_cost,
+                                delivery_detail_courier: delivery_detail_courier,
+                                delivery_detail_receipt: delivery_detail_receipt,
+                                delivery_detail_estimate: delivery_detail_estimate,
+                            },{ transaction: t })
+                        }
+                    })
                 .then(function (delivery_detail) {
                     return Order_Status.create({
                         order_status_order_id: order_id_array[i],
@@ -208,10 +230,22 @@ const CheckoutOrder = (req, res) => {
                     },{ transaction: t })
                 })
                 .then(function (order_status) {
-                    return Retributions.create({
-                        retribution_order_id: order_id_array[i],
-                        retribution_status: "0",
+                    return Retributions.findOne({
+                        where: { retribution_order_id: order_id_array[i] },
                     },{ transaction: t })
+                    .then((data) => {
+                        if (data) {
+                            return Retributions.update({
+                                retribution_order_id: order_id_array[i],
+                                retribution_status: "1",
+                            },{ where: { retribution_order_id: order_id_array[i] }, transaction: t })
+                        } else {
+                            return Retributions.create({
+                                retribution_order_id: order_id_array[i],
+                                retribution_status: "1",
+                            },{ transaction: t })
+                        }
+                    })
                 })
             }).then(function (result) {
                 res.status(200).send({
