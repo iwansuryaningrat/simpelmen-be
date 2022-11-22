@@ -62,7 +62,7 @@ const UpdateOrderDikirim = (req, res) => {
     const id = req.params.id;
     Order_Status.create({
         order_status_admin_code: 5,
-        order_status_description: "Pesanan telah dikirim",
+        order_status_description: "Pesanan Telah Dikirim",
         order_status_order_id: id,
     })
     .then((data) => {

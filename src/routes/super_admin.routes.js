@@ -10,7 +10,8 @@ import {
     role,
   } from "../controllers/users.controllers.js";
   import {
-    RekapPesanaan
+    RekapPesanaan,
+    DetailRekapPesanan,
   } from "../controllers/super_admin.controller.js"
   import { isLogin } from "../middlewares/auth.middlewares.js";
   import { isSuperAdmin } from "../middlewares/roles.middlewares.js";
@@ -32,6 +33,7 @@ import {
     router.get("/data/admin/:id", isLogin, isSuperAdmin, findOne);
     router.get("/role", isLogin, isSuperAdmin, role);
     router.get("/rekap/pesanan",isLogin, isSuperAdmin,RekapPesanaan)
+    router.get("/rekap/pesanan/:id",isLogin, isSuperAdmin,DetailRekapPesanan)
 
     app.use("/api/super/admin", router);
   };
