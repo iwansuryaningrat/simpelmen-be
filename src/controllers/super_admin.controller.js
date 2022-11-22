@@ -105,7 +105,6 @@ const DetailRekapPesanan = (req, res) => {
                     {
                         model: Products,
                         as: "products",
-                        attributes: {exclude: ["product_created_at","product_updated_at","product_image"]},
                         include: [
                             {
                                 model: Product_Finishing,
