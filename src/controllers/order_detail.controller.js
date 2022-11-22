@@ -185,12 +185,12 @@ const CheckoutOrder = (req, res) => {
     const order_id_array = order_id_array_string.map(Number);
     for (let i = 0; i < order_id_array.length; i++) {
             db.sequelize.transaction(function (t) {
-                return Delivery_Details.findOne({
+                Delivery_Details.findOne({
                     where: { delivery_detail_order_id: order_id_array[i] },
                 },{ transaction: t })
                     .then((data) => {
                         if (data) {
-                            return Delivery_Details.update({
+                             Delivery_Details.update({
                                 delivery_detail_name: delivery_detail_name,
                                 delivery_detail_ikm: delivery_detail_ikm,
                                 delivery_detail_email: delivery_detail_email,
@@ -205,7 +205,7 @@ const CheckoutOrder = (req, res) => {
                                 delivery_detail_estimate: delivery_detail_estimate,
                             },{ where: { delivery_detail_order_id: order_id_array[i] }, transaction: t })
                         } else {
-                            return Delivery_Details.create({
+                             Delivery_Details.create({
                                 delivery_detail_order_id: order_id_array[i],
                                 delivery_detail_name: delivery_detail_name,
                                 delivery_detail_ikm: delivery_detail_ikm,
@@ -223,26 +223,26 @@ const CheckoutOrder = (req, res) => {
                         }
                     })
                 .then(function (delivery_detail) {
-                    return Order_Status.create({
+                     Order_Status.create({
                         order_status_order_id: order_id_array[i],
                         order_status_admin_code: "9",
                         order_status_description: "Pesanan sedang diproses oleh admin cs",
                     },{ transaction: t })
                 })
                 .then(function (order_status) {
-                    return Retributions.findOne({
+                     Retributions.findOne({
                         where: { retribution_order_id: order_id_array[i] },
                     },{ transaction: t })
                     .then((data) => {
                         if (data) {
-                            return Retributions.update({
+                             Retributions.update({
                                 retribution_order_id: order_id_array[i],
-                                retribution_status: "1",
+                                retribution_status: "0",
                             },{ where: { retribution_order_id: order_id_array[i] }, transaction: t })
                         } else {
-                            return Retributions.create({
+                             Retributions.create({
                                 retribution_order_id: order_id_array[i],
-                                retribution_status: "1",
+                                retribution_status: "0",
                             },{ transaction: t })
                         }
                     })
