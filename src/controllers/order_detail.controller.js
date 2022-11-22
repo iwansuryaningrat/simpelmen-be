@@ -171,7 +171,7 @@ const findAllCart = (req, res) => {
         });
 }
 
-const CheckoutOrder = (req, res) => {
+const CheckoutOrder = async (req, res) => {
     const order_id = req.body.order_id;
     if (!order_id) {
         res.status(400).send({
@@ -184,80 +184,82 @@ const CheckoutOrder = (req, res) => {
     const order_id_array_string = order_id_string.split(",");
     const order_id_array = order_id_array_string.map(Number);
     for (let i = 0; i < order_id_array.length; i++) {
-            db.sequelize.transaction(function (t) {
-                Delivery_Details.findOne({
-                    where: { delivery_detail_order_id: order_id_array[i] },
+        try {
+            await db.sequelize.transaction(async function (t) {
+                await Delivery_Details.findOne({
+                    where: {
+                        delivery_detail_order_id: order_id_array[i],
+                    },
                 },{ transaction: t })
-                    .then((data) => {
-                        if (data) {
-                             Delivery_Details.update({
-                                delivery_detail_name: delivery_detail_name,
-                                delivery_detail_ikm: delivery_detail_ikm,
-                                delivery_detail_email: delivery_detail_email,
-                                delivery_detail_contact: delivery_detail_contact,
-                                delivery_detail_method: delivery_detail_method,
-                                delivery_detail_address: delivery_detail_address,
-                                delivery_detail_district: delivery_detail_district,
-                                delivery_detail_postal_code: delivery_detail_postal_code,
-                                delivery_detail_shipping_cost: delivery_detail_shipping_cost,
-                                delivery_detail_courier: delivery_detail_courier,
-                                delivery_detail_receipt: delivery_detail_receipt,
-                                delivery_detail_estimate: delivery_detail_estimate,
-                            },{ where: { delivery_detail_order_id: order_id_array[i] }, transaction: t })
-                        } else {
-                             Delivery_Details.create({
-                                delivery_detail_order_id: order_id_array[i],
-                                delivery_detail_name: delivery_detail_name,
-                                delivery_detail_ikm: delivery_detail_ikm,
-                                delivery_detail_email: delivery_detail_email,
-                                delivery_detail_contact: delivery_detail_contact,
-                                delivery_detail_method: delivery_detail_method,
-                                delivery_detail_address: delivery_detail_address,
-                                delivery_detail_district: delivery_detail_district,
-                                delivery_detail_postal_code: delivery_detail_postal_code,
-                                delivery_detail_shipping_cost: delivery_detail_shipping_cost,
-                                delivery_detail_courier: delivery_detail_courier,
-                                delivery_detail_receipt: delivery_detail_receipt,
-                                delivery_detail_estimate: delivery_detail_estimate,
-                            },{ transaction: t })
-                        }
-                    })
-                .then(function (delivery_detail) {
-                     Order_Status.create({
-                        order_status_order_id: order_id_array[i],
-                        order_status_admin_code: "9",
-                        order_status_description: "Pesanan sedang diproses oleh admin cs",
-                    },{ transaction: t })
+                .then((data) => {
+                    if (data) {
+                        return Delivery_Details.update({
+                            delivery_detail_name: delivery_detail_name,
+                            delivery_detail_ikm: delivery_detail_ikm,
+                            delivery_detail_email: delivery_detail_email,
+                            delivery_detail_contact: delivery_detail_contact,
+                            delivery_detail_method: delivery_detail_method,
+                            delivery_detail_address: delivery_detail_address,
+                            delivery_detail_district: delivery_detail_district,
+                            delivery_detail_postal_code: delivery_detail_postal_code,
+                            delivery_detail_shipping_cost: delivery_detail_shipping_cost,
+                            delivery_detail_courier: delivery_detail_courier,
+                            delivery_detail_receipt: delivery_detail_receipt,
+                            delivery_detail_estimate: delivery_detail_estimate,
+                        },{ where: { delivery_detail_order_id: order_id_array[i] }, transaction: t })
+                    } else {
+                        return Delivery_Details.create({
+                            delivery_detail_order_id: order_id_array[i],
+                            delivery_detail_name: delivery_detail_name,
+                            delivery_detail_ikm: delivery_detail_ikm,
+                            delivery_detail_email: delivery_detail_email,
+                            delivery_detail_contact: delivery_detail_contact,
+                            delivery_detail_method: delivery_detail_method,
+                            delivery_detail_address: delivery_detail_address,
+                            delivery_detail_district: delivery_detail_district,
+                            delivery_detail_postal_code: delivery_detail_postal_code,
+                            delivery_detail_shipping_cost: delivery_detail_shipping_cost,
+                            delivery_detail_courier: delivery_detail_courier,
+                            delivery_detail_receipt: delivery_detail_receipt,
+                            delivery_detail_estimate: delivery_detail_estimate,
+                        },{ transaction: t })
+                    }
                 })
-                .then(function (order_status) {
-                     Retributions.findOne({
-                        where: { retribution_order_id: order_id_array[i] },
-                    },{ transaction: t })
-                    .then((data) => {
-                        if (data) {
-                             Retributions.update({
-                                retribution_order_id: order_id_array[i],
-                                retribution_status: "0",
-                            },{ where: { retribution_order_id: order_id_array[i] }, transaction: t })
-                        } else {
-                             Retributions.create({
-                                retribution_order_id: order_id_array[i],
-                                retribution_status: "0",
-                            },{ transaction: t })
-                        }
-                    })
-                })
-            }).then(function (result) {
-                res.status(200).send({
-                    message: "Order Created",
-                });
-            }).catch(function (err) {
-                res.status(500).send({
-                    message: err.message || "Some error occurred while creating the Order.",
-                });
+                await Order_Status.update({
+                    order_status_admin_code: "2",
+                    order_status_description: "Pesanan dalam pengecekan oleh CS",
+                },{ where: { order_status_order_id: order_id_array[i] }, transaction: t })
+                
+                await Retributions.findOne({
+                    where: {
+                        retribution_order_id: order_id_array[i],
+                    },
+                },{ transaction: t })
+                .then((data) => {
+                    if (data) {
+                        return Retributions.update({
+                            retribution_status: 0,
+                        },{ where: { retribution_order_id: order_id_array[i] }, transaction: t })
+                    } else {
+                        return Retributions.create({
+                            retribution_order_id: order_id_array[i],
+                            retribution_status: 0,
+                        },{ transaction: t })
+                    }
+                }
+                )
             });
+        } catch (error) {
+            res.status(500).send({
+                message: error.message || "Some error occurred while creating the Order.",
+            });
+        }
     }
-}
+    res.status(200).send({
+        message: "Order has been check Admin Customer Service.",
+    });
+
+};
 //create checkout order
 // const CheckoutOrder = async (req, res) => {
 //     const token = req.headers["x-access-token"];
