@@ -171,7 +171,7 @@ const findAllCart = (req, res) => {
         });
 }
 
-const CheckoutOrder = async (req, res) => {
+const CheckoutOrder = (req, res) => {
     const order_id = req.body.order_id;
     if (!order_id) {
         res.status(400).send({
@@ -185,40 +185,34 @@ const CheckoutOrder = async (req, res) => {
     const order_id_array = order_id_array_string.map(Number);
     for (let i = 0; i < order_id_array.length; i++) {
         try {
-            db.sequelize.transaction(async function (t) {
-                //await db.sequelize delivery detail create
-                await Delivery_Details.create({
-                    delivery_detail_order_id: order_id_array[i],
-                    delivery_detail_name: delivery_detail_name,
-                    delivery_detail_ikm: delivery_detail_ikm,
-                    delivery_detail_email: delivery_detail_email,
-                    delivery_detail_contact: delivery_detail_contact,
-                    delivery_detail_method: delivery_detail_method,
-                    delivery_detail_address: delivery_detail_address,
-                    delivery_detail_district: delivery_detail_district,
-                    delivery_detail_postal_code: delivery_detail_postal_code,
-                    delivery_detail_shipping_cost: delivery_detail_shipping_cost,
-                    delivery_detail_courier: delivery_detail_courier,
-                    delivery_detail_receipt: delivery_detail_receipt,
-                    delivery_detail_estimate: delivery_detail_estimate,
-                }, { transaction: t });
-                await Order_Status.update(
-                    {
-                        order_status_admin_code: "2",
-                        order_status_description: "Pesanan dalam pengecekan oleh CS",
-                    },
-                    {
-                        where: {
-                            order_status_order_id: order_id_array[i],
-                        },
-                    },
-                    { transaction: t }
-                );
-                await Retributions.create({
+            Delivery_Details.create({
+                delivery_detail_order_id: order_id_array[i],
+                delivery_detail_name: delivery_detail_name,
+                delivery_detail_ikm: delivery_detail_ikm,
+                delivery_detail_email: delivery_detail_email,
+                delivery_detail_contact: delivery_detail_contact,
+                delivery_detail_method: delivery_detail_method,
+                delivery_detail_address: delivery_detail_address,
+                delivery_detail_district: delivery_detail_district,
+                delivery_detail_postal_code: delivery_detail_postal_code,
+                delivery_detail_shipping_cost: delivery_detail_shipping_cost,
+                delivery_detail_courier: delivery_detail_courier,
+                delivery_detail_receipt: delivery_detail_receipt,
+                delivery_detail_estimate: delivery_detail_estimate,
+            })
+            .then((data) => {
+                Order_Status.create({
+                    order_status_order_id: order_id_array[i],
+                    order_status_admin_code: "2",
+                    order_status_description: "Pesanan dalam pengecekan oleh CS",
+                })
+            })
+            .then((data) => {
+                Retributions.create({
                     retribution_order_id: order_id_array[i],
                     retribution_status: "0",
-                }, { transaction: t });
-            });
+                })
+            })
         } catch (error) {
             res.status(500).send({
                 message: error.message || "Some error occurred while creating the Order.",
