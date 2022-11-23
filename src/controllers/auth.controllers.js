@@ -231,7 +231,7 @@ const ResetPassword = (req, res) => {
         const { email } = decodedToken;
         Users.findOne({
           where: {
-            email: email,
+            user_email: email,
           },
         })
           .then((user) => {

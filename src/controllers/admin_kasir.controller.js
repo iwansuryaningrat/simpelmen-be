@@ -503,14 +503,8 @@ const LunasPaymentMethod = (req, res) => {
                                                       <div class="product-entry">
                                                           <div class="text">
                                                                 <h4>${data.order_code}</h4>
+                                                                <br
                                                                 <br>
-                                                                ${data.order_details.map((item) => {
-                                                                    return `
-                                                                    <span>${item.products.product_name} x ${item.order_detail_quantity}</span>
-                                                                    `
-                                                                }).join('')}
-                                                                <br>
-
                                                           </div>
                                                       </div>
                                                   </td>

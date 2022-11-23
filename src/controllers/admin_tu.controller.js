@@ -119,11 +119,11 @@ const ApproveOrderTU = (req, res) => {
                         to: data.users.user_email,
                         subject: "Order Diterima",
                         html:
-                        html.replace("{{order_code}}", data.order_code)
-                            .replace("{{item.product.product_name}}", data.order_details.map((item) => {
+                        html.replace("{order_code}", data.order_code)
+                            .replace("{item.product.product_name}", data.order_details.map((item) => {
                                 return item.products.product_name
                             }).join(","))
-                            .replace("{{item.order_detail_quantity}}", data.order_details.map((item) => {
+                            .replace("{item.order_detail_quantity}", data.order_details.map((item) => {
                                 return item.order_detail_quantity
                             }).join(","))
 

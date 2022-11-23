@@ -7,7 +7,7 @@ const createSize = (req, res) => {
     const {length, width, height, weight, length2, width2, height2,shape,product_size_description} = req.body;
 
     // Validate request
-    if (!length) {
+    if (!length2) {
         return res.status(400).send({
         message: "Content can not be empty!",
         });
