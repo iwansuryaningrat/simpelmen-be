@@ -41,7 +41,7 @@ const ordersRoutes = (app) => {
     router.get("/list", isLogin, isUser,ShowAllOrder);
     router.get("/list/:id", isLogin, isUser,DetailOrder);
     router.put("/accept/:id", isLogin, isUser,acceptOrder);
-    router.post("/buy/:id", isLogin, isUser,BuyNow);
+    router.post("/buy", isLogin, isUser,BuyNow);
     app.use("/api/order", router);
 
 };
