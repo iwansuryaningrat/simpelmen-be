@@ -824,28 +824,28 @@ const BuyNow = (req, res) => {
                             order_code: `${order.order_id}/BIKDK/${data.product_category}/${romanMonth[month - 1]}/${year}`,
                         },{ where: { order_id: order.order_id }, transaction: t })
                     })
-                })
-                .then((data) => {
-                    return Retributions.create({
-                        retribution_order_id: order.order_id,
-                        retribution_status: 0,
+                    .then((data) => {
+                        return Retributions.create({
+                            retribution_order_id: order.order_id,
+                            retribution_status: "0",
+                        },{ transaction: t })
                     })
-                })
-                .then((data) => {
-                    return Delivery_Details.create({
-                        delivery_detail_order_id: order.order_id,
-                        delivery_detail_name: delivery_detail_name,
-                        delivery_detail_ikm: delivery_detail_ikm,
-                        delivery_detail_email: delivery_detail_email,
-                        delivery_detail_contact: delivery_detail_contact,
-                        delivery_detail_method: delivery_detail_method,
-                        delivery_detail_address: delivery_detail_address,
-                        delivery_detail_district: delivery_detail_district,
-                        delivery_detail_postal_code: delivery_detail_postal_code,
-                        delivery_detail_shipping_cost: delivery_detail_shipping_cost,
-                        delivery_detail_courier: delivery_detail_courier,
-                        delivery_detail_receipt: delivery_detail_receipt,
-                        delivery_detail_estimate: delivery_detail_estimate,
+                    .then((data) => {
+                        return Delivery_Details.create({
+                            delivery_detail_order_id: order.order_id,
+                            delivery_detail_name: delivery_detail_name,
+                            delivery_detail_ikm: delivery_detail_ikm,
+                            delivery_detail_email: delivery_detail_email,
+                            delivery_detail_contact: delivery_detail_contact,
+                            delivery_detail_method: delivery_detail_method,
+                            delivery_detail_address: delivery_detail_address,
+                            delivery_detail_district: delivery_detail_district,
+                            delivery_detail_postal_code: delivery_detail_postal_code,
+                            delivery_detail_shipping_cost: delivery_detail_shipping_cost,
+                            delivery_detail_courier: delivery_detail_courier,
+                            delivery_detail_receipt: delivery_detail_receipt,
+                            delivery_detail_estimate: delivery_detail_estimate,
+                        },{ transaction: t })
                     })
                 })
         }
