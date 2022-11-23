@@ -768,7 +768,97 @@ const showPAD = (req, res) => {
 //     }
 
 
-//noted
+const BuyNow = (req, res) => {
+    const token = req.headers["x-access-token"];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user_id = decoded.user_id;
+    const product_id = req.params.id;
+    const { order_total_price, order_quantity , order_note , order_price , order_design_image , order_design, order_payment_method , order_payment_status,panjang_1, panjang_2,lebar_1,lebar_2,tinggi_1,tinggi_2 , order_discount, order_last_payment_date,order_finishing_id,order_material_id,order_detail_sablon} = req.body;
+    const { delivery_detail_name,delivery_detail_ikm, delivery_detail_email, delivery_detail_contact, delivery_detail_method, delivery_detail_address, delivery_detail_district,delivery_detail_postal_code, delivery_detail_shipping_cost,delivery_detail_courier,delivery_detail_receipt,delivery_detail_estimate } = req.body;
+    db.sequelize.transaction(function (t) {
+        return Orders.create({
+            order_user_id: user_id,
+            order_total_price: order_total_price,
+            order_discount: order_discount,
+            order_note: order_note,
+            order_price: order_price,
+            order_payment_method: order_payment_method,
+            order_payment_status: order_payment_status,
+            order_last_payment_date: order_last_payment_date,
+        }, { transaction: t })
+        .then(function (order) {
+            return Products.findOne({
+                where: { product_id: product_id },
+            },{ transaction: t })
+                .then((data) => {
+                    return OrderDetails.create({
+                        order_detail_order_id: order.order_id,
+                        order_detail_product_id: product_id,
+                        order_detail_quantity: order_quantity,
+                        p1: panjang_1,
+                        p2: panjang_2,
+                        l1: lebar_1,
+                        l2: lebar_2,
+                        t1: tinggi_1,
+                        t2: tinggi_2,
+                        order_detail_finishing_id: order_finishing_id,
+                        order_detail_material_id: order_material_id,
+                        order_detail_design: order_design,
+                        order_detail_design_image: order_design_image,
+                        order_detail_sablon: order_detail_sablon
+                    },{ transaction: t })
+                })
+                .then((data) => {
+                    return Order_Status.create({
+                        order_status_order_id: order.order_id,
+                        order_status_admin_code: "2",
+                        order_status_description: "Pesanan dalam pengecekan oleh CS",
+                    },{ transaction: t })
+                })
+                .then((data) => {
+                    return Products.findOne({
+                        where: { product_id: product_id },
+                    },{ transaction: t })
+                    .then((data) => {
+                        return Orders.update({
+                            order_code: `${order.order_id}/BIKDK/${data.product_category}/${romanMonth[month - 1]}/${year}`,
+                        },{ where: { order_id: order.order_id }, transaction: t })
+                    })
+                })
+                .then((data) => {
+                    return Retributions.create({
+                        retribution_order_id: order.order_id,
+                        retribution_status: 0,
+                    })
+                })
+                .then((data) => {
+                    return Delivery_Details.create({
+                        delivery_detail_order_id: order.order_id,
+                        delivery_detail_name: delivery_detail_name,
+                        delivery_detail_ikm: delivery_detail_ikm,
+                        delivery_detail_email: delivery_detail_email,
+                        delivery_detail_contact: delivery_detail_contact,
+                        delivery_detail_method: delivery_detail_method,
+                        delivery_detail_address: delivery_detail_address,
+                        delivery_detail_district: delivery_detail_district,
+                        delivery_detail_postal_code: delivery_detail_postal_code,
+                        delivery_detail_shipping_cost: delivery_detail_shipping_cost,
+                        delivery_detail_courier: delivery_detail_courier,
+                        delivery_detail_receipt: delivery_detail_receipt,
+                        delivery_detail_estimate: delivery_detail_estimate,
+                    })
+                })
+        }
+        )
+    }).then(function (result) {
+        res.status(200).send({
+            message: "Order Created",
+        });
+    }).catch(function (err) {
+        res.status(500).send({
+            message: err.message || "Some error occurred while creating the Order.",
+        });
+    });
+};
 
-
-export { addCart,findAllCart,CheckoutOrder ,removeCart,showTracking,ShowAllOrder,DetailOrder,showPAD};
+export { addCart,findAllCart,CheckoutOrder ,removeCart,showTracking,ShowAllOrder,DetailOrder,showPAD,BuyNow};

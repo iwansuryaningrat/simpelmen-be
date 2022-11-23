@@ -546,6 +546,140 @@
         }
       }
     },
+    "/api/order/buy/{id}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "order_total_price": {
+                  "example": "any"
+                },
+                "order_quantity": {
+                  "example": "any"
+                },
+                "order_note": {
+                  "example": "any"
+                },
+                "order_price": {
+                  "example": "any"
+                },
+                "order_design_image": {
+                  "example": "any"
+                },
+                "order_design": {
+                  "example": "any"
+                },
+                "order_payment_method": {
+                  "example": "any"
+                },
+                "order_payment_status": {
+                  "example": "any"
+                },
+                "panjang_1": {
+                  "example": "any"
+                },
+                "panjang_2": {
+                  "example": "any"
+                },
+                "lebar_1": {
+                  "example": "any"
+                },
+                "lebar_2": {
+                  "example": "any"
+                },
+                "tinggi_1": {
+                  "example": "any"
+                },
+                "tinggi_2": {
+                  "example": "any"
+                },
+                "order_discount": {
+                  "example": "any"
+                },
+                "order_last_payment_date": {
+                  "example": "any"
+                },
+                "order_finishing_id": {
+                  "example": "any"
+                },
+                "order_material_id": {
+                  "example": "any"
+                },
+                "order_detail_sablon": {
+                  "example": "any"
+                },
+                "delivery_detail_name": {
+                  "example": "any"
+                },
+                "delivery_detail_ikm": {
+                  "example": "any"
+                },
+                "delivery_detail_email": {
+                  "example": "any"
+                },
+                "delivery_detail_contact": {
+                  "example": "any"
+                },
+                "delivery_detail_method": {
+                  "example": "any"
+                },
+                "delivery_detail_address": {
+                  "example": "any"
+                },
+                "delivery_detail_district": {
+                  "example": "any"
+                },
+                "delivery_detail_postal_code": {
+                  "example": "any"
+                },
+                "delivery_detail_shipping_cost": {
+                  "example": "any"
+                },
+                "delivery_detail_courier": {
+                  "example": "any"
+                },
+                "delivery_detail_receipt": {
+                  "example": "any"
+                },
+                "delivery_detail_estimate": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/api/admin/cs/profile": {
       "get": {
         "description": "",
