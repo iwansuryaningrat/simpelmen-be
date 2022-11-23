@@ -474,6 +474,9 @@ const removeCart = (req, res) => {
             });
         });
 };
+
+
+
 const showTracking = (req, res) => {
     const token = req.headers["x-access-token"];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -765,6 +768,7 @@ const showPAD = (req, res) => {
 //     }
 
 
+//noted
 
 
 export { addCart,findAllCart,CheckoutOrder ,removeCart,showTracking,ShowAllOrder,DetailOrder,showPAD};
