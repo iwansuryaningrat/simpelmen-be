@@ -52,6 +52,11 @@ const createUser = (req, res) => {
 
 const findAll = (req, res) => {
   Users.findAll({
+    where: {
+      user_role_id: {
+        [Op.ne]: 8,
+      },
+    },
     include: [
       {
         model: Role,
@@ -60,26 +65,21 @@ const findAll = (req, res) => {
       },
     ],
   })
-  .then((data) => {
-    if (data.length > 0) {
-      res.send({
-        message: "Data found",
-        data,
-      });
-    }
-    else {
-      res.send({
-        message: "Data not found",
-      });
-    }
-  })
+    .then((data) => {
+      if (data.length === 0) {
+        return res.status(404).send({
+          message: "User not found",
+        });
+      }
+      else {
+        res.send(data);
+      }
+    })
     .catch((err) => {
-      res.status(500).send({
-        message:
-          err.message || "cant retrieve data users or data users is empty",
+      return res.status(500).send({
+        message: err.message || "Some error occurred while retrieving users.",
       });
-    }
-    );
+    });
 };
 
 const findOne = (req, res) => {
@@ -289,11 +289,9 @@ const changePassword = (req, res) => {
     });
 };
 
-const userProfile = (req, res) => {
-  const token = req.headers["x-access-token"];
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  const user_id = decoded.user_id;
-
+//const user with next from file isUser
+const userProfile = (req, res, next) => {
+  const user_id = req.user_id;
   Users.findOne({
     where: {
       user_id: user_id,

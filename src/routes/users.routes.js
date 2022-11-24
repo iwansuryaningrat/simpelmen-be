@@ -20,6 +20,7 @@ import {
 } from "../controllers/product.controller.js"
 import { isLogin } from "../middlewares/auth.middlewares.js";
 import { isUser } from "../middlewares/roles.middlewares.js";
+import { isUserLogin } from "../services/isUser.js";
 
 import express from "express";
 const router = express.Router();
@@ -33,7 +34,7 @@ const usersRoutes = (app) => {
   // router.get("/findall", isLogin, findAll);
   // router.get("/findone/:id", isLogin, findOne);
   router.put("/update/:id", isLogin, updateUser);
-  router.get("/profile", isLogin,isUser, userProfile);
+  router.get("/profile", isLogin,isUser,isUserLogin, userProfile);
   router.put("/profile", isLogin,isUser, updateProfile);
   // router.put("/deactivate/:id", isLogin, isUser, deactivateUser);
   router.put("/changepassword/:id", isLogin, changePassword);

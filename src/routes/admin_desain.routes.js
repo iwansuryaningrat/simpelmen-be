@@ -12,6 +12,8 @@ import {
     showAllOrder,
     ApproveOrderDesain,
     UpdateOrderNotApproveDesain,
+    RemoveDesain,
+    UpdateDesain,
   } from "../controllers/admin_design.controller.js";
   import { isLogin } from "../middlewares/auth.middlewares.js";
   import { isAdminDesign } from "../middlewares/roles.middlewares.js";
@@ -30,7 +32,9 @@ import {
     router.put("/changepassword/:id", isLogin, changePassword);
     router.put("/orders/decline/:id", isLogin, isAdminDesign, UpdateOrderNotApproveDesain);
     router.put("/orders/approve/:id", isLogin, isAdminDesign, ApproveOrderDesain);
-    
+    router.put("/orders/remove-desain/:id", isLogin, isAdminDesign, RemoveDesain);
+    router.put("/orders/update-desain/:id", isLogin, isAdminDesign, UpdateDesain);
+    router.put("/orders/ganti-desain/:id", isLogin, isAdminDesign, UpdateDesain);
     app.use("/api/admin/desain", router);
   };
   

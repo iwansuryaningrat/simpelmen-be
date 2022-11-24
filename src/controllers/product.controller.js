@@ -6,6 +6,7 @@ const Product_Categories = db.product_categories;
 const Product_Finishings = db.product_finishings;
 const Jenis_Products = db.jenis_products;
 const Op = db.Sequelize.Op;
+import multer from "multer";
 
 const ShowAllProducts = (req, res) => {
     Products.findAll({
@@ -43,6 +44,7 @@ const ShowAllProducts = (req, res) => {
             });
         });
 }
+
 
 const ShowProductById = (req, res) => {
     const id = req.params.id;
@@ -161,6 +163,49 @@ const updateProduct = (req, res) => {
         });
 }
 
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "./src/images");
+    },
+    //filename == random name + extension file
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}-${file.originalname}`);
+    },
+});
+
+const upload = multer({ storage: storage }).single("product_image");
+
+const createProduct = (req, res) => {
+    upload(req, res, (err) => {
+        if (err) {
+            return res.status(400).json({ success: false, err });
+        }
+        else {
+            const product = {
+                product_name: req.body.product_name,
+                product_description: req.body.product_description,
+                product_price: req.body.product_price,
+                product_image: req.file.filename,
+                product_material: req.body.product_material_id,
+                product_size: req.body.product_size_id,
+                product_category: req.body.product_category_id,
+                product_finishing: req.body.product_finishing_id,
+                jenis_product: req.body.jenis_product_id,
+                product_weight: req.body.product_weight,
+            };
+            Products.create(product)
+                .then((data) => {
+                    res.send(data);
+                })
+                .catch((err) => {
+                    res.status(500).send({
+                        message: err.message || "Some error occurred while creating the Product.",
+                    });
+                });
+        }
+    });
+}
 const deleteProduct = (req, res) => {
     const id = req.params.id;
     
@@ -185,40 +230,40 @@ const deleteProduct = (req, res) => {
         });
 }
 
-const createProduct = (req, res) => {
-    // Validate request
-    if (!req.body.product_name) {
-        res.status(400).send({
-            message: "Content can not be empty!",
-        });
-        return;
-    }
+// const createProduct = (req, res) => {
+//     // Validate request
+//     if (!req.body.product_name) {
+//         res.status(400).send({
+//             message: "Content can not be empty!",
+//         });
+//         return;
+//     }
 
-    // Create a Product
-    const product = {
-        product_name: req.body.product_name,
-        product_description: req.body.product_description,
-        product_price: req.body.product_price,
-        product_image: req.body.product_image,
-        product_material: req.body.product_material_id,
-        product_size: req.body.product_size_id,
-        product_category: req.body.product_category_id,
-        product_finishing: req.body.product_finishing_id,
-        jenis_product: req.body.jenis_product_id,
-        product_weight: req.body.product_weight,
-    };
+//     // Create a Product
+//     const product = {
+//         product_name: req.body.product_name,
+//         product_description: req.body.product_description,
+//         product_price: req.body.product_price,
+//         product_image: req.file.path,
+//         product_material: req.body.product_material_id,
+//         product_size: req.body.product_size_id,
+//         product_category: req.body.product_category_id,
+//         product_finishing: req.body.product_finishing_id,
+//         jenis_product: req.body.jenis_product_id,
+//         product_weight: req.body.product_weight,
+//     };
 
-    // Save Product in the database
-    Products.create(product)
-        .then((data) => {
-            res.send(data);
-        })
-        .catch((err) => {
-            res.status(500).send({
-                message: err.message || "Some error occurred while creating the Product.",
-            });
-        });
-}
+//     // Save Product in the database
+//     Products.create(product)
+//         .then((data) => {
+//             res.send(data);
+//         })
+//         .catch((err) => {
+//             res.status(500).send({
+//                 message: err.message || "Some error occurred while creating the Product.",
+//             });
+//         });
+// }
 
 const ShowAllProductByCategory = (req, res) => {
     const id = req.params.id;
@@ -280,5 +325,7 @@ const ShowAllProductByCategory = (req, res) => {
         });
     });
 }
+
+
 
 export { ShowAllProducts, ShowProductById, updateProduct, deleteProduct, createProduct,ShowAllProductByCategory };

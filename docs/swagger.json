@@ -244,6 +244,9 @@
                 },
                 "order_detail_sablon": {
                   "example": "any"
+                },
+                "order_detail_shape": {
+                  "example": "any"
                 }
               }
             }
@@ -546,16 +549,10 @@
         }
       }
     },
-    "/api/order/buy/{id}": {
+    "/api/order/buy": {
       "post": {
         "description": "",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
           {
             "name": "x-access-token",
             "in": "header",
@@ -567,6 +564,9 @@
             "schema": {
               "type": "object",
               "properties": {
+                "product_id": {
+                  "example": "any"
+                },
                 "order_total_price": {
                   "example": "any"
                 },
@@ -2325,6 +2325,102 @@
         }
       }
     },
+    "/api/admin/desain/orders/remove-desain/{id}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/desain/orders/update-desain/{id}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/desain/orders/ganti-desain/{id}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/api/super/admin/profile": {
       "get": {
         "description": "",
@@ -2554,6 +2650,9 @@
           "403": {
             "description": "Forbidden"
           },
+          "404": {
+            "description": "Not Found"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -2723,25 +2822,16 @@
                 "product_price": {
                   "example": "any"
                 },
-                "product_image": {
+                "product_size": {
                   "example": "any"
                 },
-                "product_material_id": {
+                "product_material": {
                   "example": "any"
                 },
-                "product_size_id": {
+                "product_finishing": {
                   "example": "any"
                 },
-                "product_category_id": {
-                  "example": "any"
-                },
-                "product_finishing_id": {
-                  "example": "any"
-                },
-                "jenis_product_id": {
-                  "example": "any"
-                },
-                "product_weight": {
+                "product_category": {
                   "example": "any"
                 }
               }

@@ -14,6 +14,7 @@ const Province = db.province;
 const City = db.city;
 const SubDistrict = db.subdistrict;
 import async from "async";
+import multer from "multer";
 
 import mailgun from "mailgun-js";
 
@@ -22,6 +23,7 @@ import jwt from "jsonwebtoken";
 
 // Load .env file
 import * as dotenv from "dotenv";
+import Jenis_Products from "../models/jenis_products.model.js";
 
 
 dotenv.config();
@@ -599,6 +601,118 @@ const UpdateOrderNotApproveDesain = (req, res) => {
         );
     }
 
+const showDetailOrder = (req, res) => {
+    const id = req.params.id;
+    Orders.findOne({
+        where: {
+            order_id: id,
+        },
+        include: [
+            {
+                model: OrderDetails,
+                as: "order_details",
+                include: [
+                    {
+                        model: Products,
+                        as: "products",
+                        include: [
+                            {
+                                model: Jenis_Products,
+                                as: "jenis_products",
+                            }
+                        ],
+                    },
+                    {
+                        model: Product_Finishing,
+                        as: "product_finishing",
+                    },
+                    {
+                        model: Product_Material,
+                        as: "product_material",
+                    }
+                ],
+                
+            },
+        ],
+    })
+        .then((data) => {
+            res.send(data);
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message: "Error retrieving Order with id=" + id,
+            });
+        });
+    }
     
+const RemoveDesain = (req, res) => {
+    const id = req.params.id;
+    OrderDetails.update(
+        {
+            order_detail_desain_image: null,
+        },
+        {
+            where: {
+                order_detail_id: id,
+            },
+        }
+    )
+        .then(() => {
+            res.send({
+                message: "Order was updated successfully.",
+            });
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message: "Error updating Order with id=" + id,
+            });
+        });
+    };
 
-export { showAllOrder, ApproveOrderDesain, UpdateOrderNotApproveDesain };
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "./src/images");
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}-${file.originalname}`);
+    },
+});
+
+const upload = multer({ storage: storage }).single("product_image");
+
+const UpdateDesain = (req, res) => {
+    const id = req.params.id;
+    upload(req, res, (err) => {
+        if (err) {
+            return res.status(500).
+                send({ message: "Error uploading file." });
+        }
+        else {
+            OrderDetails.update(
+                {
+                    order_detail_desain_image: req.file.filename,
+                },
+                {
+                    where: {
+                        order_detail_id: id,
+                    },
+                }
+            )
+                .then(() => {
+                    res.send({
+                        message: "Order was updated successfully.",
+                    });
+                })
+                .catch((err) => {
+                    res.status(500).send({
+                        message: "Error updating Order with id=" + id,
+                    });
+                });
+        }
+    });
+    };
+
+
+
+export { showAllOrder, ApproveOrderDesain, UpdateOrderNotApproveDesain ,showDetailOrder, RemoveDesain, UpdateDesain};

@@ -289,5 +289,28 @@ db.order_details.belongsTo(db.products, {
   as: "products",
 });
 
+//relation beetween order_details and materials
+db.product_materials.hasMany(db.order_details, {
+  foreignKey: "order_detail_materials_id",
+  as: "order_details",
+});
+
+db.order_details.belongsTo(db.product_materials, {
+  foreignKey: "order_detail_materials_id",
+  as: "product_materials",
+});
+
+//relation beetween order_details and finishings
+db.product_finishings.hasMany(db.order_details, {
+  foreignKey: "order_detail_finishings_id",
+  as: "order_details",
+});
+
+db.order_details.belongsTo(db.product_finishings, {
+  foreignKey: "order_detail_finishings_id",
+  as: "product_finishings",
+});
+
+
 
 export default db;

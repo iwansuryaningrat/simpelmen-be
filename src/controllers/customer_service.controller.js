@@ -248,6 +248,16 @@ const showAllRetribution = (req, res) => {
                                     },
                                 ],
                             },
+                            {
+                                model: Product_Finishing,
+                                as: "product_finishings",
+                                attributes: ["product_finishing_name"],
+                            },
+                            {
+                                model: Product_Material,
+                                as: "product_materials",
+                                attributes: ["product_material_name"],
+                            }
                         ],
                     },
                     {
@@ -333,6 +343,16 @@ const showRetributonById = (req, res) => {
                                     },
                                 ],
                             },
+                            {
+                                model: Product_Finishing,
+                                as: "product_finishings",
+                                attributes: ["product_finishing_name"],
+                            },
+                            {
+                                model: Product_Material,
+                                as: "product_materials",
+                                attributes: ["product_material_name"],
+                            }
                         ],
                     },
                     {
@@ -427,6 +447,16 @@ const acceptRetribution = (req, res) => {
                                             },
                                         ],
                                     },
+                                    {
+                                        model: Product_Finishing,
+                                        as: "product_finishings",
+                                        attributes: ["product_finishing_name"],
+                                    },
+                                    {
+                                        model: Product_Material,
+                                        as: "product_materials",
+                                        attributes: ["product_material_name"],
+                                    }
                                 ],
                             },
                             {

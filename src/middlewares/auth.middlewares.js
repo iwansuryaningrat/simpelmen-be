@@ -54,7 +54,6 @@ const isActivated = (req, res, next) => {
   });
 };
 
-//order middlewares if order user id is equal to user id from token then next
 const isOrderUser = (req, res, next) => {
   const token = req.headers["x-access-token"];
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
