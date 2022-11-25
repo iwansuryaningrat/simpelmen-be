@@ -508,9 +508,6 @@
           "403": {
             "description": "Forbidden"
           },
-          "404": {
-            "description": "Not Found"
-          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -2650,9 +2647,6 @@
           "403": {
             "description": "Forbidden"
           },
-          "404": {
-            "description": "Not Found"
-          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -2822,16 +2816,22 @@
                 "product_price": {
                   "example": "any"
                 },
-                "product_size": {
+                "product_material_id": {
                   "example": "any"
                 },
-                "product_material": {
+                "product_size_id": {
                   "example": "any"
                 },
-                "product_finishing": {
+                "product_category_id": {
                   "example": "any"
                 },
-                "product_category": {
+                "product_finishing_id": {
+                  "example": "any"
+                },
+                "jenis_product_id": {
+                  "example": "any"
+                },
+                "product_weight": {
                   "example": "any"
                 }
               }

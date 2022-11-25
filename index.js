@@ -77,7 +77,7 @@ app.get("/", (req, res) => {
   res.json({ message: "Server is Successfully Running..." });
 });
 
-app.use("/public/image/", express.static("src/images"));
+app.use("/public/image/", express.static("public/images"));
 
 import authRoutes from "./src/routes/auth.routes.js";
 import userRoutes from "./src/routes/users.routes.js";

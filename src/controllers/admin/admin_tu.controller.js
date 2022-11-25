@@ -14,6 +14,7 @@ const Province = db.province;
 const City = db.city;
 const SubDistrict = db.subdistrict;
 import async from "async";
+import fs from "fs";
 
 import mailgun from "mailgun-js";
 
@@ -113,7 +114,7 @@ const ApproveOrderTU = (req, res) => {
                         apiKey: process.env.MAILGUN_API_KEY,
                         domain: process.env.MAILGUN_DOMAIN,
                     });
-                    const html = fs.readFileSync("./src/views/approve_order_cs.html", "utf8");
+                    const html = fs.readFileSync("./src/views/order_notif.html", "utf8");
                     const dataEmail = {
                         from: "admincs@gmail.com",
                         to: data.users.user_email,
@@ -126,7 +127,7 @@ const ApproveOrderTU = (req, res) => {
                             .replace("{item.order_detail_quantity}", data.order_details.map((item) => {
                                 return item.order_detail_quantity
                             }).join(","))
-
+                            .replace("{message}", "Pesanan Anda telah diterima dan sedang dalam proses desain")
                     };
                     mg.messages().send(dataEmail, function (error, body) {
                         if (error) {

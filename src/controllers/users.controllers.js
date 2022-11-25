@@ -13,21 +13,17 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 
-// Create and Save a new User
 const createUser = (req, res) => {
   const { user_name, user_email, user_password, user_role_id } = req.body;
 
-  // Validate request
   if (!user_name || !user_email || !user_password || !user_role_id) {
     return res.status(400).send({
       message: "Content can not be empty!",
     });
   }
 
-  // Encrypt password
   const hashPassword = bcrypt.hashSync(user_password, 8);
 
-  // Create a User
   const user = {
     user_name,
     user_email,
@@ -35,7 +31,6 @@ const createUser = (req, res) => {
     user_role_id,
   };
 
-  // Save User in the database
   Users.create(user)
     .then((data) => {
       res.send({
@@ -52,6 +47,11 @@ const createUser = (req, res) => {
 
 const findAll = (req, res) => {
   Users.findAll({
+    where: {
+      user_role_id: {
+        [Op.ne]: 8,
+      },
+    },
     include: [
       {
         model: Role,
@@ -60,21 +60,26 @@ const findAll = (req, res) => {
       },
     ],
   })
-    .then((data) => {
-      if (data.length === 0) {
-        return res.status(404).send({
-          message: "User not found",
-        });
-      }
-      else {
-        res.send(data);
-      }
-    })
-    .catch((err) => {
-      return res.status(500).send({
-        message: err.message || "Some error occurred while retrieving users.",
+  .then((data) => {
+    if (data.length > 0) {
+      res.send({
+        message: "Data found",
+        data,
       });
-    });
+    }
+    else {
+      res.send({
+        message: "Data not found",
+      });
+    }
+  })
+    .catch((err) => {
+      res.status(500).send({
+        message:
+          err.message || "cant retrieve data users or data users is empty",
+      });
+    }
+    );
 };
 
 const findOne = (req, res) => {
