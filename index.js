@@ -48,7 +48,7 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use(
   cookieSession({
     name: "Simpelmen",
-    secret: "COOKIE_SECRET", // should use as secret environment variable
+    secret: "COOKIE_SECRET", 
     httpOnly: true,
     sameSite: "strict",
   })
@@ -73,17 +73,15 @@ app.use(
 
 // });
 
-// simple route
 app.get("/", (req, res) => {
   res.json({ message: "Server is Successfully Running..." });
 });
 
 app.use("/public/image/", express.static("src/images"));
 
-// routes
 import authRoutes from "./src/routes/auth.routes.js";
 import userRoutes from "./src/routes/users.routes.js";
-import adminCSRoutes from "./src/routes/admin_cs.rotes.js";
+import adminCSRoutes from "./src/routes/admin/admin_cs.routes.js";
 import jenisProductsRoutes from "./src/routes/jenis_products.routes.js";
 import rolesRoutes from "./src/routes/roles.routes.js";
 import Product from "./src/routes/products.routes.js";
@@ -93,12 +91,12 @@ import ProductSizesRoutes from "./src/routes/product_sizes.routes.js";
 import productCategoriesRoutes from "./src/routes/product_categories.routes.js";
 import ProductFinishingsRoutes from "./src/routes/product_finishings.routes.js";
 import ordersRoutes from "./src/routes/order.routes.js";
-import adminCashierRoutes from "./src/routes/admin_kasir.routes.js";
-import adminTuRoutes from "./src/routes/admin_tu.routes.js";
-import adminProductionRoutes from "./src/routes/admin_produksi.routes.js";
-import SuperAdminRoutes from "./src/routes/super_admin.routes.js";
-import adminWarehouseRoutes from "./src/routes/admin_warehouse.routes.js";
-import adminDesainRoutes from "./src/routes/admin_desain.routes.js";
+import adminCashierRoutes from "./src/routes/admin/admin_kasir.routes.js";
+import adminTuRoutes from "./src/routes/admin/admin_tu.routes.js";
+import adminProductionRoutes from "./src/routes/admin/admin_produksi.routes.js";
+import SuperAdminRoutes from "./src/routes/admin/super_admin.routes.js";
+import adminWarehouseRoutes from "./src/routes/admin/admin_warehouse.routes.js";
+import adminDesainRoutes from "./src/routes/admin/admin_desain.routes.js";
 
 adminCSRoutes(app);
 authRoutes(app);
@@ -118,7 +116,8 @@ adminProductionRoutes(app);
 adminWarehouseRoutes(app);
 adminDesainRoutes(app);
 SuperAdminRoutes(app);
-// set port, listen for requests
+
+
 const PORT = process.env.PORT;
 
 app.listen(PORT, () => {

@@ -17,7 +17,6 @@ const isUserLogin = (req, res, next) => {
     
     else {
         try{
-            //decode token
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
             req.user_id = decoded.user_id;
             req.user_email = decoded.user_email;

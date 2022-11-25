@@ -1,4 +1,4 @@
-import db from "../models/index.js";
+import db from "../../models/index.js";
 const Products = db.products;
 const Product_Materials = db.product_materials;
 const Product_Sizes = db.product_sizes;

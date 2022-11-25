@@ -1,4 +1,4 @@
-import db from "../models/index.js";
+import db from "../../models/index.js";
 const Users = db.users;
 const Op = db.Sequelize.Op;
 const Products = db.products;
@@ -24,7 +24,7 @@ import jwt from "jsonwebtoken";
 
 // Load .env file
 import * as dotenv from "dotenv";
-import Order_Details from "../models/order_details.model.js";
+import Order_Details from "../../models/order_details.model.js";
 
 dotenv.config();
 

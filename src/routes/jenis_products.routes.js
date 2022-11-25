@@ -1,6 +1,6 @@
 import {
   createjenisProduct,findAllJenisProduct,findOneJenisProduct,updateJenisProduct,deleteOneJenisProduct
-} from "../controllers/jenis_products.controllers.js";
+} from "../controllers/product/jenis_products.controllers.js";
 import { isLogin } from "../middlewares/auth.middlewares.js";
 import { isSuperAdmin } from "../middlewares/roles.middlewares.js";
 

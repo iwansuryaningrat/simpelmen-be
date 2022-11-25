@@ -7,21 +7,21 @@ import {
     changePassword,
     userProfile,
     updateProfile,
-  } from "../controllers/users.controllers.js";
+  } from "../../controllers/users.controllers.js";
   import {
     showAllOrder,
     ApproveOrderDesain,
     UpdateOrderNotApproveDesain,
     RemoveDesain,
     UpdateDesain,
-  } from "../controllers/admin_design.controller.js";
-  import { isLogin } from "../middlewares/auth.middlewares.js";
-  import { isAdminDesign } from "../middlewares/roles.middlewares.js";
+  } from "../../controllers/admin/admin_design.controller.js";
+  import { isLogin } from "../../middlewares/auth.middlewares.js";
+  import { isAdminDesign } from "../../middlewares/roles.middlewares.js";
   
   import express from "express";
   const router = express.Router();
   
-  import headers from "../services/headers.services.js";
+  import headers from "../../services/headers.services.js";
   
   const adminDesainRoutes = (app) => {
     app.use(headers);

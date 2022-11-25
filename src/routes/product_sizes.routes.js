@@ -1,6 +1,6 @@
 import {
     createSize,findAllSize,findOneSize,updateSize,deleteOneSize
-} from "../controllers/product_sizes.controllers.js";
+} from "../controllers/product/product_sizes.controllers.js";
 
 import { isLogin } from "../middlewares/auth.middlewares.js";
 import { isSuperAdmin } from "../middlewares/roles.middlewares.js";

@@ -7,7 +7,7 @@ import {
     changePassword,
     userProfile,
     updateProfile,
-  } from "../controllers/users.controllers.js";
+  } from "../../controllers/users.controllers.js";
   import {
     showAllOrder,
     showAllRetribution,
@@ -22,14 +22,14 @@ import {
     UpdateStatusPAD,
     RekapPesanaan,
     showRetributionByDate,
-  } from "../controllers/customer_service.controller.js";
-  import { isLogin } from "../middlewares/auth.middlewares.js";
-  import { isAdminCS } from "../middlewares/roles.middlewares.js";
+  } from "../../controllers/admin/customer_service.controller.js";
+  import { isLogin } from "../../middlewares/auth.middlewares.js";
+  import { isAdminCS } from "../../middlewares/roles.middlewares.js";
   
   import express from "express";
   const router = express.Router();
   
-  import headers from "../services/headers.services.js";
+  import headers from "../../services/headers.services.js";
   
   const adminCSRoutes = (app) => {
     app.use(headers);

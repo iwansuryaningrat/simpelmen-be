@@ -1,6 +1,6 @@
 import {
   ShowAllProducts, ShowProductById, updateProduct, deleteProduct, createProduct,ShowAllProductByCategory
-} from "../controllers/product.controller.js";
+} from "../controllers/product/product.controller.js";
 import { isLogin } from "../middlewares/auth.middlewares.js";
 import { isSuperAdmin } from "../middlewares/roles.middlewares.js";
 

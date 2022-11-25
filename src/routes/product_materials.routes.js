@@ -4,7 +4,7 @@ import {
     findOneMaterial,
     updateMaterial,
     removeMaterial,
-} from '../controllers/product_materials.controllers.js';
+} from '../controllers/product/product_materials.controllers.js';
 
 import { isLogin } from '../middlewares/auth.middlewares.js';
 import { isSuperAdmin } from '../middlewares/roles.middlewares.js';

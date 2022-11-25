@@ -7,19 +7,19 @@ import {
     changePassword,
     userProfile,
     updateProfile,
-  } from "../controllers/users.controllers.js";
+  } from "../../controllers/users.controllers.js";
   import {
     showAllOrder,
     UpdateOrderNotApproveTU,
     ApproveOrderTU,
-  } from "../controllers/admin_tu.controller.js";
-  import { isLogin } from "../middlewares/auth.middlewares.js";
-  import { isAdminTu } from "../middlewares/roles.middlewares.js";
+  } from "../../controllers/admin/admin_tu.controller.js";
+  import { isLogin } from "../../middlewares/auth.middlewares.js";
+  import { isAdminTu } from "../../middlewares/roles.middlewares.js";
   
   import express from "express";
   const router = express.Router();
   
-  import headers from "../services/headers.services.js";
+  import headers from "../../services/headers.services.js";
   
   const adminTuRoutes = (app) => {
     app.use(headers);

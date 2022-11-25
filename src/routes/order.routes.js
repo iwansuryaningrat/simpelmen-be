@@ -1,8 +1,4 @@
 import {
-    ShowAllProducts,
-    ShowProductById
-} from "../controllers/product.controller.js";
-import {
     addCart,
     findAllCart,
     CheckoutOrder,
@@ -11,12 +7,14 @@ import {
     ShowAllOrder,
     DetailOrder,
     BuyNow,
-} from "../controllers/order_detail.controller.js"
+} from "../controllers/orders.controller.js"
 import {
     showStatusOrder,
     acceptOrder,
 } from "../controllers/user_order.controller.js";
-
+import {
+    isUserLogin,
+} from "../services/isUser.js";
 import { 
     
     isLogin,
@@ -32,16 +30,16 @@ import headers from "../services/headers.services.js";
 const ordersRoutes = (app) => {
   app.use(headers);
 
-    router.post("/cart/:id", isLogin, isUser, addCart);
-    router.get("/cart", isLogin, isUser,findAllCart);
-    router.delete("/cart/:id", isLogin, isUser, removeCart);
-    router.put("/checkout", isLogin, isUser,CheckoutOrder);
-    router.get("/status", isLogin, isUser,showStatusOrder);
-    router.get("/tracking", isLogin, isUser,showTracking);
-    router.get("/list", isLogin, isUser,ShowAllOrder);
-    router.get("/list/:id", isLogin, isUser,DetailOrder);
-    router.put("/accept/:id", isLogin, isUser,acceptOrder);
-    router.post("/buy", isLogin, isUser,BuyNow);
+    router.post("/cart/:id", isLogin, isUser, isUserLogin, addCart);
+    router.get("/cart", isLogin, isUser, isUserLogin, findAllCart);
+    router.delete("/cart/:id", isLogin, isUser, isUserLogin, removeCart);
+    router.put("/checkout", isLogin, isUser, CheckoutOrder);
+    router.get("/status", isLogin, isUser, isUserLogin, showStatusOrder);
+    router.get("/tracking", isLogin, isUser, isUserLogin, showTracking);
+    router.get("/list", isLogin, isUser, isUserLogin, ShowAllOrder);
+    router.get("/list/:id", isLogin, isUser, isUserLogin, DetailOrder);
+    router.put("/accept/:id", isLogin, isUser, acceptOrder);
+    router.post("/buy", isLogin, isUser, isUserLogin,BuyNow);
     app.use("/api/order", router);
 
 };

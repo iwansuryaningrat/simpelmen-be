@@ -4,7 +4,7 @@ import {
     findOneCategory,
     updateCategory,
     removeCategory
-} from "../controllers/product_categories.controllers.js";
+} from "../controllers/product/product_categories.controllers.js";
 
 import { isLogin } from "../middlewares/auth.middlewares.js";
 import { isSuperAdmin } from "../middlewares/roles.middlewares.js";

@@ -46,10 +46,7 @@ const romanMonth = [
 ];
 
 const addCart = (req, res, next) => {
-    const token = req.headers["x-access-token"];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user_id = decoded.user_id;
-    const user_email = decoded.user_email;
+    const user_id = req.user_id;
     const product_id = req.params.id;
     const { order_total_price, order_quantity , order_note , order_price , order_design_image , order_design, order_payment_method , order_payment_status,panjang_1, panjang_2,lebar_1,lebar_2,tinggi_1,tinggi_2 , order_discount, order_last_payment_date,order_finishing_id,order_material_id,order_detail_sablon,order_detail_shape} = req.body;
     db.sequelize.transaction(function (t) {
@@ -119,10 +116,8 @@ const addCart = (req, res, next) => {
 
 
 
-const findAllCart = (req, res) => {
-    const token = req.headers["x-access-token"];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user_id = decoded.user_id;
+const findAllCart = (req, res,next) => {
+    const user_id = req.user_id;
     Orders.findAll({
         where: {
             order_user_id: user_id
@@ -272,11 +267,8 @@ const CheckoutOrder = async (req, res) => {
 
 };
 
-const removeCart = (req, res) => {
-    const token = req.headers["x-access-token"];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user_id = decoded.user_id;
-
+const removeCart = (req, res,next) => {
+    const user_id = req.user_id;
     const order_id = req.params.id;
     if (!order_id) {
         res.status(400).send({
@@ -344,10 +336,8 @@ const removeCart = (req, res) => {
 
 
 
-const showTracking = (req, res) => {
-    const token = req.headers["x-access-token"];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user_id = decoded.user_id;
+const showTracking = (req, res,next) => {
+    const user_id = req.user_id;
     Orders.findAll({
         where: {
             order_user_id: user_id,
@@ -402,10 +392,8 @@ const showTracking = (req, res) => {
         });
 };
 
-const ShowAllOrder = (req, res) => {
-    const token = req.headers["x-access-token"];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user_id = decoded.user_id;
+const ShowAllOrder = (req, res,next) => {
+    const user_id = req.user_id;
     Orders.findAll({
         where: {
             order_user_id: user_id,
@@ -452,10 +440,8 @@ const ShowAllOrder = (req, res) => {
     });
 };
 
-const DetailOrder = (req, res) => {
-    const token = req.headers["x-access-token"];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user_id = decoded.user_id;
+const DetailOrder = (req, res,next) => {
+    const user_id = req.user_id;
     const order_id = req.params.id;
   
     Orders.findOne({
@@ -571,71 +557,10 @@ const showPAD = (req, res) => {
             message: err.message || "Some error occurred while retrieving PAD.",
         });
         });
-    }
+    };
 
-
-//download pad to pdf
-// const downloadPAD = (req, res) => {
-//     const order_id = req.params.id;
-//     Retributions.findAll({
-//         where: {
-//             retribution_order_id: order_id,
-//         },
-//         include: [
-//             {
-//                 model: Orders,
-//                 as: "orders",
-//             },
-//         ],
-//     })
-//         .then((data) => {
-//             const retribution = data[0];
-//             const order = data[0].orders;
-//             const order_code = order.order_code;
-//             const order_id = order.order_id;
-//             const order_user_id = order.order_user_id;
-//             const retribution_jasa_total = retribution.retribution_jasa_total;
-//             const retribution_jasa = retribution.retribution_jasa;
-//             const retribution_material = retribution.retribution_material;
-//             const retribution_finishing = retribution.retribution_finishing;
-//             const retribution_total = retribution.retribution_total;
-//             const retribution_created_at = retribution.retribution_created_at;
-//             const retribution_updated_at = retribution.retribution_updated_at;
-//             //download pdf
-//             const doc = new PDFDocument();
-//             res.setHeader(
-//                 "Content-disposition",
-//                 "attachment; filename=" + order_code + ".pdf"
-//             );
-//             res.setHeader("Content-type", "application/pdf");
-//             doc.pipe(res);
-//             doc
-//                 .fontSize(25)
-//                 .text("PAD", 100, 100)
-//                 .fontSize(15)
-//                 .text("Order ID : " + order_id, 100, 150)
-//                 .text("Order User ID : " + order_user_id, 100, 170)
-//                 .text("Retribution Jasa Total : " + retribution_jasa_total, 100, 190)
-//                 .text("Retribution Jasa : " + retribution_jasa, 100, 210)
-//                 .text("Retribution Material : " + retribution_material, 100, 230)
-//                 .text("Retribution Finishing : " + retribution_finishing, 100, 250)
-//                 .text("Retribution Total : " + retribution_total, 100, 270)
-//                 .text("Retribution Created At : " + retribution_created_at, 100, 290)
-//                 .text("Retribution Updated At : " + retribution_updated_at, 100, 310);
-//             doc.end();
-//         })
-//         .catch((err) => {
-//             res.status(500).send({
-//                 message: err.message || "Some error occurred while retrieving PAD.",
-//             });
-//         });
-//     }
-
-
-const BuyNow = (req, res) => {
-    const token = req.headers["x-access-token"];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user_id = decoded.user_id;
+const BuyNow = (req, res,next) => {
+    const user_id = req.user_id;
     const product_id = req.body.product_id;
     const { order_total_price, order_quantity , order_note , order_price , order_design_image , order_design, order_payment_method , order_payment_status,panjang_1, panjang_2,lebar_1,lebar_2,tinggi_1,tinggi_2 , order_discount, order_last_payment_date,order_finishing_id,order_material_id,order_detail_sablon} = req.body;
     const { delivery_detail_name,delivery_detail_ikm, delivery_detail_email, delivery_detail_contact, delivery_detail_method, delivery_detail_address, delivery_detail_district,delivery_detail_postal_code, delivery_detail_shipping_cost,delivery_detail_courier,delivery_detail_receipt,delivery_detail_estimate } = req.body;

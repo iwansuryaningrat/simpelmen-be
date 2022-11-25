@@ -52,11 +52,6 @@ const createUser = (req, res) => {
 
 const findAll = (req, res) => {
   Users.findAll({
-    where: {
-      user_role_id: {
-        [Op.ne]: 8,
-      },
-    },
     include: [
       {
         model: Role,
@@ -289,7 +284,6 @@ const changePassword = (req, res) => {
     });
 };
 
-//const user with next from file isUser
 const userProfile = (req, res, next) => {
   const user_id = req.user_id;
   Users.findOne({
@@ -341,12 +335,8 @@ const userProfile = (req, res, next) => {
 
 };
 
-const updateProfile = (req, res) => {
-  const token = req.headers["x-access-token"];
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  const user_id = decoded.user_id;
-
-  //update profile
+const updateProfile = (req, res, next) => {
+  const user_id = req.user_id;
   Users.update(req.body, {
     where: { user_id: user_id },
   })
@@ -369,7 +359,6 @@ const updateProfile = (req, res) => {
 };
 
 const showAllRole = (req, res) => {
-  //find all role if not found "role not found"
   Role.findAll()
     .then((data) => {
       if (!data) {

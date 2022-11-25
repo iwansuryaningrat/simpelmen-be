@@ -1,4 +1,4 @@
-import db from "../models/index.js";
+import db from "../../models/index.js";
 const Product_Sizes = db.product_sizes;
 const Op = db.Sequelize.Op;
 

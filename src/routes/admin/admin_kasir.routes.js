@@ -7,7 +7,7 @@ import {
     changePassword,
     userProfile,
     updateProfile,
-  } from "../controllers/users.controllers.js";
+  } from "../../controllers/users.controllers.js";
   import {
     showAllOrder,
     DpPaymentMethod,
@@ -15,14 +15,14 @@ import {
     LunasPaymentMethod,
     BelumLunasPaymentMethod,
     showPAD,
-  } from "../controllers/admin_kasir.controller.js";
-  import { isLogin } from "../middlewares/auth.middlewares.js";
-  import { isAdminCashier } from "../middlewares/roles.middlewares.js";
+  } from "../../controllers/admin/admin_kasir.controller.js";
+  import { isLogin } from "../../middlewares/auth.middlewares.js";
+  import { isAdminCashier } from "../../middlewares/roles.middlewares.js";
   
   import express from "express";
   const router = express.Router();
   
-  import headers from "../services/headers.services.js";
+  import headers from "../../services/headers.services.js";
   
   const adminCashierRoutes = (app) => {
     app.use(headers);

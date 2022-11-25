@@ -13,11 +13,11 @@ import {
   findAllCart,
   CheckoutOrder,
   // updateOrder,
-} from "../controllers/order_detail.controller.js"
+} from "../controllers/orders.controller.js"
 import {
   ShowAllProducts,
   ShowProductById,
-} from "../controllers/product.controller.js"
+} from "../controllers/product/product.controller.js"
 import { isLogin } from "../middlewares/auth.middlewares.js";
 import { isUser } from "../middlewares/roles.middlewares.js";
 import { isUserLogin } from "../services/isUser.js";

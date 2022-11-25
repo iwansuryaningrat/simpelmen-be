@@ -110,6 +110,16 @@ const initUserSeed = () => {
         user_status: true,
         user_verify: true,
       });
+      db.users.create({
+        user_name: "Wahyu Widi Widayat",
+        user_email: "widiw598@gmail.com",
+        user_password: bycrpt.hashSync("12345abcde", 8),
+        user_role_id: 8,
+        user_status: true,
+        user_verify: true,
+        user_district: 512,
+        user_address: "Pulosono",
+      });
     }
   });
 };

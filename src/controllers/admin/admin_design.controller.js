@@ -1,22 +1,21 @@
-import db from "../models/index.js";
+import db from "../../models/index.js";
 const Users = db.users;
 const Op = db.Sequelize.Op;
 const Products = db.products;
 const Orders = db.orders;
 const OrderDetails = db.order_details;
-
 const Order_Status = db.order_status;
 const Product_Finishing = db.product_finishings;
 const Product_Material = db.product_materials;
 const Product_Category = db.product_categories;
 const Delivery_Details = db.delivery_details;
 const Retributions = db.retributions;
-const Product_Sizes = db.product_sizes;
 const Province = db.province;
 const City = db.city;
 const SubDistrict = db.subdistrict;
+// const Jenis_Products = db.jenis_products;
 import async from "async";
-import fs from "fs";
+import multer from "multer";
 
 import mailgun from "mailgun-js";
 
@@ -25,38 +24,30 @@ import jwt from "jsonwebtoken";
 
 // Load .env file
 import * as dotenv from "dotenv";
-import Order_Details from "../models/order_details.model.js";
+import Jenis_Products from "../../models/jenis_products.model.js";
+
 
 dotenv.config();
 
-
 const showAllOrder = (req, res) => {
-    //order find all
     Orders.findAll({
         include: [
             {
                 model: OrderDetails,
                 as: "order_details",
-                include: [
-                    {
-                        model: Products,
-                        as: "products",
-                        //attributes: ["product_id", "product_name", "product_price", "product_stock", "product_description", "product_image", "product_category_id", "product_material_id", "product_finishing_id"],
-                        attributes : [ "product_name", "product_price", "product_category", "product_material", "product_finishing" ],
-                    },
-                ],
-            },
-            {
-                model: Delivery_Details,
-                as: "delivery_details",
             },
             {
                 model: Order_Status,
                 as: "order_statuses",
                 where: {
-                    order_status_admin_code: 2,
+                    order_status_admin_code: 4,
                 },
             },
+            {
+                model: Users,
+                attributes: ["user_id", "user_name", "user_email","user_ikm"],
+                as: "users",   
+            }
         ],
     })
         .then((data) => {
@@ -69,82 +60,39 @@ const showAllOrder = (req, res) => {
         });
     }
 
-const OrderDecline = (req, res) => {
-    const order_id = req.params.id;
-    Order_Status.create({
-        order_status_admin_code: 2,
-        order_status_description: "Pesanan PO dalam proses pengecekan ulang",
-        order_status_order_id: order_id,
-    })
-        .then(() => {
+const ApproveOrderDesain = (req, res) => {
+    const id = req.params.id;
+    Order_Status.update(
+        {
+            order_status_admin_code: 6,
+        },
+        {
+            where: {
+                order_status_order_id: id,
+            },
+        }
+    )
+    .then(() => {
+        Order_Status.create({
+            order_status_admin_code: 6,
+            order_status_description: "Tahap Desain Selesai", 
+            order_status_order_id: id,
+        })
+        .then((data) => {
             Orders.update(
                 {
                     order_status: req.body.order_status,
                 },
                 {
                     where: {
-                        order_id: order_id,
+                        order_id: id,
                     },
-                },
+                }
             )
-                .then((num) => {
-                    if (num == 1) {
-                        res.send({
-                            message: "Order was updated successfully.",
-                        });
-                    } else {
-                        res.send({
-                            message: `Cannot update Order with id=${order_id}. Maybe Order was not found or req.body is empty!`,
-                        });
-                    }
-                }
-                )
-                .catch((err) => {
-                    res.status(500).send({
-                        message: "Error updating Order with id=" + order_id,
-                    });
-                }
-                );
-        })
-        .catch((err) => {
-            res.status(500).send({
-                message: err.message || "Some error occurred while creating the Order.",
-            });
-        }
-        );
-    }
-
-const OrderAccept = (req, res) => {
-    const order_id = req.params.id;
-    Order_Status.update(
-        {
-            order_status_admin_code: 3,
-        },
-        {
-            where: {
-                order_status_order_id: order_id,
-            },
-        })
-        .then(() => {
-        Orders.update(
-            {
-                order_status: req.body.order_status,
-            },
-            {
-                where: {
-                    order_id: order_id,
-                },
-            })
-            .then(() => {
-            Order_Status.create({
-                order_status_admin_code: 3,
-                order_status_description: "Order Diterima",
-                order_status_order_id: order_id,
-            })
             .then(() => {
                 Orders.findOne({
                 where: {
-                    order_id: order_id,
+                    order_id: id,
                 },
                 include: [
                     {
@@ -168,319 +116,9 @@ const OrderAccept = (req, res) => {
                         apiKey: process.env.MAILGUN_API_KEY,
                         domain: process.env.MAILGUN_DOMAIN,
                     });
-                    const html = fs.readFileSync("./src/views/approve_order_cs.html", "utf8");
                     const dataEmail = {
                         from: "admincs@gmail.com",
                         to: data.users.user_email,
-                        subject: "Order Diterima",
-                        html:
-                        html.replace("{order_code}", data.order_code)
-                            .replace("{item.products.product_name}", data.order_details.map((item) => {
-                                return item.products.product_name
-                            }).join(","))
-                            .replace("{item.order_detail_quantity}", data.order_details.map((item) => {
-                                return item.order_detail_quantity
-                            }).join(","))
-                    };
-                    mg.messages().send(dataEmail, function (error, body) {
-                        if (error) {
-                            console.log(error);
-                        } else {
-                            console.log(body);
-                        }
-                    });
-                    res.send(data);
-                })
-
-                .catch((err) => {
-                    res.status(500).send({
-                        message: err.message || "Some error occurred while retrieving orders.",
-                    });
-                });
-            })
-            .catch((err) => {
-                res.status(500).send({
-                    message: err.message || "Some error occurred while creating the Order.",
-                });
-            });
-            })
-            .catch((err) => {
-                res.status(500).send({
-                    message: "Error updating Order with id=" + order_id,
-                });
-            });
-        })
-        .catch((err) => {
-            res.status(500).send({
-                message: err.message || "Some error occurred while creating the Order.",
-            });
-        });
-    }
-
-
-const showAllRetribution = (req, res) => {
-    Retributions.findAll({
-        include: [
-            {
-                model: Orders,
-                as: "orders",
-                include: [
-                    {
-                        model: OrderDetails,
-                        as: "order_details",
-                        include: [
-                            {
-                                model: Products,
-                                as: "products",
-                                attributes: ["product_id","product_name","product_description","product_material","product_finishing","product_category"],
-                                include: [
-                                    {
-                                        model: Product_Finishing,
-                                        as: "product_finishings",
-                                    },
-                                    {
-                                        model: Product_Material,
-                                        as: "product_materials",
-                                    },
-                                    {
-                                        model: Product_Category,
-                                        as: "product_categories",
-                                    },
-                                ],
-                            },
-                            {
-                                model: Product_Finishing,
-                                as: "product_finishings",
-                                attributes: ["product_finishing_name"],
-                            },
-                            {
-                                model: Product_Material,
-                                as: "product_materials",
-                                attributes: ["product_material_name"],
-                            }
-                        ],
-                    },
-                    {
-                        model: Delivery_Details,
-                        as: "delivery_details",
-                    },
-                    {
-                        model: Users,
-                        as: "users",
-                    }
-                ],
-            },
-        ],
-    })
-        .then((data) => {
-        res.send(data);
-        })
-        .catch((err) => {
-        res.status(500).send({
-            message: err.message || "Some error occurred while retrieving retributions.",
-        });
-        });
-    }
-
-const updateRetribution = (req, res) => {
-    const retribution_id = req.params.retribution_id;
-    Retributions.update(req.body, {
-        where: { retribution_id: retribution_id },
-    })
-        .then((num) => {
-        if (num == 1) {
-            res.send({
-            message: "Retribution was updated successfully.",
-            });
-        } else {
-            res.send({
-            message: `Cannot update Retribution with id=${retribution_id}. Maybe Retribution was not found or req.body is empty!`,
-            });
-        }
-        })
-        .catch((err) => {
-        res.status(500).send({
-            message: "Error updating Retribution with id=" + retribution_id,
-        });
-        });
-    }
-
-const showRetributonById = (req, res) => {
-    const retribution_id = req.params.retribution_id;
-    Retributions.findAll({
-        where: {
-            retribution_id: retribution_id,
-        },
-        include: [
-            {
-                model: Orders,
-                as: "orders",
-                include: [
-                    {
-                        model: OrderDetails,
-                        as: "order_details",
-                        include: [
-                            {
-                                model: Products,
-                                as: "products",
-                                attributes: ["product_id","product_name","product_description","product_material","product_finishing","product_category"],
-                                include: [
-                                    {
-                                        model: Product_Finishing,
-                                        as: "product_finishings",
-                                    },
-                                    {
-                                        model: Product_Material,
-                                        as: "product_materials",
-                                    },
-                                    {
-                                        model: Product_Category,
-                                        as: "product_categories",
-                                    },
-                                    {
-                                        model: Product_Sizes,
-                                        as: "product_sizes",
-                                    },
-                                ],
-                            },
-                            {
-                                model: Product_Finishing,
-                                as: "product_finishings",
-                                attributes: ["product_finishing_name"],
-                            },
-                            {
-                                model: Product_Material,
-                                as: "product_materials",
-                                attributes: ["product_material_name"],
-                            }
-                        ],
-                    },
-                    {
-                        model: Delivery_Details,
-                        as: "delivery_details",
-                    },
-                    {
-                        model: Users,
-                        as: "users",
-                    }
-                ],
-            },
-        ],
-    })
-        .then((data) => {
-        res.send(data);
-        })
-        .catch((err) => {
-        res.status(500).send({
-            message: err.message || "Some error occurred while retrieving retributions.",
-        });
-        });
-    }
-//remove retribution by id
-const removeRetribution = (req, res) => {
-    const retribution_id = req.params.retribution_id;
-    Retributions.destroy({
-        where: { retribution_id: retribution_id },
-    })
-        .then((num) => {
-        if (num == 1) {
-            res.send({
-            message: "Retribution was deleted successfully!",
-            });
-        } else {
-            res.send({
-            message: `Cannot delete Retribution with id=${retribution_id}. Maybe Retribution was not found!`,
-            });
-        }
-        })
-        .catch((err) => {
-        res.status(500).send({
-            message: "Could not delete Retribution with id=" + retribution_id,
-        });
-        });
-    }
-
-const acceptRetribution = (req, res) => {
-    const retribution_id = req.params.retribution_id;
-    Retributions.update(
-        {
-            retribution_status: "1",
-        },
-        {
-            where: {
-                retribution_id: retribution_id,
-            },
-        })
-        .then(() => {
-            Retributions.findOne({
-                where: {
-                    retribution_id: retribution_id,
-                },
-                include: [
-                    {
-                        model: Orders,
-                        as: "orders",
-                        include: [
-                            {
-                                model: OrderDetails,
-                                as: "order_details",
-                                include: [
-                                    {
-                                        model: Products,
-                                        as: "products",
-                                        include: [
-                                            {
-                                                model: Product_Finishing,
-                                                as: "product_finishings",
-                                            },
-                                            {
-                                                model: Product_Material,
-                                                as: "product_materials",
-                                            },
-                                            {
-                                                model: Product_Category,
-                                                as: "product_categories",
-                                            },
-                                            {
-                                                model: Product_Sizes,
-                                                as: "product_sizes",
-                                            },
-                                        ],
-                                    },
-                                    {
-                                        model: Product_Finishing,
-                                        as: "product_finishings",
-                                        attributes: ["product_finishing_name"],
-                                    },
-                                    {
-                                        model: Product_Material,
-                                        as: "product_materials",
-                                        attributes: ["product_material_name"],
-                                    }
-                                ],
-                            },
-                            {
-                                model: Delivery_Details,
-                                as: "delivery_details",
-                            },
-                            {
-                                model: Users,
-                                as: "users",
-                            }
-                        ],
-                    },
-                ],
-            })
-            .then((data) => {
-                    const mg = mailgun({
-                        apiKey: process.env.MAILGUN_API_KEY,
-                        domain: process.env.MAILGUN_DOMAIN,
-                    });
-                    const dataEmail = {
-                        from: "admincs@gmail.com",
-    
-                        to: data.orders.users.user_email,
-
                         subject: "Order Diterima",
                         html: `<html>
                         <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -694,7 +332,6 @@ const acceptRetribution = (req, res) => {
                         
                         .hero .text{
                             color: rgba(0,0,0,.3);
-                    
                         }
                         .hero .text h2{
                             color: #000;
@@ -717,13 +354,13 @@ const acceptRetribution = (req, res) => {
                         .product-entry{
                             display: block;
                             position: relative;
+                            float: left;
                             padding-top: 20px;
                         }
                         .product-entry .text{
                             width: calc(100% - 125px);
                             padding-left: 20px;
                             font-size: 15px;
-                            color : #000;
                         }
                         .product-entry .text h3{
                             margin-bottom: 0;
@@ -769,9 +406,7 @@ const acceptRetribution = (req, res) => {
                         
                         @media screen and (max-width: 500px) {
                         
-                        
                         }
-                        
                         
                             </style>
                         
@@ -801,9 +436,10 @@ const acceptRetribution = (req, res) => {
                                   <td valign="middle" class="hero bg_white" style="padding: 2em 0 2em 0;">
                                     <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
                                         <tr>
-                                            <td style="padding: 0 2.5em; text-align: left; font-size: 40px;">
+                                            <td style="padding: 0 2.5em; text-align: left;">
                                                 <div class="text">
-                                                    <h3>Berikut adalah status pesanan anda : </h3>
+                                                    <h2>Simpelmen notifications order</h2>
+                                                    <h3>pesanan anda yang sedang kami proses </h3>
                                                 </div>
                                             </td>
                                         </tr>
@@ -813,49 +449,27 @@ const acceptRetribution = (req, res) => {
                                   <tr>
                                       <table class="bg_white" role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
                                           <tr style="border-bottom: 1px solid rgba(0,0,0,.05);">
-                                                <th width="100%" style="text-align:center; padding: 0 2.5em; color: #000; padding-bottom: 20px"><h3>Pesanan</h3></th>
+                                                <th width="70%" style="text-align:left; padding: 0 2.5em; color: #000; padding-bottom: 20px">Item</th>
+                                                <th width="30%" style="text-align:left; padding: 0 2.5em; color: #000; padding-bottom: 20px">Status</th>
                                               </tr>
                                               <tr style="border-bottom: 1px solid rgba(0,0,0,.05);">
-                                                  <td valign="middle" width="100%" padding="20" padding: 0 2.5em; color: #000; padding-bottom: 20px">
+                                                  <td valign="middle" width="70%" style="text-align:left; padding: 0 2.5em;">
                                                       <div class="product-entry">
                                                           <div class="text">
-                                                                <h4><b>${data.orders.order_code}</b></h4>
-                                                                ${data.orders.order_details.map((item) => {
-                                                                    return `<span>Quantity : ${item.order_detail_quantity}</span>
-                                                                    <p><span>Produk : ${item.products.product_name}</span></p>
-                                                                    <p><span>Category Produk :${item.products.product_categories.product_category_name}</span></p>
-                                                                    <p><span>Finishing Produk :${item.products.product_finishings.product_finishing_name}</span></p>
-                                                                    
-                                                                    `
-                                                                })}
-                                                                
-                                                                <span>Total jasa pound : ${data.retribution_jasa_pound}</span><p>
-                                                                <p><span>Total jasa finishing : ${data.retribution_jasa_finishing}</span></p>
-                                                                <p><span>Total jasa sablon : ${data.retribution_jasa_sablon}</span></p>
-                                                                <p><span>Total jasa desain : ${data.retribution_jasa_design}</span></p>
-                                                                <hr>
-                                                                <p>Total jasa total : ${data.retribution_jasa_total}</p>
+                                                                <h4>${data.order_code}</h4>
                                                                 <br>
-
+                                                                ${data.order_details.map((item) => {
+                                                                    return `
+                                                                    <span>${item.products.product_name} x ${item.order_detail_quantity}</span>
+                                                                    `
+                                                                }).join('')}
                                                           </div>
                                                       </div>
+                                                  </td>
+                                                  <td valign="middle" width="30%" style="text-align:left; padding: 0 2.5em;">
+                                                      <span class="price" style="color: #000; font-size: 15px;">Proses desain pesanan sudah selesai dan berada dalam tahap produksi</span>
+                                                  </td>
                                               </tr>
-                                              <tr style="border-bottom: 1px solid rgba(0,0,0,.05);">
-                                                <td valign="middle" width="100%" padding: 0 2.5em;">
-                                                    <div class="product-entry">
-                                                        <div class="text">
-                                                              <h4><b>Status Pesanan</b></h4>
-                                                              <p>
-                                                              <span>Atas Nama		: ${data.orders.users.user_name}</span>
-                                                              <p><span>User IKM		: ${data.orders.users.user_ikm}</span></p>
-                                                              <span style="color:red"><b>Status Pesanan	: Pesanan telah disetujui dan sedang diproses dan berikut adalah informasi mengenai biaya jasa dan belum termasuk biaya pengiriman</b></span>
-                                                              </p>
-                                                              <hr>
-                                                              <br>
-                                                        </div>
-                                                    </div>
-                                            </tr>
-											  
                                       </table>
                                   </tr><!-- end tr -->
                               <!-- 1 Column Text + Button : END -->
@@ -870,7 +484,7 @@ const acceptRetribution = (req, res) => {
                                             <tr>
                                               <td style="text-align: left; padding-right: 10px;">
                                                   <h3 class="heading">About</h3>
-                                                  <p style="color:white;">A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                                                  <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
                                               </td>
                                             </tr>
                                           </table>
@@ -880,7 +494,7 @@ const acceptRetribution = (req, res) => {
                                             <tr>
                                               <td style="text-align: left; padding-left: 5px; padding-right: 5px;">
                                                   <h3 class="heading">Contact Info</h3>
-                                                  <ul style="color:white">
+                                                  <ul>
                                                             <li><span class="text">Sampangan, Semarang, Jawa Tengah</span></li>
                                                             <li><span class="text">081 988 888 888</span></a></li>
                                                           </ul>
@@ -922,10 +536,9 @@ const acceptRetribution = (req, res) => {
                             console.log(body);
                         }
                     });
-                    res.status(200).json({
-                        message: "Success",
-                    });
+                    res.send(data);
                 })
+
                 .catch((err) => {
                     res.status(500).send({
                         message: err.message || "Some error occurred while retrieving orders.",
@@ -937,176 +550,170 @@ const acceptRetribution = (req, res) => {
                     message: err.message || "Some error occurred while creating the Order.",
                 });
             });
+            })
+            .catch((err) => {
+                res.status(500).send({
+                    message: "Error updating Order with id=" + order_id,
+                });
+            });
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message: err.message || "Some error occurred while creating the Order.",
+            });
+        });
+    }
+
+const UpdateOrderNotApproveDesain = (req, res) => {
+    const id = req.params.id;
+        Order_Status.create({
+            order_status_admin_code: 4,
+            order_status_description: "Desain Belum Disetujui",
+            order_status_order_id: id,
+        })
+        .then((data) => {
+            Orders.update(
+                {
+                    order_status: req.body.order_status,
+                },
+                {
+                    where: {
+                        order_id: id,
+                    },
+                }
+            )
+            .then(() => {
+                res.send({
+                    message: "Order was updated successfully.",
+                });
+            })
+            .catch((err) => {
+                res.status(500).send({
+                    message: "Error updating Order with id=" + id,
+                });
+            });
+        }
+        )
+        .catch((err) => {
+            res.status(500).send({
+                message: "Error updated Order with id=" + id,
+            });
+        }
+        );
+    }
+
+const showDetailOrder = (req, res) => {
+    const id = req.params.id;
+    Orders.findOne({
+        where: {
+            order_id: id,
+        },
+        include: [
+            {
+                model: OrderDetails,
+                as: "order_details",
+                include: [
+                    {
+                        model: Products,
+                        as: "products",
+                        include: [
+                            {
+                                model: Jenis_Products,
+                                as: "jenis_products",
+                            }
+                        ],
+                    },
+                    {
+                        model: Product_Finishing,
+                        as: "product_finishing",
+                    },
+                    {
+                        model: Product_Material,
+                        as: "product_material",
+                    }
+                ],
+                
+            },
+        ],
+    })
+        .then((data) => {
+            res.send(data);
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message: "Error retrieving Order with id=" + id,
+            });
+        });
+    }
+    
+const RemoveDesain = (req, res) => {
+    const id = req.params.id;
+    OrderDetails.update(
+        {
+            order_detail_desain_image: null,
+        },
+        {
+            where: {
+                order_detail_id: id,
+            },
+        }
+    )
+        .then(() => {
+            res.send({
+                message: "Order was updated successfully.",
+            });
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message: "Error updating Order with id=" + id,
+            });
+        });
     };
 
 
-const rejectRetribution = (req, res) => {
-    const retribution_id = req.params.retribution_id;
-    Retributions.update(
-        {
-            retribution_status: "2",
-        },
-        {
-            where: {
-                retribution_id: retribution_id,
-            },
-        })
-        .then((num) => {
-        if (num == 1) {
-            res.send({
-            message: "Retribution was updated successfully.",
-            });
-        } else {
-            res.send({
-            message: `Cannot update Retribution with id=${retribution_id}. Maybe Retribution was not found or req.body is empty!`,
-            });
-        }
-        })
-        .catch((err) => {
-        res.status(500).send({
-            message: "Error updating Retribution with id=" + retribution_id,
-        });
-        });
-    }
-
-
-const showPAD = (req, res) => {
-    Retributions.findAll({
-        order: [["retribution_id", "DESC"]],
-        attributes:["retribution_id","retribution_jasa_total","retribution_pad_status","createdAt","updatedAt"],
-        include: [
-            {
-                model: Orders,
-                as: "orders",
-                attributes: ["order_id", "order_user_id","order_code"],
-                include: [
-                    {
-                        model: Users,
-                        as: "users",
-                        attributes: ["user_ikm"],
-                    },
-                ],
-            },
-        ],
-    })
-        .then((data) => {
-        res.send(data);
-        })
-        .catch((err) => {
-        res.status(500).send({
-            message: err.message || "Some error occurred while retrieving PAD.",
-        });
-        });
-    }
-
-const UpdateStatusPAD = (req, res) => {
-    const retribution_id = req.params.id;
-    Retributions.update(
-        {
-            retribution_pad_status: req.body.retribution_pad,
-        },
-        {
-            where: {
-                retribution_id: retribution_id,
-            },
-        })
-        .then((num) => {
-        if (num == 1) {
-            res.send({
-            message: "Retribution was updated successfully.",
-            });
-        } else {
-            res.send({
-            message: `Cannot update Retribution with id=${retribution_id}. Maybe Retribution was not found or req.body is empty!`,
-            });
-        }
-        })
-        .catch((err) => {
-        res.status(500).send({
-            message: "Error updating Retribution with id=" + retribution_id,
-        });
-        });
-    }
-
-const RekapPesanaan = (req, res) => {
-    Orders.findAll({
-    attributes: ["order_id","order_code"],
-    include: [
-        {
-            model: Users,
-            as: "users",
-            attributes: ["user_ikm"],
-        },
-        {
-            model: Retributions,
-            as: "retributions",
-            attributes: ["retribution_id","retribution_jasa_total"],
-        },
-        {
-            model: Order_Status,
-            as: "order_statuses",
-            attributes: ["order_status_admin_code"],
-            where: {
-                order_status_id: {
-                    [Op.eq]: db.sequelize.literal(`(SELECT MAX(order_status_id) FROM order_statuses WHERE order_status_order_id = orders.order_id)`),
-                },
-            },
-        },
-    ],
-    where: {
-        order_id: {
-            [Op.notIn]: db.sequelize.literal(`(SELECT order_status_order_id FROM order_statuses WHERE order_status_admin_code = 8)`),
-        },
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "./src/images");
     },
-    order: [["order_id", "DESC"]],
-})
-    .then((data) => {
-    res.send(data);
-    }
-    )
-    .catch((err) => {
-    res.status(500).send({
-        message: err.message || "Some error occurred while retrieving orders.",
-    });
-    }
-    );
-}
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}-${file.originalname}`);
+    },
+});
 
-const showRetributionByDate = (req, res) => {
-    const { start_date, end_date } = req.body;
-    Retributions.findAll({
-        order: [["retribution_id", "DESC"]],
-        attributes: ["retribution_id","retribution_jasa_total","retribution_pad_status","createdAt","updatedAt"],
-        include: [
-            {
-                model: Orders,
-                as: "orders",
-                attributes: ["order_id", "order_user_id","order_code"],
-                include: [
-                    {
-                        model: Users,
-                        as: "users",
-                        attributes: ["user_ikm"],
+const upload = multer({ storage: storage }).single("product_image");
+
+const UpdateDesain = (req, res) => {
+    const id = req.params.id;
+    upload(req, res, (err) => {
+        if (err) {
+            return res.status(500).
+                send({ message: "Error uploading file." });
+        }
+        else {
+            OrderDetails.update(
+                {
+                    order_detail_desain_image: req.file.filename,
+                },
+                {
+                    where: {
+                        order_detail_id: id,
                     },
-                ],
-            },
-        ],
-        where: {
-            createdAt: {
-                [Op.between]: [start_date, end_date],
-            },
-        },
-    })
-        .then((data) => {
-        res.send(data);
-        })
-        .catch((err) => {
-        res.status(500).send({
-            message: err.message || "Some error occurred while retrieving PAD.",
-        });
-        });
-    }
+                }
+            )
+                .then(() => {
+                    res.send({
+                        message: "Order was updated successfully.",
+                    });
+                })
+                .catch((err) => {
+                    res.status(500).send({
+                        message: "Error updating Order with id=" + id,
+                    });
+                });
+        }
+    });
+    };
 
 
 
-export { showAllOrder, OrderDecline, OrderAccept , showAllRetribution, updateRetribution , showRetributonById , removeRetribution, acceptRetribution, rejectRetribution, showPAD, UpdateStatusPAD , RekapPesanaan, showRetributionByDate};
+export { showAllOrder, ApproveOrderDesain, UpdateOrderNotApproveDesain ,showDetailOrder, RemoveDesain, UpdateDesain};

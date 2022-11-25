@@ -4,7 +4,7 @@ import {
     findOneFinishing,
     updateFinishing,
     removeFinishing,
-} from '../controllers/product_finishings.controllers.js';
+} from '../controllers/product/product_finishings.controllers.js';
 
 import { isLogin } from '../middlewares/auth.middlewares.js';
 import { isSuperAdmin } from '../middlewares/roles.middlewares.js';
