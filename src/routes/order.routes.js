@@ -22,7 +22,7 @@ import {
 } from "../middlewares/auth.middlewares.js";
 import { isUser } from "../middlewares/roles.middlewares.js";
 
-import express from "express";
+import express from "express"; 
 const router = express.Router();
 
 import headers from "../services/headers.services.js";
