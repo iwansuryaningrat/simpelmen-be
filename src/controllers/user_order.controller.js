@@ -98,49 +98,63 @@ const acceptOrder = (req, res) => {
     const user_id = req.user_id;
     const order_id = req.params.id;
 
-    Delivery_Details.findOne({
+    Orders.findOne({
         where: {
-            delivery_detail_order_id: order_id,
-            
+            order_id: order_id,
+            order_user_id: user_id,
         },
     })
         .then((data) => {
-            Delivery_Details.update(
-                {
-                    delivery_detail_status: 1,
-                },
-                {
-                    where: {
-                        delivery_detail_order_id: order_id
-                    },
-                }
-            )
-                .then((data) => {
-                    Order_Status.create({
-                        order_status_admin_code: 6,
-                        order_status_description: "Pesanan telah diterima",
-                        order_status_order_id: order_id,
-                    })
-                        .then((data) => {
-                            res.send(data);
-                        })
-                        .catch((err) => {
-                            res.status(500).send({
-                                message: err.message || "Some error occurred while creating the Order_Status.",
-                            });
-                        });
-                })
-                .catch((err) => {
-                    res.status(500).send({
-                        message: err.message || "Some error occurred while updating the Delivery_Details.",
-                    });
+            if (data == null) {
+                return res.status(401).send({
+                    message: "You are not authorized to accept this order",
                 });
+            }
+            else {
+                Delivery_Details.findOne({
+                    where: {
+                        delivery_detail_order_id: order_id,
+                    },
+                })
+                    .then((data) => {
+                        Delivery_Details.update(
+                            {
+                                delivery_detail_status: 1,
+                            },
+                            {
+                                where: {
+                                    delivery_detail_order_id: order_id
+                                },
+                            }
+                        )
+                            .then((data) => {
+                                Order_Status.create({
+                                    order_status_admin_code: 6,
+                                    order_status_description: "Pesanan telah diterima",
+                                    order_status_order_id: order_id,
+                                })
+                                    .then((data) => {
+                                        res.send(data);
+                                    })
+                                    .catch((err) => {
+                                        res.status(500).send({
+                                            message: err.message || "Some error occurred while creating the Order_Status.",
+                                        });
+                                    });
+                            })
+                            .catch((err) => {
+                                res.status(500).send({
+                                    message: err.message || "Some error occurred while updating the Delivery_Details.",
+                                });
+                            });
+                    })
+                    .catch((err) => {
+                        res.status(500).send({
+                            message: err.message || "Some error occurred while retrieving the Delivery_Details.",
+                        });
+                    });
+            }
         })
-        .catch((err) => {
-            res.status(500).send({
-                message: err.message || "Some error occurred while retrieving the Delivery_Details.",
-            });
-        });
 };
 
 
