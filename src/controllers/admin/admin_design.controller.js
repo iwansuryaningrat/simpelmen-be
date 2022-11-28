@@ -14,7 +14,7 @@ const Province = db.province;
 const City = db.city;
 const SubDistrict = db.subdistrict;
 import fs from "fs";
-// const Jenis_Products = db.jenis_products;
+const Jenis_Products = db.jenis_products;
 import async from "async";
 import multer from "multer";
 
@@ -25,7 +25,7 @@ import jwt from "jsonwebtoken";
 
 // Load .env file
 import * as dotenv from "dotenv";
-import Jenis_Products from "../../models/jenis_products.model.js";
+// import Jenis_Products from "../../models/jenis_products.model.js";
 
 
 dotenv.config();
@@ -205,46 +205,42 @@ const UpdateOrderNotApproveDesain = (req, res) => {
         );
     }
 
-const showDetailOrder = (req, res) => {
-    const id = req.params.id;
-    Orders.findOne({
-        where: {
-            order_id: id,
-        },
-        include: [
-            {
-                model: OrderDetails,
-                as: "order_details",
-                include: [
-                    {
-                        model: Products,
-                        as: "products",
-                        include: [
-                            {
-                                model: Jenis_Products,
-                                as: "jenis_products",
-                            }
-                        ],
-                    },
-                    {
-                        model: Product_Finishing,
-                        as: "product_finishing",
-                    },
-                    {
-                        model: Product_Material,
-                        as: "product_material",
-                    }
-                ],
-                
+    const showDetailOrder = (req, res) => {
+        const id = req.params.id;
+        Orders.findOne({
+            where: {
+                order_id: id,
             },
-        ],
-    })
+            include: [
+                {
+                    model: OrderDetails,
+                    as: "order_details",
+                    include: [
+                        {
+                            model: Products,
+                            as: "products",
+                            attributes: ["product_id", "product_name", "jenis_product"],
+                            include: [
+                                {
+                                    model: Jenis_Products,
+                                    as: "jenis_products",
+                                }
+                            ],
+                        },
+                    ],
+                },
+            ],
+        })
         .then((data) => {
-            res.send(data);
+            res.status(200).send({
+                message: "Success get data",
+                data: data,
+            });
+    
         })
         .catch((err) => {
             res.status(500).send({
-                message: "Error retrieving Order with id=" + id,
+                message: "Error retrieving detail order with id=" + id,
             });
         });
     }
