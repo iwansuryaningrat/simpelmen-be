@@ -33,11 +33,11 @@ const usersRoutes = (app) => {
   // router.post("/create", isLogin, isUser, createUser);
   // router.get("/findall", isLogin, findAll);
   // router.get("/findone/:id", isLogin, findOne);
-  router.put("/update/:user_id", isLogin, updateUser);
+  router.put("/update/:id", isLogin, isUserLogin, updateUser);
   router.get("/profile", isLogin,isUser,isUserLogin, userProfile);
-  router.put("/profile", isLogin,isUser, updateProfile);
+  router.put("/profile", isLogin,isUser, isUserLogin,updateProfile);
   // router.put("/deactivate/:id", isLogin, isUser, deactivateUser);
-  router.put("/changepassword/:id", isLogin, changePassword);
+  router.put("/changepassword/:id", isLogin,isUserLogin, changePassword);
   // router.get("/product", ShowAllProducts);
   // router.get("/product/:id", ShowProductById);
   // router.post("/product/:id", isLogin, addCart);
