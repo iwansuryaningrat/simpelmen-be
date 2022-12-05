@@ -13,7 +13,7 @@ const Orders = (sequelize, Sequelize) => {
       order_user_id: {
         type: Sequelize.INTEGER,
       },
-      order_quantity: {
+      order_status:{
         type: Sequelize.INTEGER,
       },
       order_note: {
@@ -22,17 +22,23 @@ const Orders = (sequelize, Sequelize) => {
       order_price: {
         type: Sequelize.INTEGER,
       },
-      order_total_price: {
+      order_cart_status: {
         type: Sequelize.INTEGER,
       },
-      order_design: {
-        type: Sequelize.STRING,
+      order_total_price: {
+        type: Sequelize.INTEGER,
       },
       order_payment_method: {
         type: Sequelize.STRING,
       },
       order_payment_status: {
         type: Sequelize.STRING,
+      },
+      order_last_payment_date: {
+        type: Sequelize.DATE,
+      },
+      order_discount: {
+        type: Sequelize.INTEGER,
       },
     },
     {

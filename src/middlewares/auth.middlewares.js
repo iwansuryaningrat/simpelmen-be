@@ -38,9 +38,15 @@ const isActivated = (req, res, next) => {
       user_email: email,
     },
   }).then((data) => {
+    if (data == null) {
+      return res.status(401).send({
+        message: "Account is not yet registered",
+      });
+    }
     if (data.user_status === true) {
       next();
-    } else {
+    }
+    else {
       return res.status(401).send({
         message: "User is not activated",
       });
@@ -48,4 +54,26 @@ const isActivated = (req, res, next) => {
   });
 };
 
-export { isLogin, isActivated };
+const isOrderUser = (req, res, next) => {
+  const token = req.headers["x-access-token"];
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const user_id = decoded.user_id;
+  const order_id = req.params.order_id;
+
+  Orders.findOne({
+    where: {
+      order_id: order_id,
+    },
+  }).then((data) => {
+    if (data.order_user_id === user_id) {
+      next();
+    }
+    else {
+      return res.status(401).send({
+        message: "You are not authorized to access this order",
+      });
+    }
+  });
+};
+
+export { isLogin, isActivated , isOrderUser};

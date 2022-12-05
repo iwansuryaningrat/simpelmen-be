@@ -10,20 +10,17 @@ const Order_Status = (sequelize, Sequelize) => {
       order_status_order_id: {
         type: Sequelize.INTEGER,
       },
-      order_status_user_id: {
-        type: Sequelize.INTEGER,
-      },
       order_status_description: {
         type: Sequelize.STRING,
       },
       order_status_admin_code: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
       },
     },
     {
-      timestamps: true, // Enable timestamps
-      createdAt: true, // Create createdAt
-      updatedAt: true, // Create updatedAt
+      timestamps: true, 
+      createdAt: true, 
+      updatedAt: true, 
     }
   );
 

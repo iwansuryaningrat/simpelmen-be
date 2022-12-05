@@ -4,6 +4,7 @@ import {
   login,
   SendResetPassword,
   ResetPassword,
+  refreshToken,
 } from "../controllers/auth.controllers.js";
 import { isActivated } from "../middlewares/auth.middlewares.js";
 import { checkEmail } from "../middlewares/accountChecker.middlewares.js";
@@ -18,10 +19,10 @@ const authRoutes = (app) => {
 
   router.post("/signup", checkEmail, signup);
   router.get("/activate/:token", activate);
-  router.post("/login", isActivated, login);
+  router.post("/login",isActivated, login);
   router.post("/reset-password", SendResetPassword);
   router.post("/reset-password/:token", ResetPassword);
-
+  router.post("/refresh-token", refreshToken);
   app.use("/api/auth", router);
 };
 
