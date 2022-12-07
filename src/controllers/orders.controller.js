@@ -117,10 +117,10 @@ const romanMonth = [
 const addCart = (req, res, next) => {
     const user_id = req.user_id;
     const product_id = req.params.id;
-    const { order_total_price, order_quantity , order_note , order_price , order_design_image , order_design, order_payment_method , order_payment_status,panjang_1, panjang_2,lebar_1,lebar_2,tinggi_1,tinggi_2 , order_discount, order_last_payment_date,order_finishing_id,order_material_id,order_detail_sablon,order_detail_shape} = req.body;
+    const { order_total_price, order_quantity , order_note , order_price , order_design_image , order_design, order_payment_method ,panjang_1, panjang_2,lebar_1,lebar_2,tinggi_1,tinggi_2 , order_discount, order_last_payment_date,order_finishing_id,order_material_id,order_detail_sablon,order_detail_shape} = req.body;
     db.sequelize.transaction(function (t) {
         return Orders.findOne({
-            where: { order_user_id: user_id, order_payment_status: null },
+            where: { order_user_id: user_id, order_payment_status: order_payment_status?order_payment_status:null, order_finishing_id: order_finishing_id?order_finishing_id:null, order_material_id: order_material_id?order_material_id:null, order_detail_sablon: order_detail_sablon?order_detail_sablon:null, order_detail_shape: order_detail_shape?order_detail_shape:null,l1: lebar_1?lebar_1:null,l2: lebar_2?lebar_2:null,p1: panjang_1?panjang_1:null,p2: panjang_2?panjang_2:null,t1: tinggi_1?tinggi_1:null,t2: tinggi_2?tinggi_2:null },
             include: [
                 {
                     model: Order_Status,
