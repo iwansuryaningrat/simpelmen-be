@@ -7,6 +7,7 @@ import {
     ShowAllOrder,
     DetailOrder,
     BuyNow,
+    updateCart,
 } from "../controllers/orders.controller.js"
 import {
     showStatusOrder,
@@ -40,6 +41,7 @@ const ordersRoutes = (app) => {
     router.get("/list/:id", isLogin, isUser, isUserLogin, DetailOrder);
     router.put("/accept/:id", isLogin, isUser, acceptOrder);
     router.post("/buy", isLogin, isUser, isUserLogin,BuyNow);
+    router.put("/cart/:id", isLogin, isUser, isUserLogin, updateCart);
     app.use("/api/order", router);
 
 };

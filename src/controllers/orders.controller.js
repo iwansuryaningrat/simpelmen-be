@@ -121,7 +121,7 @@ const addCart = (req, res, next) => {
 //     db.sequelize.transaction(function (t) {
        
 //         return Orders.findOne({
-//             where: { order_user_id: user_id, order_payment_status: order_payment_status?order_payment_status:null },
+//             where: { order_user_id: user_id },
 //             include: [
 //                 {
 //                     model: Order_Status,
@@ -785,4 +785,34 @@ const BuyNow = (req, res,next) => {
     });
 };
 
-export { addCart,findAllCart,CheckoutOrder ,removeCart,showTracking,ShowAllOrder,DetailOrder,showPAD,BuyNow};
+const updateCart = (req, res) => {
+    const order_id = req.params.order_id;
+    const { order_quantity, p1, p2, l1, l2, t1, t2, order_detail_finishing_id, order_detail_material_id, order_detail_design, order_detail_sablon } = req.body;
+    OrderDetails.update({
+        order_detail_quantity: order_quantity,
+        p1: p1,
+        p2: p2,
+        l1: l1,
+        l2: l2,
+        t1: t1,
+        t2: t2,
+        order_detail_finishing_id: order_detail_finishing_id,
+        order_detail_material_id: order_detail_material_id,
+        order_detail_design: order_detail_design,
+        order_detail_sablon: order_detail_sablon
+    }, { where: { order_detail_order_id: order_id } })
+        .then((data) => {
+            if (!data) {
+                res.status(404).send({
+                    message: `Order was not found`,
+                });
+            } else res.send({ message: "Order was updated successfully." });
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message: "Error updating Order with id=" + order_id,
+            });
+        });
+};
+
+export { addCart,findAllCart,CheckoutOrder ,removeCart,showTracking,ShowAllOrder,DetailOrder,showPAD,BuyNow,updateCart};
