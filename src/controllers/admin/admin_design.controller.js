@@ -224,6 +224,10 @@ const UpdateOrderNotApproveDesain = (req, res) => {
                                 {
                                     model: Jenis_Products,
                                     as: "jenis_products",
+                                },
+                                {
+                                    model: Product_Category,
+                                    as: "product_categories",
                                 }
                             ],
                         },
