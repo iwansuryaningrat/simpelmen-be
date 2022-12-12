@@ -697,7 +697,7 @@ const showPAD = (req, res) => {
 const BuyNow = (req, res,next) => {
     const user_id = req.user_id;
     const product_id = req.body.product_id;
-    const { order_total_price, order_quantity , order_note , order_price , order_design_image , order_design, order_payment_method , order_payment_status,panjang_1, panjang_2,lebar_1,lebar_2,tinggi_1,tinggi_2 , order_discount, order_last_payment_date,order_finishing_id,order_material_id,order_detail_sablon} = req.body;
+    const { order_total_price, order_quantity , order_note , order_price , order_design_image , order_design, order_payment_method , order_payment_status,panjang_1, panjang_2,lebar_1,lebar_2,tinggi_1,tinggi_2 , order_discount, order_last_payment_date,order_finishing_id,order_material_id,order_detail_sablon,order_detail_shape} = req.body;
     const { delivery_detail_name,delivery_detail_ikm, delivery_detail_email, delivery_detail_contact, delivery_detail_method, delivery_detail_address, delivery_detail_district,delivery_detail_postal_code, delivery_detail_shipping_cost,delivery_detail_courier,delivery_detail_receipt,delivery_detail_estimate } = req.body;
     db.sequelize.transaction(function (t) {
         return Orders.create({
@@ -729,7 +729,8 @@ const BuyNow = (req, res,next) => {
                         order_detail_material_id: order_material_id,
                         order_detail_design: order_design,
                         order_detail_design_image: order_design_image,
-                        order_detail_sablon: order_detail_sablon
+                        order_detail_sablon: order_detail_sablon,
+                        order_detail_shape: order_detail_shape
                     },{ transaction: t })
                 })
                 .then((data) => {
