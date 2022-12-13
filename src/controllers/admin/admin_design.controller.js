@@ -292,10 +292,15 @@ const UpdateDesain = (req, res) => {
             return res.status(500).
                 send({ message: "Error uploading file." });
         }
+        if (!req.file) {
+            return res.status(400).
+                send({ message: "Please upload a file." });
+        }
+        
         else {
             OrderDetails.update(
                 {
-                    order_detail_desain_image: req.file.filename,
+                    order_detail_design_image: req.file.filename,
                 },
                 {
                     where: {
