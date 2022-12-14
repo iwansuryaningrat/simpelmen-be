@@ -10,6 +10,8 @@ const Product_Material = db.product_materials;
 const Product_Category = db.product_categories;
 const Delivery_Details = db.delivery_details;
 const Jenis_Products = db.jenis_products;
+import fs from "fs";
+import multer from "multer";
 
 import * as dotenv from "dotenv";
 
@@ -157,5 +159,69 @@ const acceptOrder = (req, res) => {
         })
 };
 
+//upload file image with multer
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "./public/images");
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}-${file.originalname}`);
+    },
+});
 
-export { showStatusOrder , acceptOrder };
+const upload = multer({
+    storage: storage,
+});
+
+const uploadImage = (req, res,next) => {
+    const user_id = req.user_id;
+    const order_id = req.params.id;
+    const file = req.file;
+    if (!file) {
+        const error = new Error("Please upload a file");
+        error.httpStatusCode = 400;
+        return next(error);
+    }
+    Orders.findOne({
+        where: {
+            order_id: order_id,
+            order_user_id: user_id,
+        },
+    })
+        .then((data) => {
+            if (data == null) {
+                return res.status(401).send({
+                    message: "You are not authorized to upload image to this order",
+                });
+            }
+            else {
+                OrderDetails.update(
+                    {
+                        order_details_design_image: file.filename,
+                    },
+                    {
+                        where: {
+                            order_details_order_id: order_id,
+                        },
+                    }
+                )
+                    .then((data) => {
+                        res.send(data);
+                    })
+                    .catch((err) => {
+                        res.status(500).send({
+                            message: err.message || "Some error occurred while updating the OrderDetails.",
+                        });
+                    });
+            }
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message: err.message || "Some error occurred while retrieving the Orders.",
+
+            });
+        });
+};
+
+
+export { showStatusOrder , acceptOrder, uploadImage };

@@ -23,6 +23,7 @@ import {
   const router = express.Router();
   
   import headers from "../../services/headers.services.js";
+  import validationfile from "../../validation/FileValidation.js";
 import { showOrderByID } from "../../controllers/admin/admin_produksi.controller.js";
   
   const adminDesainRoutes = (app) => {
@@ -36,8 +37,8 @@ import { showOrderByID } from "../../controllers/admin/admin_produksi.controller
     router.put("/orders/decline/:id", isLogin, isAdminDesign, UpdateOrderNotApproveDesain);
     router.put("/orders/approve/:id", isLogin, isAdminDesign, ApproveOrderDesain);
     router.put("/orders/remove-desain/:id", isLogin, isAdminDesign, RemoveDesain);
-    router.put("/orders/update-desain/:id", isLogin, isAdminDesign, UpdateDesain);
-    router.put("/orders/ganti-desain/:id", isLogin, isAdminDesign, UpdateDesain);
+    router.put("/orders/update-desain/:id", isLogin,validationfile, isAdminDesign, UpdateDesain);
+    router.put("/orders/ganti-desain/:id", isLogin,validationfile, isAdminDesign, UpdateDesain);
     app.use("/api/admin/desain", router);
   };
   
