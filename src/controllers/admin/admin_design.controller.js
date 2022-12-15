@@ -17,7 +17,6 @@ import fs from "fs";
 const Jenis_Products = db.jenis_products;
 import async from "async";
 import multer from "multer";
-
 import mailgun from "mailgun-js";
 
 
@@ -25,7 +24,6 @@ import jwt from "jsonwebtoken";
 
 // Load .env file
 import * as dotenv from "dotenv";
-// import Jenis_Products from "../../models/jenis_products.model.js";
 
 
 dotenv.config();
@@ -224,6 +222,10 @@ const UpdateOrderNotApproveDesain = (req, res) => {
                                 {
                                     model: Jenis_Products,
                                     as: "jenis_products",
+                                },
+                                {
+                                    model: Product_Category,
+                                    as: "product_categories",
                                 }
                             ],
                         },
@@ -249,7 +251,7 @@ const RemoveDesain = (req, res) => {
     const id = req.params.id;
     OrderDetails.update(
         {
-            order_detail_desain_image: null,
+            order_detail_design_image: null,
         },
         {
             where: {
@@ -272,7 +274,7 @@ const RemoveDesain = (req, res) => {
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "../../../public/images");
+        cb(null, "./public/images");
     },
     filename: (req, file, cb) => {
         cb(null, `${Date.now()}-${file.originalname}`);
@@ -281,17 +283,79 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage }).single("product_image");
 
-const UpdateDesain = (req, res) => {
+// const UpdateDesain = (req, res) => {
+//     const id = req.params.id;
+//     OrderDetails.findOne({
+//         where: {
+//             order_detail_id: id,
+//         },
+//     })
+//         .then((data) => {
+//             if (data.order_detail_design_image) {
+//                 fs.unlink(
+//                     `./public/images/${data.order_detail_design_image}`,
+//                     (err) => {
+//                         if (err) {
+//                             console.log(err);
+//                         }
+//                     }
+//                 );
+//             }
+//         })
+//         .then(() => {
+//             upload(req, res, (err) => {
+//                 if (err) {
+//                     return res.status(500
+//                         ).send({
+//                             message: "Error uploading file",
+//                         });
+//                 }
+//                 if(!req.file){
+//                     return res.status(400).send({
+//                         message: "File not found",
+//                     });
+//                 }
+//                 OrderDetails.update(
+//                     {
+//                         order_detail_desain_image: req.file.filename,
+//                     },
+//                     {
+//                         where: {
+//                             order_detail_id: id,
+//                         },
+//                     }
+//                 )
+//                     .then(() => {
+//                         res.send({
+//                             message: "Order was updated successfully.",
+//                         });
+//                     })
+//                     .catch((err) => {
+//                         res.status(500).send({
+//                             message: "Error updating Order with id=" + id,
+//                         });
+//                     });
+//             });
+//         });
+// };
+
+const UpdateDesain = (req, res,next) => {
     const id = req.params.id;
-    upload(req, res, (err) => {
-        if (err) {
-            return res.status(500).
-                send({ message: "Error uploading file." });
-        }
-        else {
+        upload(req, res, (err) => {
+            if (err) {
+                return res.status(500
+                    ).send({
+                        message: "Error uploading file",
+                    });
+            }
+            if(!req.file){
+                return res.status(400).send({
+                    message: "File not found",
+                });
+            }
             OrderDetails.update(
                 {
-                    order_detail_desain_image: req.file.filename,
+                    order_detail_design_image: req.file.filename,
                 },
                 {
                     where: {
@@ -309,10 +373,8 @@ const UpdateDesain = (req, res) => {
                         message: "Error updating Order with id=" + id,
                     });
                 });
-        }
-    });
+        });
     };
-
 
 
 export { showAllOrder, ApproveOrderDesain, UpdateOrderNotApproveDesain ,showDetailOrder, RemoveDesain, UpdateDesain};

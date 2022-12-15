@@ -121,7 +121,7 @@ const addCart = (req, res, next) => {
 //     db.sequelize.transaction(function (t) {
        
 //         return Orders.findOne({
-//             where: { order_user_id: user_id, order_payment_status: order_payment_status?order_payment_status:null },
+//             where: { order_user_id: user_id },
 //             include: [
 //                 {
 //                     model: Order_Status,
@@ -697,7 +697,7 @@ const showPAD = (req, res) => {
 const BuyNow = (req, res,next) => {
     const user_id = req.user_id;
     const product_id = req.body.product_id;
-    const { order_total_price, order_quantity , order_note , order_price , order_design_image , order_design, order_payment_method , order_payment_status,panjang_1, panjang_2,lebar_1,lebar_2,tinggi_1,tinggi_2 , order_discount, order_last_payment_date,order_finishing_id,order_material_id,order_detail_sablon} = req.body;
+    const { order_total_price, order_quantity , order_note , order_price , order_design_image , order_design, order_payment_method , order_payment_status,panjang_1, panjang_2,lebar_1,lebar_2,tinggi_1,tinggi_2 , order_discount, order_last_payment_date,order_finishing_id,order_material_id,order_detail_sablon,order_detail_shape} = req.body;
     const { delivery_detail_name,delivery_detail_ikm, delivery_detail_email, delivery_detail_contact, delivery_detail_method, delivery_detail_address, delivery_detail_district,delivery_detail_postal_code, delivery_detail_shipping_cost,delivery_detail_courier,delivery_detail_receipt,delivery_detail_estimate } = req.body;
     db.sequelize.transaction(function (t) {
         return Orders.create({
@@ -729,7 +729,8 @@ const BuyNow = (req, res,next) => {
                         order_detail_material_id: order_material_id,
                         order_detail_design: order_design,
                         order_detail_design_image: order_design_image,
-                        order_detail_sablon: order_detail_sablon
+                        order_detail_sablon: order_detail_sablon,
+                        order_detail_shape: order_detail_shape
                     },{ transaction: t })
                 })
                 .then((data) => {
@@ -785,4 +786,34 @@ const BuyNow = (req, res,next) => {
     });
 };
 
-export { addCart,findAllCart,CheckoutOrder ,removeCart,showTracking,ShowAllOrder,DetailOrder,showPAD,BuyNow};
+const updateCart = (req, res) => {
+    const order_id = req.params.order_id;
+    const { order_quantity, p1, p2, l1, l2, t1, t2, order_detail_finishing_id, order_detail_material_id, order_detail_design, order_detail_sablon } = req.body;
+    OrderDetails.update({
+        order_detail_quantity: order_quantity,
+        p1: p1,
+        p2: p2,
+        l1: l1,
+        l2: l2,
+        t1: t1,
+        t2: t2,
+        order_detail_finishing_id: order_detail_finishing_id,
+        order_detail_material_id: order_detail_material_id,
+        order_detail_design: order_detail_design,
+        order_detail_sablon: order_detail_sablon
+    }, { where: { order_detail_order_id: order_id } })
+        .then((data) => {
+            if (!data) {
+                res.status(404).send({
+                    message: `Order was not found`,
+                });
+            } else res.send({ message: "Order was updated successfully." });
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message: "Error updating Order with id=" + order_id,
+            });
+        });
+};
+
+export { addCart,findAllCart,CheckoutOrder ,removeCart,showTracking,ShowAllOrder,DetailOrder,showPAD,BuyNow,updateCart};
