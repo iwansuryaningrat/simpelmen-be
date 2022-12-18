@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/d8dfcb1c-f43a-4584-8c6e-ee25becbda84/appservices/subscriptions/d8dfcb1c-f43a-4584-8c6e-ee25becbda84/resourceGroups/DefaultResourceGroup-CUS/providers/Microsoft.Web/sites/simpelmen",
+    "appService.deploySubpath": "."
+}

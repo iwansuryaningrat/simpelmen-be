@@ -31,6 +31,9 @@ const Retributions = (sequelize, Sequelize) => {
       retribution_status: {
         type: Sequelize.STRING,
       },
+      retribution_pad_status: {
+        type: Sequelize.INTEGER,
+      },
     },
     {
       timestamps: true, // Enable timestamps
