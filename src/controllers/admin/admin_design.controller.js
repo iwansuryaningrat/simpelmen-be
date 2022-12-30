@@ -48,6 +48,7 @@ const showAllOrder = (req, res) => {
                 as: "users",   
             }
         ],
+        order: [["order_id", "DESC"]],
     })
         .then((data) => {
         res.send(data);
@@ -359,7 +360,7 @@ const UpdateDesain = (req, res,next) => {
                 },
                 {
                     where: {
-                        order_detail_id: id,
+                        order_detail_order_id: id,
                     },
                 }
             )

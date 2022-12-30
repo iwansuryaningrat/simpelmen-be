@@ -58,6 +58,7 @@ const showAllOrder = (req, res) => {
                 attributes: ["delivery_detail_shipping_cost"],
             },
         ],
+        order: [["order_id", "DESC"]],
     })
         .then((data) => {
         res.send(data);
