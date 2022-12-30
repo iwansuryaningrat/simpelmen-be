@@ -57,6 +57,8 @@ const showAllOrder = (req, res) => {
                 },
             },
         ],
+        order: [["order_id", "DESC"]],
+        
     })
         .then((data) => {
         res.send(data);
@@ -271,6 +273,10 @@ const showAllRetribution = (req, res) => {
                 ],
             },
         ],
+        //retributions desc
+        order: [
+            ['retribution_id', 'DESC']
+        ]
     })
         .then((data) => {
         res.send(data);

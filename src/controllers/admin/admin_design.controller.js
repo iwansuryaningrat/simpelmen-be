@@ -48,6 +48,7 @@ const showAllOrder = (req, res) => {
                 as: "users",   
             }
         ],
+        order: [["order_id", "DESC"]],
     })
         .then((data) => {
         res.send(data);
