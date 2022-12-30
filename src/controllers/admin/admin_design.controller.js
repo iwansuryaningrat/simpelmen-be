@@ -359,7 +359,7 @@ const UpdateDesain = (req, res,next) => {
                 },
                 {
                     where: {
-                        order_detail_id: id,
+                        order_detail_order_id: id,
                     },
                 }
             )
