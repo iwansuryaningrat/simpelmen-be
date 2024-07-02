@@ -1,5 +1,9 @@
 import {
-  ShowAllProducts, ShowProductById, updateProduct, deleteProduct, createProduct
+  ShowAllProducts,
+  ShowProductById,
+  updateProduct,
+  deleteProduct,
+  createProduct,
 } from "../controllers/product.controller.js";
 import { isLogin } from "../middlewares/auth.middlewares.js";
 import { isSuperAdmin } from "../middlewares/roles.middlewares.js";
@@ -14,9 +18,9 @@ const productsRoutes = (app) => {
 
   router.get("/", ShowAllProducts);
   router.get("/:id", ShowProductById);
-  router.post("/", createProduct,isSuperAdmin,isLogin);
-  router.put("/:id", updateProduct,isSuperAdmin,isLogin);
-  router.delete("/:id", deleteProduct,isSuperAdmin,isLogin);
+  router.post("/", createProduct, isSuperAdmin, isLogin);
+  router.put("/:id", updateProduct, isSuperAdmin, isLogin);
+  router.delete("/:id", deleteProduct, isSuperAdmin, isLogin);
 
   app.use("/api/product", router);
 };

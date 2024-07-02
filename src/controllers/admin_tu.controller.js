@@ -18,156 +18,149 @@ import async from "async";
 
 import mailgun from "mailgun-js";
 
-
 import jwt from "jsonwebtoken";
 
 // Load .env file
 import * as dotenv from "dotenv";
 
-
 dotenv.config();
 
 const showAllOrder = (req, res) => {
-    Orders.findAll({
+  Orders.findAll({
+    include: [
+      {
+        model: OrderDetails,
+        as: "order_details",
         include: [
-            {
-                model: OrderDetails,
-                as: "order_details",
-                include: [
-                    {
-                        model: Order_Products,
-                        as: "order_products",
-                    },
-                ],
-            },
-            {
-                model: Order_Status,
-                as: "order_statuses",
-                where: {
-                    order_status_admin_code: 7,
-                },
-            },
-            {
-                model:Users,
-                as: "users",
-                Attributes: ["user_id","user_ikm"],
-            },
+          {
+            model: Order_Products,
+            as: "order_products",
+          },
         ],
-    })
-        .then((data) => {
-        res.send(data);
-        })
-        .catch((err) => {
-        res.status(500).send({
-            message: err.message || "Some error occurred while retrieving orders.",
-        });
-        });
-    }
-
-const ApproveOrderTU = (req, res) => {
-    const id = req.params.id;
-    Order_Status.update(
-        {
-            order_status_admin_code: 4,
+      },
+      {
+        model: Order_Status,
+        as: "order_statuses",
+        where: {
+          order_status_admin_code: 7,
         },
-        {
-            where: {
-                order_status_order_id: id,
-            },
-        }
-    )
-    .then(() => {
-        Order_Status.create({
-            order_status_admin_code: 4,
-            order_status_description: "Pesanan Dalam Proses Desain",
-            order_status_order_id: id,
-        })
-        .then((data) => {
-            Orders.update(
-                {
-                    order_status: req.body.order_status,
-                },
-                {
-                    where: {
-                        order_id: id,
-                    },
-                }
-            )
-            .then(() => {
-                res.send({
-                    message: "Order was updated successfully.",
-                });
-            })
-            .catch((err) => {
-                res.status(500).send({
-                    message: "Error updating Order with id=" + id,
-                });
-            });
-        }
-        )
-        .catch((err) => {
-            res.status(500).send({
-                message: "Error updating Order with id=" + id,
-            });
-        }
-        );
+      },
+      {
+        model: Users,
+        as: "users",
+        Attributes: ["user_id", "user_ikm"],
+      },
+    ],
+  })
+    .then((data) => {
+      res.send(data);
     })
     .catch((err) => {
-        res.status(500).send({
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving orders.",
+      });
+    });
+};
+
+const ApproveOrderTU = (req, res) => {
+  const id = req.params.id;
+  Order_Status.update(
+    {
+      order_status_admin_code: 4,
+    },
+    {
+      where: {
+        order_status_order_id: id,
+      },
+    }
+  )
+    .then(() => {
+      Order_Status.create({
+        order_status_admin_code: 4,
+        order_status_description: "Pesanan Dalam Proses Desain",
+        order_status_order_id: id,
+      })
+        .then((data) => {
+          Orders.update(
+            {
+              order_status: req.body.order_status,
+            },
+            {
+              where: {
+                order_id: id,
+              },
+            }
+          )
+            .then(() => {
+              res.send({
+                message: "Order was updated successfully.",
+              });
+            })
+            .catch((err) => {
+              res.status(500).send({
+                message: "Error updating Order with id=" + id,
+              });
+            });
+        })
+        .catch((err) => {
+          res.status(500).send({
             message: "Error updating Order with id=" + id,
+          });
         });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error updating Order with id=" + id,
+      });
     });
 };
 
 const UpdateOrderNotApproveTU = (req, res) => {
-    const id = req.params.id;
-    Order_Status.create({
-        order_status_admin_code: 7,
-        order_status_description: "Pesanan Ditolak",
-        order_status_order_id: id,
-    })
+  const id = req.params.id;
+  Order_Status.create({
+    order_status_admin_code: 7,
+    order_status_description: "Pesanan Ditolak",
+    order_status_order_id: id,
+  })
     .then(() => {
-        Order_Status.create({
-            order_status_admin_code: 4,
-            order_status_description: "Pesanan Dalam Proses Desain",
-            order_status_order_id: id,
-        })
+      Order_Status.create({
+        order_status_admin_code: 4,
+        order_status_description: "Pesanan Dalam Proses Desain",
+        order_status_order_id: id,
+      })
         .then((data) => {
-            Orders.update(
-                {
-                    order_status: req.body.order_status,
-                },
-                {
-                    where: {
-                        order_id: id,
-                    },
-                }
-            )
+          Orders.update(
+            {
+              order_status: req.body.order_status,
+            },
+            {
+              where: {
+                order_id: id,
+              },
+            }
+          )
             .then(() => {
-                res.send({
-                    message: "Order was updated successfully.",
-                });
+              res.send({
+                message: "Order was updated successfully.",
+              });
             })
             .catch((err) => {
-                res.status(500).send({
-                    message: "Error updating Order with id=" + id,
-                });
-            });
-        }
-        )
-        .catch((err) => {
-            res.status(500).send({
+              res.status(500).send({
                 message: "Error updating Order with id=" + id,
+              });
             });
-        }
-        );
+        })
+        .catch((err) => {
+          res.status(500).send({
+            message: "Error updating Order with id=" + id,
+          });
+        });
     })
     .catch((err) => {
-        res.status(500).send({
-            message: "Error updating Order with id=" + id,
-        });
+      res.status(500).send({
+        message: "Error updating Order with id=" + id,
+      });
     });
 };
 
-
-export {showAllOrder, ApproveOrderTU, UpdateOrderNotApproveTU };
+export { showAllOrder, ApproveOrderTU, UpdateOrderNotApproveTU };
